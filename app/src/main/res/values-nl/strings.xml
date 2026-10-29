@@ -32,4 +32,7 @@
     <string name="privatnost">Privacyinstellingen</string>
     <string name="greska_podaci">De gegevens konden niet worden geladen.</string>
     <string name="km">km</string>
+    <string name="podeli">App delen</string>
+    <string name="podeli_naslov">Delen via</string>
+    <string name="podeli_poruka">Bekijk Autobahn Info – verzorgingsplaatsen, tankstations, afritten en parkeerplaatsen op Duitse snelwegen: %s</string>
 </resources>

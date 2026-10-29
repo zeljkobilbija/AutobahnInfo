@@ -32,4 +32,7 @@
     <string name="privatnost">Nastavenia súkromia</string>
     <string name="greska_podaci">Údaje sa nepodarilo načítať.</string>
     <string name="km">km</string>
+    <string name="podeli">Zdieľať aplikáciu</string>
+    <string name="podeli_naslov">Zdieľať cez</string>
+    <string name="podeli_poruka">Pozri si Autobahn Info – odpočívadlá, čerpacie stanice, zjazdy a parkoviská na nemeckých diaľniciach: %s</string>
 </resources>

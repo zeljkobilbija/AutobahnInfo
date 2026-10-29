@@ -32,4 +32,7 @@
     <string name="privatnost">Postavke privatnosti</string>
     <string name="greska_podaci">Podaci se nisu mogli učitati.</string>
     <string name="km">km</string>
+    <string name="podeli">Podijeli aplikaciju</string>
+    <string name="podeli_naslov">Podijeli putem</string>
+    <string name="podeli_poruka">Pogledaj Autobahn Info – odmorišta, benzinske, izlazi i parkirališta na njemačkim autocestama: %s</string>
 </resources>

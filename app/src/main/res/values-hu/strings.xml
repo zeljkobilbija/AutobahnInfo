@@ -32,4 +32,7 @@
     <string name="privatnost">Adatvédelmi beállítások</string>
     <string name="greska_podaci">Az adatokat nem sikerült betölteni.</string>
     <string name="km">km</string>
+    <string name="podeli">Alkalmazás megosztása</string>
+    <string name="podeli_naslov">Megosztás ezzel</string>
+    <string name="podeli_poruka">Nézd meg az Autobahn Infót – pihenők, benzinkutak, lehajtók és parkolók a német autópályákon: %s</string>
 </resources>

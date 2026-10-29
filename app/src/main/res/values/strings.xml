@@ -33,4 +33,7 @@
     <string name="privatnost">Privacy settings</string>
     <string name="greska_podaci">The data could not be loaded.</string>
     <string name="km">km</string>
+    <string name="podeli">Share the app</string>
+    <string name="podeli_naslov">Share via</string>
+    <string name="podeli_poruka">Check out Autobahn Info – rest areas, fuel, exits and parking on German motorways: %s</string>
 </resources>

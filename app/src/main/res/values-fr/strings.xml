@@ -32,4 +32,7 @@
     <string name="privatnost">Paramètres de confidentialité</string>
     <string name="greska_podaci">Impossible de charger les données.</string>
     <string name="km">km</string>
+    <string name="podeli">Partager l\'appli</string>
+    <string name="podeli_naslov">Partager via</string>
+    <string name="podeli_poruka">Découvre Autobahn Info – aires, stations, sorties et parkings sur les autoroutes allemandes : %s</string>
 </resources>

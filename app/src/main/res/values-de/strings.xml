@@ -32,4 +32,7 @@
     <string name="privatnost">Datenschutz-Einstellungen</string>
     <string name="greska_podaci">Die Daten konnten nicht geladen werden.</string>
     <string name="km">km</string>
+    <string name="podeli">App teilen</string>
+    <string name="podeli_naslov">Teilen über</string>
+    <string name="podeli_poruka">Schau dir Autobahn Info an – Rastanlagen, Tankstellen, Ausfahrten und Parkplätze an deutschen Autobahnen: %s</string>
 </resources>

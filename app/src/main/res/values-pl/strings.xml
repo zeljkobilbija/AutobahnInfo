@@ -32,4 +32,7 @@
     <string name="privatnost">Ustawienia prywatności</string>
     <string name="greska_podaci">Nie udało się wczytać danych.</string>
     <string name="km">km</string>
+    <string name="podeli">Udostępnij aplikację</string>
+    <string name="podeli_naslov">Udostępnij przez</string>
+    <string name="podeli_poruka">Zobacz Autobahn Info – MOP-y, stacje paliw, zjazdy i parkingi na niemieckich autostradach: %s</string>
 </resources>

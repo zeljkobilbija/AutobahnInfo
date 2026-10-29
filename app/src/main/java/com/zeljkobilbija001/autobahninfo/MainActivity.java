@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         lista.setLayoutManager(new GridLayoutManager(this, 2));
         lista.setAdapter(new AutoputAdapter(Autoputevi.SVE, this::otvori));
 
+        findViewById(R.id.dugmePodeli).setOnClickListener(v -> podeliAplikaciju());
+
         // Privatnost (GDPR) i baner: prozor za saglasnost se prikazuje samo kad je potreban
         dugmePrivatnosti = findViewById(R.id.dugmePrivatnosti);
         dugmePrivatnosti.setOnClickListener(v ->
@@ -52,6 +54,16 @@ public class MainActivity extends AppCompatActivity {
     private void posleSaglasnosti() {
         Reklame.prikaziBaner(this, findViewById(R.id.reklamaKontejner));
         dugmePrivatnosti.setVisibility(Reklame.trebaDugmePrivatnosti(this) ? View.VISIBLE : View.GONE);
+    }
+
+    /** Standardni Android meni za deljenje: kratka poruka i link ka aplikaciji na Play prodavnici. */
+    private void podeliAplikaciju() {
+        String link = "https://play.google.com/store/apps/details?id=" + getPackageName();
+        Intent slanje = new Intent(Intent.ACTION_SEND)
+                .setType("text/plain")
+                .putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
+                .putExtra(Intent.EXTRA_TEXT, getString(R.string.podeli_poruka, link));
+        startActivity(Intent.createChooser(slanje, getString(R.string.podeli_naslov)));
     }
 
     /** Kartica se okrene oko vertikalne ose, pa se otvara ekran autoputa koji se "dookrene". */

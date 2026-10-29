@@ -32,4 +32,7 @@
     <string name="privatnost">Ajustes de privacidad</string>
     <string name="greska_podaci">No se pudieron cargar los datos.</string>
     <string name="km">km</string>
+    <string name="podeli">Compartir la app</string>
+    <string name="podeli_naslov">Compartir con</string>
+    <string name="podeli_poruka">Mira Autobahn Info: áreas de servicio, gasolineras, salidas y aparcamientos en las autopistas alemanas: %s</string>
 </resources>

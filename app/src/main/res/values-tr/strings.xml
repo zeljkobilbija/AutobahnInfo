@@ -32,4 +32,7 @@
     <string name="privatnost">Gizlilik ayarları</string>
     <string name="greska_podaci">Veriler yüklenemedi.</string>
     <string name="km">km</string>
+    <string name="podeli">Uygulamayı paylaş</string>
+    <string name="podeli_naslov">Şununla paylaş</string>
+    <string name="podeli_poruka">Autobahn Info\'ya bak – Alman otoyollarında dinlenme tesisleri, akaryakıt, çıkışlar ve otoparklar: %s</string>
 </resources>

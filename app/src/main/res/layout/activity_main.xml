@@ -50,6 +50,15 @@
             android:layout_weight="1" />
 
         <ImageButton
+            android:id="@+id/dugmePodeli"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/podeli"
+            android:src="@drawable/ic_podeli"
+            app:tint="@color/tekst_sekundarni" />
+
+        <ImageButton
             android:id="@+id/dugmePrivatnosti"
             android:layout_width="48dp"
             android:layout_height="48dp"
