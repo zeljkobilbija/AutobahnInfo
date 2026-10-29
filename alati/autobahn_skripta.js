@@ -170,7 +170,23 @@ window.AB = (() => {
       const p = iz[i - 1], x = iz[i], n = iz[i + 1];
       if (p.si === x.si && n.si === x.si && br(p) <= br(n) && (br(x) < br(p) || br(x) > br(n))) losi.add(x);
     }
+    // krajevi deonica: prvi veći od sledeća dva, poslednji manji od prethodna dva (npr. 88 Hattenbacher Dreieck na A5)
+    for (let i = 0; i < iz.length; i++) {
+      const x = iz[i], a = iz[i + 1], b = iz[i + 2], c = iz[i - 1], e = iz[i - 2];
+      const prvi = !c || c.si !== x.si, poslednji = !a || a.si !== x.si;
+      if (prvi && a && b && a.si === x.si && b.si === x.si && br(a) <= br(b) && br(x) > br(a)) losi.add(x);
+      if (poslednji && c && e && c.si === x.si && e.si === x.si && br(e) <= br(c) && br(x) < br(c)) losi.add(x);
+    }
     rez.stavke = rez.stavke.filter(x => !losi.has(x));
+    return rez;
+  }
+
+  /** Uklanja deonice bez ijedne stavke (kratki odvojeni komadi, npr. na A7) i prenumeriše si. */
+  function ukloniPrazne(rez) {
+    const nova = [];
+    rez.sekcije.forEach((_, si) => { if (rez.stavke.some(x => x.si === si)) nova[si] = nova.filter(v => v != null).length; });
+    rez.sekcije = rez.sekcije.filter((_, si) => nova[si] != null);
+    rez.stavke.forEach(x => { x.si = nova[x.si]; });
     return rez;
   }
 
@@ -285,8 +301,8 @@ window.AB = (() => {
     });
 
     const duzine = linija.deonice.map(s => s.c[s.c.length - 1] / 1000);
-    ab.rezultat = izbaciStrane(orijentisi({ id, naziv: ref, sekcije, stavke, izvor: '© OpenStreetMap-Mitwirkende (ODbL)',
-      datum: new Date().toISOString().slice(0, 10) }, duzine));
+    ab.rezultat = ukloniPrazne(izbaciStrane(orijentisi({ id, naziv: ref, sekcije, stavke, izvor: '© OpenStreetMap-Mitwirkende (ODbL)',
+      datum: new Date().toISOString().slice(0, 10) }, duzine)));
     const broj = {}; ab.rezultat.stavke.forEach(x => broj[x.t] = (broj[x.t] || 0) + 1);
     ab.sazetak = `${ref}: ${ab.rezultat.stavke.length} tačaka ${JSON.stringify(broj)}, deonice: ` +
       ab.rezultat.sekcije.map((s, i) => `${s.od} – ${s.do} (${Math.round(Math.max(...ab.rezultat.stavke.filter(x => x.si === i).map(x => x.km), 0))} km)`).join('; ');
@@ -305,6 +321,8 @@ window.AB = (() => {
     return 'sačuvano: ' + a.download;
   };
 
+  /** Ponovo primenjuje filtere na već preuzet rezultat (posle izmene skripte, bez novog preuzimanja). */
+  ab.popravi = rez => ukloniPrazne(izbaciStrane(rez));
   /** Broj izlaza čiji broj opada duž trase (0 = dobro). */
   ab.provera = () => {
     const a = ab.rezultat.stavke.filter(x => 'AK'.includes(x.t) && !isNaN(parseInt(x.ref, 10)));

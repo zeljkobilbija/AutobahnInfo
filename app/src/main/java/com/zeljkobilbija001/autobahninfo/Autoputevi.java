@@ -13,9 +13,9 @@ public final class Autoputevi {
             new Autoput("A2", "Oberhausen – Berlin", "autoputevi/a2.json"),
             new Autoput("A3", "Elten – Passau", "autoputevi/a3.json"),
             new Autoput("A4", "Aachen – Görlitz", "autoputevi/a4.json"),
-            new Autoput("A5", "Hattenbach – Basel", null),
-            new Autoput("A6", "Saarbrücken – Waidhaus", null),
-            new Autoput("A7", "Flensburg – Füssen", null),
+            new Autoput("A5", "Hattenbach – Basel", "autoputevi/a5.json"),
+            new Autoput("A6", "Saarbrücken – Waidhaus", "autoputevi/a6.json"),
+            new Autoput("A7", "Flensburg – Füssen", "autoputevi/a7.json"),
             new Autoput("A8", "Luxemburg – Salzburg", "autoputevi/a8.json"),
             new Autoput("A9", "Berlin – München", null),
             new Autoput("A10", "Berliner Ring", null)
