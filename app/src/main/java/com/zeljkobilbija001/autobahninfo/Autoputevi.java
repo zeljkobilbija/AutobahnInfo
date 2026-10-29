@@ -9,10 +9,10 @@ public final class Autoputevi {
     private Autoputevi() { }
 
     public static final List<Autoput> SVE = Arrays.asList(
-            new Autoput("A1", "Heiligenhafen – Saarbrücken", null),
-            new Autoput("A2", "Oberhausen – Berlin", null),
-            new Autoput("A3", "Elten – Passau", null),
-            new Autoput("A4", "Aachen – Görlitz", null),
+            new Autoput("A1", "Heiligenhafen – Saarbrücken", "autoputevi/a1.json"),
+            new Autoput("A2", "Oberhausen – Berlin", "autoputevi/a2.json"),
+            new Autoput("A3", "Elten – Passau", "autoputevi/a3.json"),
+            new Autoput("A4", "Aachen – Görlitz", "autoputevi/a4.json"),
             new Autoput("A5", "Hattenbach – Basel", null),
             new Autoput("A6", "Saarbrücken – Waidhaus", null),
             new Autoput("A7", "Flensburg – Füssen", null),

@@ -77,7 +77,9 @@ window.AB = (() => {
       if (dalje.length) { // najravniji nastavak
         const ocena = v => { const p = v.g[Math.min(3, v.g.length - 1)];
           return ((p[0] - kraj[0]) * smer[0] + (p[1] - kraj[1]) * smer[1]) / (d(p, kraj) * Math.hypot(...smer) + 1e-9); };
-        dalje.sort((a, b) => ocena(b) - ocena(a)); w = dalje[0]; continue;
+        dalje.sort((a, b) => ocena(b) - ocena(a));
+        // okret na suprotni kolovoz (npr. A1 kod prekida u Eifelu) → kraj neprekinutog dela
+        if (ocena(dalje[0]) > -0.3) { w = dalje[0]; continue; }
       }
       // kraj neprekinutog dela
       if (duz(tacke) > 3000) { deonice.push(tacke); predjeno += duz(tacke); }
@@ -157,6 +159,18 @@ window.AB = (() => {
     });
     rez.sekcije = rez.sekcije.reverse().map(s => ({ od: s.do, do: s.od, plus: s.minus, minus: s.plus }));
     rez.stavke.sort((a, b) => a.si - b.si || a.km - b.km || ('AK'.includes(a.t) ? 0 : 1) - ('AK'.includes(b.t) ? 0 : 1));
+    return rez;
+  }
+
+  /** Izbacuje izlaze susednog autoputa (čvor blizu trase čiji broj ne staje između suseda). */
+  function izbaciStrane(rez) {
+    const br = x => 'AK'.includes(x.t) ? parseInt(x.ref, 10) : NaN;
+    const iz = rez.stavke.filter(x => !isNaN(br(x))), losi = new Set();
+    for (let i = 1; i < iz.length - 1; i++) {
+      const p = iz[i - 1], x = iz[i], n = iz[i + 1];
+      if (p.si === x.si && n.si === x.si && br(p) <= br(n) && (br(x) < br(p) || br(x) > br(n))) losi.add(x);
+    }
+    rez.stavke = rez.stavke.filter(x => !losi.has(x));
     return rez;
   }
 
@@ -271,8 +285,8 @@ window.AB = (() => {
     });
 
     const duzine = linija.deonice.map(s => s.c[s.c.length - 1] / 1000);
-    ab.rezultat = orijentisi({ id, naziv: ref, sekcije, stavke, izvor: '© OpenStreetMap-Mitwirkende (ODbL)',
-      datum: new Date().toISOString().slice(0, 10) }, duzine);
+    ab.rezultat = izbaciStrane(orijentisi({ id, naziv: ref, sekcije, stavke, izvor: '© OpenStreetMap-Mitwirkende (ODbL)',
+      datum: new Date().toISOString().slice(0, 10) }, duzine));
     const broj = {}; ab.rezultat.stavke.forEach(x => broj[x.t] = (broj[x.t] || 0) + 1);
     ab.sazetak = `${ref}: ${ab.rezultat.stavke.length} tačaka ${JSON.stringify(broj)}, deonice: ` +
       ab.rezultat.sekcije.map((s, i) => `${s.od} – ${s.do} (${Math.round(Math.max(...ab.rezultat.stavke.filter(x => x.si === i).map(x => x.km), 0))} km)`).join('; ');
@@ -289,6 +303,35 @@ window.AB = (() => {
     a.download = ab.rezultat.id.toLowerCase() + '.json';
     document.body.appendChild(a); a.click(); a.remove();
     return 'sačuvano: ' + a.download;
+  };
+
+  /** Broj izlaza čiji broj opada duž trase (0 = dobro). */
+  ab.provera = () => {
+    const a = ab.rezultat.stavke.filter(x => 'AK'.includes(x.t) && !isNaN(parseInt(x.ref, 10)));
+    let los = 0; for (let i = 1; i < a.length; i++) if (a[i].si === a[i - 1].si && parseInt(a[i].ref, 10) < parseInt(a[i - 1].ref, 10)) los++;
+    return los;
+  };
+  /**
+   * AB.serija(["A 2", "A 3"]) – više autoputeva zaredom; AB.sacuvajSve() snima jedan
+   * serija.txt sa redovima "a2.json<TAB>{json}" (razdvajanje: alati/razdvoji.sh).
+   */
+  ab.serija = async refs => {
+    ab.gotovi = []; ab.izvestaj = [];
+    for (const r of refs) {
+      ab.pokreni(r);
+      while (!/^(gotovo|greška)/.test(ab.stanje)) await pauza(3000);
+      if (ab.stanje === 'gotovo') { ab.gotovi.push(ab.rezultat); ab.izvestaj.push(ab.sazetak + ' | van reda: ' + ab.provera()); }
+      else ab.izvestaj.push(r + ': ' + ab.stanje);
+      await pauza(5000);
+    }
+    ab.stanje = 'serija gotova';
+  };
+  ab.sacuvajSve = () => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([ab.gotovi.map(x => x.id.toLowerCase() + '.json\t' + JSON.stringify(x)).join('\n') + '\n'], { type: 'text/plain' }));
+    a.download = 'serija.txt';
+    document.body.appendChild(a); a.click(); a.remove();
+    return 'sačuvano: serija.txt (' + ab.gotovi.length + ')';
   };
   return ab;
 })();
