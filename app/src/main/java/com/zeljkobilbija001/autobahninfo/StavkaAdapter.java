@@ -24,6 +24,66 @@ public class StavkaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final int RED = 0, IZVOR = 1;
     private final List<Stavka> stavke = new ArrayList<>();
 
+    /** Dodir na red (deljenje mesta). */
+    public interface Klik {
+        void izabrana(Stavka s);
+    }
+
+    private final Klik klik;
+
+    public StavkaAdapter(Klik klik) {
+        this.klik = klik;
+    }
+
+    /** Jedna oznaka (čip) ispod naziva. */
+    public static final class Oznaka {
+        public final String tekst;
+        @ColorRes public final int pozadina, boja;
+
+        Oznaka(String tekst, @ColorRes int pozadina, @ColorRes int boja) {
+            this.tekst = tekst;
+            this.pozadina = pozadina;
+            this.boja = boja;
+        }
+    }
+
+    public static String naziv(Context c, Stavka s) {
+        return s.naziv.isEmpty() ? c.getString(R.string.tip_izlaz, s.ref) : s.naziv;
+    }
+
+    public static String opis(Context c, Stavka s) {
+        switch (s.tip) {
+            case Stavka.IZLAZ: return c.getString(R.string.tip_izlaz, s.ref);
+            case Stavka.CVORISTE: return c.getString(R.string.tip_cvoriste, s.ref);
+            case Stavka.ODMORISTE: return c.getString(R.string.tip_odmoriste);
+            case Stavka.AUTOHOF: return c.getString(R.string.tip_autohof);
+            default: return c.getString(R.string.tip_parking);
+        }
+    }
+
+    /** Sve oznake jednog mesta, istim redom kao na ekranu. */
+    public static List<Oznaka> oznake(Context c, Stavka s) {
+        List<Oznaka> l = new ArrayList<>();
+        int ob = R.color.cip_obicno, obT = R.color.cip_obicno_tekst;
+        for (String g : s.gorivo) l.add(new Oznaka(g, R.color.cip_gorivo, R.color.cip_gorivo_tekst));
+        for (String h : s.hrana) l.add(new Oznaka(h, R.color.cip_hrana, R.color.cip_hrana_tekst));
+        if (s.restoran && s.hrana.isEmpty())
+            l.add(new Oznaka(c.getString(R.string.cip_restoran), R.color.cip_hrana, R.color.cip_hrana_tekst));
+        if (s.wc) l.add(new Oznaka(c.getString(R.string.cip_wc), ob, obT));
+        if (s.tus) l.add(new Oznaka(c.getString(R.string.cip_tus), ob, obT));
+        if (!s.punjaci.isEmpty()) {
+            int n = s.punjaci.size();
+            String spisak = android.text.TextUtils.join(", ", s.punjaci.subList(0, Math.min(3, n)))
+                    + (n > 3 ? " +" + (n - 3) : "");
+            l.add(new Oznaka(c.getString(R.string.cip_punjac, spisak), R.color.cip_struja, R.color.cip_struja_tekst));
+        }
+        if (s.hotel) l.add(new Oznaka(c.getString(R.string.cip_hotel), ob, obT));
+        if (s.prodavnica) l.add(new Oznaka(c.getString(R.string.cip_prodavnica), ob, obT));
+        if (!s.kamioni.isEmpty()) l.add(new Oznaka(c.getString(R.string.cip_kamioni, s.kamioni), ob, obT));
+        if ("24/7".equals(s.radnoVreme)) l.add(new Oznaka(c.getString(R.string.cip_0_24), ob, obT));
+        return l;
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     public void postavi(List<Stavka> nove) {
         stavke.clear();
@@ -56,7 +116,7 @@ public class StavkaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (h instanceof Drzac) ((Drzac) h).povezi(stavke.get(poz));
     }
 
-    static class Drzac extends RecyclerView.ViewHolder {
+    class Drzac extends RecyclerView.ViewHolder {
         final TextView km, znakTekst, naziv, opis;
         final ImageView znakIkona;
         final View znak;
@@ -101,36 +161,15 @@ public class StavkaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ikonaZnaka(R.drawable.ic_hrana, crvena);
             }
 
-            String ime = s.naziv.isEmpty() ? c.getString(R.string.tip_izlaz, s.ref) : s.naziv;
-            naziv.setText(ime);
-            switch (s.tip) {
-                case Stavka.IZLAZ: opis.setText(c.getString(R.string.tip_izlaz, s.ref)); break;
-                case Stavka.CVORISTE: opis.setText(c.getString(R.string.tip_cvoriste, s.ref)); break;
-                case Stavka.ODMORISTE: opis.setText(R.string.tip_odmoriste); break;
-                case Stavka.AUTOHOF: opis.setText(R.string.tip_autohof); break;
-                default: opis.setText(R.string.tip_parking);
-            }
+            naziv.setText(naziv(c, s));
+            itemView.setOnClickListener(v -> {
+                if (klik != null) klik.izabrana(s);
+            });
+            opis.setText(opis(c, s));
 
             // Oznake: gorivo, hrana, WC, tuš, punjači…
             oznake.removeAllViews();
-            for (String g : s.gorivo) cip(c, g, R.color.cip_gorivo, R.color.cip_gorivo_tekst);
-            for (String h : s.hrana) cip(c, h, R.color.cip_hrana, R.color.cip_hrana_tekst);
-            if (s.restoran && s.hrana.isEmpty())
-                cip(c, c.getString(R.string.cip_restoran), R.color.cip_hrana, R.color.cip_hrana_tekst);
-            if (s.wc) cip(c, c.getString(R.string.cip_wc), R.color.cip_obicno, R.color.cip_obicno_tekst);
-            if (s.tus) cip(c, c.getString(R.string.cip_tus), R.color.cip_obicno, R.color.cip_obicno_tekst);
-            if (!s.punjaci.isEmpty()) {
-                int n = s.punjaci.size();
-                String spisak = android.text.TextUtils.join(", ", s.punjaci.subList(0, Math.min(3, n)))
-                        + (n > 3 ? " +" + (n - 3) : "");
-                cip(c, c.getString(R.string.cip_punjac, spisak), R.color.cip_struja, R.color.cip_struja_tekst);
-            }
-            if (s.hotel) cip(c, c.getString(R.string.cip_hotel), R.color.cip_obicno, R.color.cip_obicno_tekst);
-            if (s.prodavnica) cip(c, c.getString(R.string.cip_prodavnica), R.color.cip_obicno, R.color.cip_obicno_tekst);
-            if (!s.kamioni.isEmpty())
-                cip(c, c.getString(R.string.cip_kamioni, s.kamioni), R.color.cip_obicno, R.color.cip_obicno_tekst);
-            if ("24/7".equals(s.radnoVreme))
-                cip(c, c.getString(R.string.cip_0_24), R.color.cip_obicno, R.color.cip_obicno_tekst);
+            for (Oznaka o : oznake(c, s)) cip(c, o.tekst, o.pozadina, o.boja);
             oznake.setVisibility(oznake.getChildCount() > 0 ? View.VISIBLE : View.GONE);
         }
 

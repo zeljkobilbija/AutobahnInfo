@@ -20,6 +20,12 @@ public final class Stavka {
     public boolean restoran, wc, tus, hotel, prodavnica;
     public String kamioni = "";
     public String radnoVreme = "";
+    /** Koordinate (WGS84); NaN ako ih nema. */
+    public double lat = Double.NaN, lon = Double.NaN;
+
+    public boolean imaKoordinate() {
+        return !Double.isNaN(lat) && !Double.isNaN(lon);
+    }
 
     public boolean jeIzlaz() {
         return tip == IZLAZ || tip == CVORISTE;

@@ -23,6 +23,7 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 /** Ekran jednog autoputa: deonica, smer vožnje, filteri i lista poređana po kilometru. */
 public class AutoputActivity extends AppCompatActivity {
@@ -40,6 +41,7 @@ public class AutoputActivity extends AppCompatActivity {
     }
 
     private Podaci podaci;
+    private Autoput autoput;
     private int deonica = 1;
     private char smer = '+';
     private int filter = SVE;
@@ -58,6 +60,7 @@ public class AutoputActivity extends AppCompatActivity {
         setContentView(R.layout.activity_autoput);
 
         Autoput a = Autoputevi.poId(getIntent().getStringExtra(EXTRA_ID));
+        autoput = a;
         podaci = Podaci.za(this, a);
         if (podaci == null || podaci.deonice.isEmpty()) {
             android.widget.Toast.makeText(this, R.string.greska_podaci, android.widget.Toast.LENGTH_SHORT).show();
@@ -92,7 +95,7 @@ public class AutoputActivity extends AppCompatActivity {
 
         lista = findViewById(R.id.lista);
         lista.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new StavkaAdapter();
+        adapter = new StavkaAdapter(this::podeliMesto);
         lista.setAdapter(adapter);
 
         findViewById(R.id.nazad).setOnClickListener(v -> zatvori());
@@ -278,6 +281,41 @@ public class AutoputActivity extends AppCompatActivity {
         adapter.postavi(rezultat);
         prazno.setVisibility(rezultat.isEmpty() ? View.VISIBLE : View.GONE);
         if (naVrh) lista.scrollToPosition(0);
+    }
+
+    /**
+     * Deljenje jednog mesta: naziv, vrsta, autoput/deonica/kilometar, smer,
+     * šta tamo ima i link ka mapi (Google Maps radi i u pregledaču).
+     */
+    private void podeliMesto(Stavka s) {
+        Deonica d = podaci.deonice.get(s.deonica);
+        StringBuilder t = new StringBuilder();
+        t.append(StavkaAdapter.naziv(this, s)).append('\n');
+        t.append(StavkaAdapter.opis(this, s)).append('\n');
+        t.append(autoput.oznaka()).append(" · ").append(d.naziv()).append(" · ")
+                .append(getString(R.string.km)).append(' ')
+                .append(String.format(Locale.getDefault(), "%.1f", s.km)).append('\n');
+        if (!s.jeIzlaz()) {
+            t.append(getString(R.string.smer_voznje)).append(": ")
+                    .append(s.strana == '+' ? "→ " + d.plus : "← " + d.minus).append('\n');
+        }
+        List<StavkaAdapter.Oznaka> oznake = StavkaAdapter.oznake(this, s);
+        if (!oznake.isEmpty()) {
+            List<String> tekstovi = new ArrayList<>();
+            for (StavkaAdapter.Oznaka o : oznake) tekstovi.add(o.tekst);
+            t.append(android.text.TextUtils.join(" · ", tekstovi)).append('\n');
+        }
+        if (s.imaKoordinate()) {
+            t.append("https://www.google.com/maps/search/?api=1&query=")
+                    .append(String.format(Locale.US, "%.5f,%.5f", s.lat, s.lon)).append('\n');
+        }
+        t.append("— ").append(getString(R.string.app_name));
+
+        Intent slanje = new Intent(Intent.ACTION_SEND)
+                .setType("text/plain")
+                .putExtra(Intent.EXTRA_SUBJECT, StavkaAdapter.naziv(this, s))
+                .putExtra(Intent.EXTRA_TEXT, t.toString());
+        startActivity(Intent.createChooser(slanje, getString(R.string.podeli_naslov)));
     }
 
     private boolean prolazi(Stavka s) {
