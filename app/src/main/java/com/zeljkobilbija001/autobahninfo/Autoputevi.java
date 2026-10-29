@@ -18,7 +18,11 @@ public final class Autoputevi {
             new Autoput("A7", "Flensburg – Füssen", "autoputevi/a7.json"),
             new Autoput("A8", "Luxemburg – Salzburg", "autoputevi/a8.json"),
             new Autoput("A9", "Berlin – München", null),
-            new Autoput("A10", "Berliner Ring", null)
+            new Autoput("A10", "Berliner Ring", null),
+            new Autoput("A40", "Straelen – Dortmund", "autoputevi/a40.json"),
+            new Autoput("A42", "Kamp-Lintfort – Dortmund", "autoputevi/a42.json"),
+            new Autoput("A61", "Venlo – Hockenheim", "autoputevi/a61.json"),
+            new Autoput("A93", "Hof – Kiefersfelden", null)
     );
 
     public static Autoput poId(String id) {
