@@ -1,8 +1,12 @@
 /*
  * Autobahn Info – preuzimanje podataka za jedan autoput iz OpenStreetMap-a.
  *
- * Kako se koristi (u pregledaču, na stranici https://overpass-api.de/):
- *   1. Nalepi ceo ovaj fajl u konzolu (ili ga pokreni kroz Claude).
+ * Iz terminala (Node 18+), fajlovi idu pravo u app/src/main/assets/autoputevi/:
+ *   node alati/autobahn_skripta.js A1 A2 "A 3"
+ *   node alati/autobahn_skripta.js --suvo A9    → samo izveštaj, ništa ne snima
+ *
+ * U pregledaču (na stranici https://overpass-api.de/), kao ranije:
+ *   1. Nalepi ceo ovaj fajl u konzolu.
  *   2. AB.pokreni("A 1")  → radi u pozadini, stanje je u AB.stanje
  *   3. Kad AB.stanje === "gotovo", AB.rezultat je gotov JSON,
  *      a AB.sacuvaj() ga snima kao a1.json (folder Preuzimanja).
@@ -13,7 +17,8 @@
  *   km, s ('+' smer rastućih km, '-' suprotno), n (naziv), ref (broj izlaza),
  *   f (gorivo), h (lanci hrane), re, wc, du, e (punjači), ho, sh, lkw, oh, la, lo.
  */
-window.AB = (() => {
+globalThis.AB = (() => {
+  const NODE = typeof window === 'undefined';
   const API = 'https://overpass-api.de/api/interpreter';
   const R = 6371000, RAD = Math.PI / 180;
   let cosLat = Math.cos(50 * RAD);
@@ -28,13 +33,14 @@ window.AB = (() => {
     'Kloiber bft Tankstelle': 'bft' };
 
   const ab = { stanje: 'spreman', rezultat: null, log: [] };
-  const zapisi = t => { ab.log.push(t); ab.stanje = t; };
+  const zapisi = t => { ab.log.push(t); ab.stanje = t; if (NODE) console.error('  ' + t); };
 
   async function upit(q, pokusaja = 7) {
     let cekaj = 10000;
     for (let i = 0; i < pokusaja; i++) {
       try {
-        const r = await fetch(API, { method: 'POST', body: 'data=' + encodeURIComponent(q) });
+        const r = await fetch(API, { method: 'POST', body: 'data=' + encodeURIComponent(q),
+          headers: NODE ? { 'Content-Type': 'application/x-www-form-urlencoded', 'User-Agent': 'AutobahnInfo-alati/1.0' } : {} });
         if (r.ok) return await r.json();
         zapisi('server ' + r.status + ', ponavljam…');
       } catch (e) { zapisi('mreža: ' + e.message + ', ponavljam…'); }
@@ -352,4 +358,26 @@ window.AB = (() => {
     return 'sačuvano: serija.txt (' + ab.gotovi.length + ')';
   };
   return ab;
+})();
+
+// ---------- Pokretanje iz terminala ----------
+if (typeof window === 'undefined' && typeof require !== 'undefined' && require.main === module) (async () => {
+  const fs = require('fs'), path = require('path');
+  const arg = process.argv.slice(2), suvo = arg.includes('--suvo');
+  const refs = arg.filter(a => !a.startsWith('--')).map(a => a.toUpperCase().replace(/^A\s*/, 'A '));
+  if (!refs.length) { console.error('Upotreba: node alati/autobahn_skripta.js [--suvo] A1 A2 …'); process.exit(1); }
+  const cilj = path.join(__dirname, '..', 'app', 'src', 'main', 'assets', 'autoputevi');
+  let greske = 0;
+  for (const [i, r] of refs.entries()) {
+    console.error(r + ':');
+    AB.pokreni(r);
+    while (!/^(gotovo|greška)/.test(AB.stanje)) await new Promise(ok => setTimeout(ok, 1000));
+    if (AB.stanje === 'gotovo') {
+      const ime = AB.rezultat.id.toLowerCase() + '.json';
+      if (!suvo) fs.writeFileSync(path.join(cilj, ime), JSON.stringify(AB.rezultat));
+      console.log((suvo ? '' : ime + ' ← ') + AB.sazetak + ' | van reda: ' + AB.provera());
+    } else { console.log(r + ': ' + AB.stanje); greske++; }
+    if (i < refs.length - 1) await new Promise(ok => setTimeout(ok, 5000));
+  }
+  process.exit(greske ? 1 : 0);
 })();
