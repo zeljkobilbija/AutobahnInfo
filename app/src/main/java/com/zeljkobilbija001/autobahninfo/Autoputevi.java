@@ -17,7 +17,7 @@ public final class Autoputevi {
             new Autoput("A6", "Saarbrücken – Waidhaus", "autoputevi/a6.json"),
             new Autoput("A7", "Flensburg – Füssen", "autoputevi/a7.json"),
             new Autoput("A8", "Luxemburg – Salzburg", "autoputevi/a8.json"),
-            new Autoput("A9", "Berlin – München", null),
+            new Autoput("A9", "Berlin – München", "autoputevi/a9.json"),
             new Autoput("A10", "Berliner Ring", "autoputevi/a10.json"),
             new Autoput("A14", "Wismar – Nossen", "autoputevi/a14.json"),
             new Autoput("A19", "Rostock – Wittstock", "autoputevi/a19.json"),
@@ -26,12 +26,12 @@ public final class Autoputevi {
             new Autoput("A38", "Göttingen – Leipzig", "autoputevi/a38.json"),
             new Autoput("A40", "Straelen – Dortmund", "autoputevi/a40.json"),
             new Autoput("A42", "Kamp-Lintfort – Dortmund", "autoputevi/a42.json"),
-            new Autoput("A44", "Aachen – Kassel", null),
+            new Autoput("A44", "Aachen – Kassel", "autoputevi/a44.json"),
             new Autoput("A45", "Dortmund – Aschaffenburg", "autoputevi/a45.json"),
             new Autoput("A61", "Venlo – Hockenheim", "autoputevi/a61.json"),
             new Autoput("A81", "Würzburg – Gottmadingen", "autoputevi/a81.json"),
-            new Autoput("A93", "Hof – Kiefersfelden", null),
-            new Autoput("A96", "Lindau – München", null)
+            new Autoput("A93", "Hof – Kiefersfelden", "autoputevi/a93.json"),
+            new Autoput("A96", "Lindau – München", "autoputevi/a96.json")
     );
 
     public static Autoput poId(String id) {
