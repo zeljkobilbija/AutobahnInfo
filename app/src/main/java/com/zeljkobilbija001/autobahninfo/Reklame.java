@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public final class Reklame {
 
     private static final AtomicBoolean SDK_POKRENUT = new AtomicBoolean(false);
-    private static final int VISINA_BANERA_DP = 60;
+    private static final int VISINA_BANERA_DP = 70;
 
     private Reklame() { }
 
