@@ -99,7 +99,7 @@ public final class Reklame {
             if (a.isFinishing() || a.isDestroyed() || kontejner.getChildCount() > 0) return;
             AdView baner = new AdView(a);
             baner.setAdUnitId(a.getString(R.string.admob_banner_id));
-            // Najviše 60 dp visine (veliki prilagodljivi baner je zauzimao previše ekrana)
+            // Najviše 70 dp visine (veliki prilagodljivi baner je zauzimao previše ekrana)
             baner.setAdSize(AdSize.getInlineAdaptiveBannerAdSize(sirinaDp(a, kontejner), VISINA_BANERA_DP));
             kontejner.addView(baner);
             baner.loadAd(new AdRequest.Builder().build());
