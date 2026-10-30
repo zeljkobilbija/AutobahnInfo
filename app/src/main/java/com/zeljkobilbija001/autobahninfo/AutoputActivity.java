@@ -193,15 +193,21 @@ public class AutoputActivity extends AppCompatActivity {
         for (int i = 0; i < 2; i++) {
             final char s = i == 0 ? '+' : '-';
             MaterialButton b = pilula("");
-            b.setTextSize(15);
+            b.setTextSize(14);
             b.setCornerRadius(Izgled.dp(this, 10));
+            // dugi nazivi (npr. "Grenzübergang Lichtenbusch") idu u dva reda – treba im mesta gore i dole
+            b.setMaxLines(2);
+            b.setEllipsize(android.text.TextUtils.TruncateAt.END);
+            b.setLineSpacing(0f, 0.95f);
+            b.setPadding(Izgled.dp(this, 10), Izgled.dp(this, 6), Izgled.dp(this, 10), Izgled.dp(this, 6));
             b.setOnClickListener(v -> {
                 if (smer == s) return;
                 smer = s;
                 osvezi(true);
             });
+            // MATCH_PARENT: oba dugmeta iste visine i kad je samo jedan naziv u dva reda
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+                    LinearLayout.LayoutParams.MATCH_PARENT, 1f);
             if (i > 0) lp.setMarginStart(Izgled.dp(this, 6));
             smeroviRed.addView(b, lp);
         }
@@ -248,7 +254,8 @@ public class AutoputActivity extends AppCompatActivity {
             MaterialButton b = (MaterialButton) smeroviRed.getChildAt(i);
             char s = i == 0 ? '+' : '-';
             boolean on = s == smer;
-            b.setText((s == '+' ? "→ " : "← ") + (s == '+' ? d.plus : d.minus));
+            // tvrdi razmak: strelica ostaje uz naziv, a ne sama u prvom redu
+            b.setText((s == '+' ? "→ " : "← ") + (s == '+' ? d.plus : d.minus));
             b.setBackgroundTintList(Izgled.jedna(on ? bela : 0x00000000));
             b.setTextColor(on ? plavaTamna : bela);
             b.setSelected(on);

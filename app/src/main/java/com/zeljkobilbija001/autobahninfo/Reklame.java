@@ -32,6 +32,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public final class Reklame {
 
     private static final AtomicBoolean SDK_POKRENUT = new AtomicBoolean(false);
+    private static final int VISINA_BANERA_DP = 60;
 
     private Reklame() { }
 
@@ -98,7 +99,8 @@ public final class Reklame {
             if (a.isFinishing() || a.isDestroyed() || kontejner.getChildCount() > 0) return;
             AdView baner = new AdView(a);
             baner.setAdUnitId(a.getString(R.string.admob_banner_id));
-            baner.setAdSize(AdSize.getLargeAnchoredAdaptiveBannerAdSize(a, sirinaDp(a, kontejner)));
+            // Najviše 60 dp visine (veliki prilagodljivi baner je zauzimao previše ekrana)
+            baner.setAdSize(AdSize.getInlineAdaptiveBannerAdSize(sirinaDp(a, kontejner), VISINA_BANERA_DP));
             kontejner.addView(baner);
             baner.loadAd(new AdRequest.Builder().build());
 

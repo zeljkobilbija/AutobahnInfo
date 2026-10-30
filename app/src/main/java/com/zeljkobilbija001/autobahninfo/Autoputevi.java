@@ -18,7 +18,7 @@ public final class Autoputevi {
             new Autoput("A7", "Flensburg – Füssen", "autoputevi/a7.json"),
             new Autoput("A8", "Luxemburg – Salzburg", "autoputevi/a8.json"),
             new Autoput("A9", "Berlin – München", null),
-            new Autoput("A10", "Berliner Ring", null),
+            new Autoput("A10", "Berliner Ring", "autoputevi/a10.json"),
             new Autoput("A14", "Wismar – Nossen", "autoputevi/a14.json"),
             new Autoput("A19", "Rostock – Wittstock", "autoputevi/a19.json"),
             new Autoput("A24", "Hamburg – Berlin", "autoputevi/a24.json"),

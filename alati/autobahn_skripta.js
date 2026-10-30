@@ -41,8 +41,12 @@ globalThis.AB = (() => {
       try {
         const r = await fetch(API, { method: 'POST', body: 'data=' + encodeURIComponent(q),
           headers: NODE ? { 'Content-Type': 'application/x-www-form-urlencoded', 'User-Agent': 'AutobahnInfo-alati/1.0' } : {} });
-        if (r.ok) return await r.json();
-        zapisi('server ' + r.status + ', ponavljam…');
+        if (r.ok) {
+          const j = await r.json();
+          // preopterećen server vraća 200 sa delimičnim podacima i napomenom (A4/A6 bez odmorišta)
+          if (!/error|timed out|out of memory/i.test(j.remark || '')) return j;
+          zapisi('delimičan odgovor (' + j.remark.slice(0, 60) + '), ponavljam…');
+        } else zapisi('server ' + r.status + ', ponavljam…');
       } catch (e) { zapisi('mreža: ' + e.message + ', ponavljam…'); }
       await pauza(cekaj); cekaj *= 1.6;
     }
@@ -52,20 +56,34 @@ globalThis.AB = (() => {
   // ---------- 1. Linija autoputa (jedan smer), podeljena na deonice ----------
   function napraviLiniju(elementi) {
     const putevi = [];
-    for (const el of elementi) {
-      if (el.type !== 'relation') continue;
-      for (const m of el.members) if (m.type === 'way' && m.geometry && m.geometry.length > 1)
-        putevi.push({ i: putevi.length, g: m.geometry.map(p => xy(p.lat, p.lon)) });
+    // samo route relacije (TMC relacije ponavljaju iste puteve po smerovima, npr. A9);
+    // ako route relacija nema puteve (A96 ima samo TMC), uzimaju se i TMC
+    for (const samoRoute of [true, false]) {
+      for (const el of elementi) {
+        if (el.type !== 'relation' || (samoRoute && (el.tags || {}).type !== 'route')) continue;
+        for (const m of el.members) if (m.type === 'way' && m.geometry && m.geometry.length > 1
+            && !/^(planned|construction|proposed)$/.test(m.role)) // deonice u izgradnji (npr. A44)
+          putevi.push({ i: putevi.length, g: m.geometry.map(p => xy(p.lat, p.lon)) });
+      }
+      if (putevi.length) break;
     }
+    if (!putevi.length) return { deonice: [], putevi };
     const svi = [].concat(...putevi.map(w => w.g));
     const centar = [svi.reduce((s, p) => s + p[0], 0) / svi.length, svi.reduce((s, p) => s + p[1], 0) / svi.length];
     const kljuc = p => Math.round(p[0]) + '_' + Math.round(p[1]);
-    const poPocetku = {}, imaUlaz = new Set();
+    const poPocetku = {}, poKraju = {}, imaUlaz = new Set();
     putevi.forEach(w => {
       (poPocetku[kljuc(w.g[0])] = poPocetku[kljuc(w.g[0])] || []).push(w);
+      (poKraju[kljuc(w.g[w.g.length - 1])] = poKraju[kljuc(w.g[w.g.length - 1])] || []).push(w);
       imaUlaz.add(kljuc(w.g[w.g.length - 1]));
     });
     const duz = g => g.reduce((s, p, i) => i ? s + d(p, g[i - 1]) : 0, 0);
+    // pravac na kraju (ili početku) puta, preko ~100 m – ne preko celog puta, koji može da skreće (A93)
+    const pravac = (g, naKraju) => {
+      const t = naKraju ? [...g].reverse() : g;
+      let i = 1; while (i < t.length - 1 && d(t[i], t[0]) < 100) i++;
+      return naKraju ? [t[0][0] - t[i][0], t[0][1] - t[i][1]] : [t[i][0] - t[0][0], t[i][1] - t[0][1]];
+    };
     const ukupno = putevi.reduce((s, w) => s + duz(w.g), 0);
 
     // Početak: kraj puta bez ulaza koji je najdalje od centra (jedan kraj autoputa)
@@ -81,26 +99,41 @@ globalThis.AB = (() => {
       const smer = [kraj[0] - w.g[0][0], kraj[1] - w.g[0][1]];
       const dalje = (poPocetku[kljuc(kraj)] || []).filter(v => !korisceni.has(v.i));
       if (dalje.length) { // najravniji nastavak
-        const ocena = v => { const p = v.g[Math.min(3, v.g.length - 1)];
-          return ((p[0] - kraj[0]) * smer[0] + (p[1] - kraj[1]) * smer[1]) / (d(p, kraj) * Math.hypot(...smer) + 1e-9); };
+        const a = pravac(w.g, true);
+        const ocena = v => { const b = pravac(v.g, false);
+          return (a[0] * b[0] + a[1] * b[1]) / (Math.hypot(...a) * Math.hypot(...b) + 1e-9); };
         dalje.sort((a, b) => ocena(b) - ocena(a));
         // okret na suprotni kolovoz (npr. A1 kod prekida u Eifelu) → kraj neprekinutog dela
         if (ocena(dalje[0]) > -0.3) { w = dalje[0]; continue; }
       }
       // kraj neprekinutog dela
+      if (ab.prekidi) ab.prekidi.push({ kraj: nazad(kraj), dalje: dalje.length, km: Math.round(duz(tacke) / 1000) });
       if (duz(tacke) > 3000) { deonice.push(tacke); predjeno += duz(tacke); }
       tacke = [];
       if (predjeno >= 0.47 * ukupno) break; // jedan smer je pokriven
       const vidjene = [].concat(...deonice);
-      let naj = null, nd = 1e18;
+      const blizu = s => { for (let k = 0; k < vidjene.length; k += 3) if (d(vidjene[k], s) < 400) return true; return false; };
+      // najbliži nekorišćeni put u istom smeru, najviše 200 km dalje (A5 ima i zalutale puteve u inostranstvu)
+      let naj = null, nd = 200000;
       for (const v of putevi) {
         if (korisceni.has(v.i)) continue;
         const s = v.g[0], e = v.g[v.g.length - 1];
         if ((e[0] - s[0]) * smer[0] + (e[1] - s[1]) * smer[1] <= 0) continue;
-        const dd = d(s, kraj); if (dd >= nd) continue;
-        let blizu = false;
-        for (let k = 0; k < vidjene.length; k += 3) if (d(vidjene[k], s) < 400) { blizu = true; break; }
-        if (!blizu) { nd = dd; naj = v; }
+        const dd = d(s, kraj); if (dd >= nd || blizu(s)) continue;
+        nd = dd; naj = v;
+      }
+      // od njega unazad do početka tog dela – inače se ide unazad komad po komad (A93)
+      const pre = new Set();
+      while (naj && !pre.has(naj.i)) {
+        pre.add(naj.i);
+        const b = pravac(naj.g, false);
+        const ocena = u => { const a = pravac(u.g, true);
+          return (a[0] * b[0] + a[1] * b[1]) / (Math.hypot(...a) * Math.hypot(...b) + 1e-9); };
+        const pret = (poKraju[kljuc(naj.g[0])] || [])
+          .filter(u => !korisceni.has(u.i) && !pre.has(u.i) && ocena(u) > -0.3 && !blizu(u.g[0]))
+          .sort((x, y) => ocena(y) - ocena(x))[0];
+        if (!pret) break;
+        naj = pret;
       }
       w = naj;
     }
@@ -150,20 +183,41 @@ globalThis.AB = (() => {
    * Okreće autoput tako da brojevi izlaza rastu sa kilometrima
    * (kao zvanično: npr. A8 od Luksemburga ka Salcburgu).
    */
-  function orijentisi(rez, duzine) {
-    const iz = [];
-    rez.stavke.forEach(x => { const b = parseInt(x.ref, 10); if ('AK'.includes(x.t) && !isNaN(b)) iz.push([x.si * 10000 + x.km, b]); });
-    if (iz.length < 2) return rez;
-    const ms = iz.reduce((s, v) => s + v[0], 0) / iz.length, mb = iz.reduce((s, v) => s + v[1], 0) / iz.length;
-    const kov = iz.reduce((s, v) => s + (v[0] - ms) * (v[1] - mb), 0);
-    if (kov >= 0) return rez;
-    const n = duzine.length;
-    rez.stavke.forEach(x => {
-      x.km = +Math.max(0, duzine[x.si] - x.km).toFixed(1);
-      x.si = n - 1 - x.si;
-      if (x.s) x.s = x.s === '+' ? '-' : '+';
+  function orijentisi(rez, duzine, prsten) {
+    const broj = x => 'AK'.includes(x.t) ? parseInt(x.ref, 10) : NaN;
+    // svaka deonica posebno (delovi istog autoputa mogu biti ucrtani u suprotnim smerovima, npr. A93)
+    rez.sekcije.forEach((sek, si) => {
+      const L = duzine[si];
+      if (prsten[si]) { // prsten (A10): km 0 kod izlaza sa najmanjim brojem
+        const iz = rez.stavke.filter(x => x.si === si && !isNaN(broj(x)));
+        if (iz.length) {
+          const k0 = iz.reduce((a, b) => broj(b) < broj(a) ? b : a).km;
+          rez.stavke.forEach(x => { if (x.si === si) x.km = +((x.km - k0 + L) % L).toFixed(1); });
+        }
+      }
+      const iz = rez.stavke.filter(x => x.si === si && !isNaN(broj(x))).map(x => [x.km, broj(x)]);
+      if (iz.length < 2) return;
+      const ms = iz.reduce((s, v) => s + v[0], 0) / iz.length, mb = iz.reduce((s, v) => s + v[1], 0) / iz.length;
+      if (iz.reduce((s, v) => s + (v[0] - ms) * (v[1] - mb), 0) >= 0) return;
+      rez.stavke.forEach(x => {
+        if (x.si !== si) return;
+        x.km = +(prsten[si] ? (L - x.km) % L : Math.max(0, L - x.km)).toFixed(1);
+        if (x.s) x.s = x.s === '+' ? '-' : '+';
+      });
+      rez.sekcije[si] = { od: sek.do, do: sek.od, plus: sek.minus, minus: sek.plus };
     });
-    rez.sekcije = rez.sekcije.reverse().map(s => ({ od: s.do, do: s.od, plus: s.minus, minus: s.plus }));
+    // prsten: nazivi deonice po novom početku
+    rez.sekcije.forEach((_, si) => {
+      if (!prsten[si]) return;
+      const iz = rez.stavke.filter(x => x.si === si && 'AK'.includes(x.t) && x.n).sort((a, b) => a.km - b.km);
+      if (iz.length) rez.sekcije[si] = { od: iz[0].n, do: iz[iz.length - 1].n, plus: iz[iz.length - 1].n, minus: iz[0].n };
+    });
+    // deonice redom po brojevima izlaza (medijana, da strani brojevi na zajedničkim delovima ne smetaju)
+    const sredina = si => { const b = rez.stavke.filter(x => x.si === si).map(broj).filter(v => !isNaN(v)).sort((a, c) => a - c);
+      return b.length ? b[b.length >> 1] : Infinity; };
+    const red = rez.sekcije.map((_, si) => si).sort((a, c) => sredina(a) - sredina(c) || a - c);
+    rez.sekcije = red.map(si => rez.sekcije[si]);
+    rez.stavke.forEach(x => { x.si = red.indexOf(x.si); });
     rez.stavke.sort((a, b) => a.si - b.si || a.km - b.km || ('AK'.includes(a.t) ? 0 : 1) - ('AK'.includes(b.t) ? 0 : 1));
     return rez;
   }
@@ -171,6 +225,11 @@ globalThis.AB = (() => {
   /** Izbacuje izlaze susednog autoputa (čvor blizu trase čiji broj ne staje između suseda). */
   function izbaciStrane(rez) {
     const br = x => 'AK'.includes(x.t) ? parseInt(x.ref, 10) : NaN;
+    // cela deonica tuđa: svi njeni brojevi već postoje u većoj deonici (A44 kod Kassela, izlazi 78/79 sa A7)
+    const brojevi = rez.sekcije.map((_, si) => rez.stavke.filter(x => x.si === si).map(br).filter(v => !isNaN(v)));
+    const tudje = new Set(brojevi.map((b, si) => b.length && brojevi.some((c, sj) => sj !== si && c.length > b.length
+      && b.every(v => c.includes(v))) ? si : -1).filter(si => si >= 0));
+    rez.stavke = rez.stavke.filter(x => !tudje.has(x.si));
     const iz = rez.stavke.filter(x => !isNaN(br(x))), losi = new Set();
     for (let i = 1; i < iz.length - 1; i++) {
       const p = iz[i - 1], x = iz[i], n = iz[i + 1];
@@ -203,19 +262,30 @@ globalThis.AB = (() => {
 
     zapisi('1/3 linija autoputa…');
     const geo = await upit(`[out:json][timeout:240];${rel}->.r;(.r;rel(r.r););out geom;`);
-    const sredina = (() => { let s = 0, n = 0; for (const el of geo.elements) for (const m of el.members || [])
-      if (m.geometry) for (const p of m.geometry) { s += p.lat; n++; } return n ? s / n : 50; })();
-    cosLat = Math.cos(sredina * RAD);
-    const linija = napraviLiniju(geo.elements);
+    const postaviCos = elementi => { let s = 0, n = 0; for (const el of elementi) for (const m of el.members || [])
+      if (m.geometry) for (const p of m.geometry) { s += p.lat; n++; } cosLat = Math.cos((n ? s / n : 50) * RAD); };
+    postaviCos(geo.elements);
+    let linija = napraviLiniju(geo.elements);
+    // relacija bez puteva (A96: samo ugnežđene TMC relacije) → putevi autoputa sa tom oznakom
+    let putevi = `${rel}->.r;(.r;rel(r.r););way(r)[highway=motorway]->.w;`;
+    if (!linija.deonice.length) {
+      zapisi('1/3 relacija bez puteva, uzimam puteve po oznaci…');
+      putevi = `way[highway=motorway][ref~"(^|;)${ref}(;|$)"]->.w;`;
+      const poOznaci = await upit(`[out:json][timeout:240];${putevi}.w out geom;`);
+      const kao = [{ type: 'relation', tags: { type: 'route' },
+        members: poOznaci.elements.map(w => ({ type: 'way', role: '', geometry: w.geometry })) }];
+      postaviCos(kao);
+      linija = napraviLiniju(kao);
+    }
     if (!linija.deonice.length) throw new Error('nema geometrije za ' + ref);
 
     zapisi('2/3 izlazi i odmorišta…');
-    const osnova = await upit(`[out:json][timeout:240];${rel}->.r;(.r;rel(r.r););way(r)[highway=motorway]->.w;
+    const osnova = await upit(`[out:json][timeout:240];${putevi}
       node(w.w)[highway=motorway_junction];out qt;
       nwr[highway~"^(services|rest_area)$"](around.w:400);out center qt;`);
 
     zapisi('3/3 pumpe, hrana, punjači…');
-    const usluge = await upit(`[out:json][timeout:240];${rel}->.r;(.r;rel(r.r););way(r)[highway=motorway]->.w;
+    const usluge = await upit(`[out:json][timeout:240];${putevi}
       nwr[highway~"^(services|rest_area)$"](around.w:400)->.s;
       (nwr(around.s:350)[amenity~"^(fuel|fast_food|restaurant|cafe|toilets|charging_station|shower|parking)$"];
        nwr(around.s:350)[tourism~"^(hotel|motel)$"];
@@ -307,8 +377,9 @@ globalThis.AB = (() => {
     });
 
     const duzine = linija.deonice.map(s => s.c[s.c.length - 1] / 1000);
+    const prsten = linija.deonice.map((s, i) => duzine[i] > 50 && d(s.p[0], s.p[s.p.length - 1]) < 1000);
     ab.rezultat = ukloniPrazne(izbaciStrane(orijentisi({ id, naziv: ref, sekcije, stavke, izvor: '© OpenStreetMap-Mitwirkende (ODbL)',
-      datum: new Date().toISOString().slice(0, 10) }, duzine)));
+      datum: new Date().toISOString().slice(0, 10) }, duzine, prsten)));
     const broj = {}; ab.rezultat.stavke.forEach(x => broj[x.t] = (broj[x.t] || 0) + 1);
     ab.sazetak = `${ref}: ${ab.rezultat.stavke.length} tačaka ${JSON.stringify(broj)}, deonice: ` +
       ab.rezultat.sekcije.map((s, i) => `${s.od} – ${s.do} (${Math.round(Math.max(...ab.rezultat.stavke.filter(x => x.si === i).map(x => x.km), 0))} km)`).join('; ');
