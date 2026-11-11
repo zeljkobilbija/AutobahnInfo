@@ -189,28 +189,25 @@ public class AutoputActivity extends AppCompatActivity {
             if (i > 0) lp.setMarginStart(Izgled.dp(this, 8));
             deoniceRed.addView(b, lp);
         }
+        // Jedno dugme: piše "odakle → kuda", dodir okreće smer
         smeroviRed.removeAllViews();
-        for (int i = 0; i < 2; i++) {
-            final char s = i == 0 ? '+' : '-';
-            MaterialButton b = pilula("");
-            b.setTextSize(14);
-            b.setCornerRadius(Izgled.dp(this, 10));
-            // dugi nazivi (npr. "Grenzübergang Lichtenbusch") idu u dva reda – treba im mesta gore i dole
-            b.setMaxLines(2);
-            b.setEllipsize(android.text.TextUtils.TruncateAt.END);
-            b.setLineSpacing(0f, 0.95f);
-            b.setPadding(Izgled.dp(this, 10), Izgled.dp(this, 6), Izgled.dp(this, 10), Izgled.dp(this, 6));
-            b.setOnClickListener(v -> {
-                if (smer == s) return;
-                smer = s;
-                osvezi(true);
-            });
-            // MATCH_PARENT: oba dugmeta iste visine i kad je samo jedan naziv u dva reda
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0,
-                    LinearLayout.LayoutParams.MATCH_PARENT, 1f);
-            if (i > 0) lp.setMarginStart(Izgled.dp(this, 6));
-            smeroviRed.addView(b, lp);
-        }
+        MaterialButton b = pilula("");
+        b.setTextSize(15);
+        b.setCornerRadius(Izgled.dp(this, 10));
+        // dugi nazivi idu u dva reda
+        b.setMaxLines(2);
+        b.setEllipsize(android.text.TextUtils.TruncateAt.END);
+        b.setLineSpacing(0f, 0.95f);
+        b.setPadding(Izgled.dp(this, 14), Izgled.dp(this, 8), Izgled.dp(this, 12), Izgled.dp(this, 8));
+        b.setIconResource(R.drawable.ic_zameni_smer);
+        b.setIconGravity(MaterialButton.ICON_GRAVITY_END);
+        b.setIconPadding(Izgled.dp(this, 10));
+        b.setOnClickListener(v -> {
+            smer = smer == '+' ? '-' : '+';
+            osvezi(true);
+        });
+        smeroviRed.addView(b, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
     }
 
     private void napraviFiltere() {
@@ -250,16 +247,14 @@ public class AutoputActivity extends AppCompatActivity {
         }
 
         Deonica d = podaci.deonice.get(deonica);
-        for (int i = 0; i < smeroviRed.getChildCount(); i++) {
-            MaterialButton b = (MaterialButton) smeroviRed.getChildAt(i);
-            char s = i == 0 ? '+' : '-';
-            boolean on = s == smer;
-            // tvrdi razmak: strelica ostaje uz naziv, a ne sama u prvom redu
-            b.setText((s == '+' ? "→ " : "← ") + (s == '+' ? d.plus : d.minus));
-            b.setBackgroundTintList(Izgled.jedna(on ? bela : 0x00000000));
-            b.setTextColor(on ? plavaTamna : bela);
-            b.setSelected(on);
-        }
+        MaterialButton smerDugme = (MaterialButton) smeroviRed.getChildAt(0);
+        // '+' = od početka deonice ka kraju (minus → plus), '-' = obrnuto; tvrdi razmak drži strelicu uz naziv
+        String odakle = smer == '+' ? d.minus : d.plus, kuda = smer == '+' ? d.plus : d.minus;
+        smerDugme.setText(odakle + "\u00A0→ " + kuda);
+        smerDugme.setContentDescription(getString(R.string.smer_voznje) + ": " + odakle + " → " + kuda);
+        smerDugme.setBackgroundTintList(Izgled.jedna(bela));
+        smerDugme.setTextColor(plavaTamna);
+        smerDugme.setIconTint(Izgled.jedna(plavaTamna));
 
         int povrsina = Izgled.boja(this, R.color.povrsina);
         int ivica = Izgled.boja(this, R.color.ivica_filtera);
@@ -304,7 +299,7 @@ public class AutoputActivity extends AppCompatActivity {
                 .append(String.format(Locale.getDefault(), "%.1f", s.km)).append('\n');
         if (!s.jeIzlaz()) {
             t.append(getString(R.string.smer_voznje)).append(": ")
-                    .append(s.strana == '+' ? "→ " + d.plus : "← " + d.minus).append('\n');
+                    .append(s.strana == '+' ? d.minus + " → " + d.plus : d.plus + " → " + d.minus).append('\n');
         }
         List<StavkaAdapter.Oznaka> oznake = StavkaAdapter.oznake(this, s);
         if (!oznake.isEmpty()) {
