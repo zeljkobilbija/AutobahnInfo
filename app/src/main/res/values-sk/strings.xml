@@ -35,4 +35,24 @@
     <string name="podeli">Zdieľať aplikáciu</string>
     <string name="podeli_naslov">Zdieľať cez</string>
     <string name="podeli_poruka">Pozri si Autobahn Info – odpočívadlá, čerpacie stanice, zjazdy a parkoviská na nemeckých diaľniciach: %s</string>
+    <!-- Ekran jednog mesta -->
+    <string name="det_lokacija">Poloha</string>
+    <string name="det_autoput">Diaľnica</string>
+    <string name="det_deonica">Úsek</string>
+    <string name="det_kilometar">Kilometer</string>
+    <string name="det_broj_izlaza">Číslo výjazdu</string>
+    <string name="det_ka">Smer</string>
+    <string name="det_gorivo">Palivo</string>
+    <string name="det_hrana">Jedlo</string>
+    <string name="det_punjaci">Nabíjanie elektromobilov</string>
+    <string name="det_usluge">Služby</string>
+    <string name="det_radno_vreme">Otváracie hodiny</string>
+    <string name="det_navigacija">Navigovať</string>
+    <string name="det_podeli">Zdieľať</string>
+    <string name="det_nema_podataka">OpenStreetMap o tomto mieste nemá údaje.</string>
+    <string name="det_izvor">Údaje: © OpenStreetMap contributors (ODbL)</string>
+    <string name="det_izvor_logo">Logá: Wikimedia Commons; ochranné známky patria ich vlastníkom</string>
+    <string name="det_cene_ucitavanje">Načítavam ceny…</string>
+    <string name="det_cene_greska">Ceny teraz nie sú dostupné.</string>
+    <string name="det_cene_nedelja">Celoštátna priemerná cena, týždeň od %s (EU Weekly Oil Bulletin, fuel-prices.eu). Diaľničné čerpacie stanice bývajú drahšie.</string>
 </resources>

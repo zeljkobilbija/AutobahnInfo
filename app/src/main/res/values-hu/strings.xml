@@ -35,4 +35,24 @@
     <string name="podeli">Alkalmazás megosztása</string>
     <string name="podeli_naslov">Megosztás ezzel</string>
     <string name="podeli_poruka">Nézd meg az Autobahn Infót – pihenők, benzinkutak, lehajtók és parkolók a német autópályákon: %s</string>
+    <!-- Ekran jednog mesta -->
+    <string name="det_lokacija">Helyszín</string>
+    <string name="det_autoput">Autópálya</string>
+    <string name="det_deonica">Szakasz</string>
+    <string name="det_kilometar">Kilométer</string>
+    <string name="det_broj_izlaza">Kijárat száma</string>
+    <string name="det_ka">Irány</string>
+    <string name="det_gorivo">Üzemanyag</string>
+    <string name="det_hrana">Étel</string>
+    <string name="det_punjaci">Elektromos töltők</string>
+    <string name="det_usluge">Szolgáltatások</string>
+    <string name="det_radno_vreme">Nyitvatartás</string>
+    <string name="det_navigacija">Navigáció</string>
+    <string name="det_podeli">Megosztás</string>
+    <string name="det_nema_podataka">Az OpenStreetMap nem tartalmaz adatot erről a helyről.</string>
+    <string name="det_izvor">Adatok: © OpenStreetMap contributors (ODbL)</string>
+    <string name="det_izvor_logo">Logók: Wikimedia Commons; a védjegyek tulajdonosaikat illetik</string>
+    <string name="det_cene_ucitavanje">Árak betöltése…</string>
+    <string name="det_cene_greska">Az árak most nem érhetők el.</string>
+    <string name="det_cene_nedelja">Országos átlagár, %s heti (EU Weekly Oil Bulletin, fuel-prices.eu). Az autópálya-kutak általában drágábbak.</string>
 </resources>

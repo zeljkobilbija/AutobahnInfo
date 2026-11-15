@@ -95,7 +95,7 @@ public class AutoputActivity extends AppCompatActivity {
 
         lista = findViewById(R.id.lista);
         lista.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new StavkaAdapter(this::podeliMesto);
+        adapter = new StavkaAdapter(this::otvoriDetalje);
         lista.setAdapter(adapter);
 
         findViewById(R.id.nazad).setOnClickListener(v -> zatvori());
@@ -318,6 +318,12 @@ public class AutoputActivity extends AppCompatActivity {
                 .putExtra(Intent.EXTRA_SUBJECT, StavkaAdapter.naziv(this, s))
                 .putExtra(Intent.EXTRA_TEXT, t.toString());
         startActivity(Intent.createChooser(slanje, getString(R.string.podeli_naslov)));
+    }
+
+    /** Dodir na red: ekran sa svim podacima o tom mestu. */
+    private void otvoriDetalje(Stavka st) {
+        int i = podaci.stavke.indexOf(st);
+        if (i >= 0) startActivity(DetaljiActivity.namera(this, autoput.id, i));
     }
 
     private boolean prolazi(Stavka s) {

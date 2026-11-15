@@ -35,4 +35,24 @@
     <string name="podeli">Podeli aplikaciju</string>
     <string name="podeli_naslov">Podeli preko</string>
     <string name="podeli_poruka">Pogledaj Autobahn Info – odmorišta, pumpe, izlazi i parking na nemačkim autoputevima: %s</string>
+    <!-- Ekran jednog mesta -->
+    <string name="det_lokacija">Lokacija</string>
+    <string name="det_autoput">Autoput</string>
+    <string name="det_deonica">Deonica</string>
+    <string name="det_kilometar">Kilometar</string>
+    <string name="det_broj_izlaza">Broj izlaza</string>
+    <string name="det_ka">Prema</string>
+    <string name="det_gorivo">Gorivo</string>
+    <string name="det_hrana">Hrana</string>
+    <string name="det_punjaci">Punjači za električna vozila</string>
+    <string name="det_usluge">Sadržaji</string>
+    <string name="det_radno_vreme">Radno vreme</string>
+    <string name="det_navigacija">Navigacija</string>
+    <string name="det_podeli">Podeli</string>
+    <string name="det_nema_podataka">OpenStreetMap nema podatke o ovom mestu.</string>
+    <string name="det_izvor">Podaci: © OpenStreetMap contributors (ODbL)</string>
+    <string name="det_izvor_logo">Logoi: Wikimedia Commons; zaštitni znakovi pripadaju vlasnicima</string>
+    <string name="det_cene_ucitavanje">Učitavam cene…</string>
+    <string name="det_cene_greska">Cene trenutno nisu dostupne.</string>
+    <string name="det_cene_nedelja">Prosečna cena u zemlji, nedelja od %s (EU Weekly Oil Bulletin, fuel-prices.eu). Pumpe na autoputu su obično skuplje.</string>
 </resources>

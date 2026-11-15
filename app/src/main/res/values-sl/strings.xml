@@ -35,4 +35,24 @@
     <string name="podeli">Deli aplikacijo</string>
     <string name="podeli_naslov">Deli prek</string>
     <string name="podeli_poruka">Poglej Autobahn Info – počivališča, bencinski servisi, izvozi in parkirišča na nemških avtocestah: %s</string>
+    <!-- Ekran jednog mesta -->
+    <string name="det_lokacija">Lokacija</string>
+    <string name="det_autoput">Avtocesta</string>
+    <string name="det_deonica">Odsek</string>
+    <string name="det_kilometar">Kilometer</string>
+    <string name="det_broj_izlaza">Številka izvoza</string>
+    <string name="det_ka">Proti</string>
+    <string name="det_gorivo">Gorivo</string>
+    <string name="det_hrana">Hrana</string>
+    <string name="det_punjaci">Polnilnice za električna vozila</string>
+    <string name="det_usluge">Storitve</string>
+    <string name="det_radno_vreme">Delovni čas</string>
+    <string name="det_navigacija">Navigacija</string>
+    <string name="det_podeli">Deli</string>
+    <string name="det_nema_podataka">OpenStreetMap nima podatkov o tem kraju.</string>
+    <string name="det_izvor">Podatki: © OpenStreetMap contributors (ODbL)</string>
+    <string name="det_izvor_logo">Logotipi: Wikimedia Commons; blagovne znamke pripadajo lastnikom</string>
+    <string name="det_cene_ucitavanje">Nalagam cene…</string>
+    <string name="det_cene_greska">Cene trenutno niso na voljo.</string>
+    <string name="det_cene_nedelja">Povprečna cena v državi, teden od %s (EU Weekly Oil Bulletin, fuel-prices.eu). Bencinske črpalke ob avtocesti so običajno dražje.</string>
 </resources>

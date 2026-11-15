@@ -35,4 +35,24 @@
     <string name="podeli">Uygulamayı paylaş</string>
     <string name="podeli_naslov">Şununla paylaş</string>
     <string name="podeli_poruka">Autobahn Info\'ya bak – Alman otoyollarında dinlenme tesisleri, akaryakıt, çıkışlar ve otoparklar: %s</string>
+    <!-- Ekran jednog mesta -->
+    <string name="det_lokacija">Konum</string>
+    <string name="det_autoput">Otoyol</string>
+    <string name="det_deonica">Kesim</string>
+    <string name="det_kilometar">Kilometre</string>
+    <string name="det_broj_izlaza">Çıkış numarası</string>
+    <string name="det_ka">Yönü</string>
+    <string name="det_gorivo">Yakıt</string>
+    <string name="det_hrana">Yemek</string>
+    <string name="det_punjaci">Elektrikli araç şarjı</string>
+    <string name="det_usluge">Olanaklar</string>
+    <string name="det_radno_vreme">Çalışma saatleri</string>
+    <string name="det_navigacija">Yol tarifi</string>
+    <string name="det_podeli">Paylaş</string>
+    <string name="det_nema_podataka">OpenStreetMap\'te bu yer hakkında bilgi yok.</string>
+    <string name="det_izvor">Veriler: © OpenStreetMap contributors (ODbL)</string>
+    <string name="det_izvor_logo">Logolar: Wikimedia Commons; markalar sahiplerine aittir</string>
+    <string name="det_cene_ucitavanje">Fiyatlar yükleniyor…</string>
+    <string name="det_cene_greska">Fiyatlar şu anda kullanılamıyor.</string>
+    <string name="det_cene_nedelja">Ülke ortalama fiyatı, %s haftası (EU Weekly Oil Bulletin, fuel-prices.eu). Otoyol istasyonları genellikle daha pahalıdır.</string>
 </resources>

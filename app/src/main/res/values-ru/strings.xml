@@ -35,4 +35,24 @@
     <string name="podeli">Поделиться приложением</string>
     <string name="podeli_naslov">Поделиться через</string>
     <string name="podeli_poruka">Посмотри Autobahn Info – площадки отдыха, АЗС, съезды и парковки на автобанах Германии: %s</string>
+    <!-- Ekran jednog mesta -->
+    <string name="det_lokacija">Местоположение</string>
+    <string name="det_autoput">Автомагистраль</string>
+    <string name="det_deonica">Участок</string>
+    <string name="det_kilometar">Километр</string>
+    <string name="det_broj_izlaza">Номер съезда</string>
+    <string name="det_ka">В сторону</string>
+    <string name="det_gorivo">Топливо</string>
+    <string name="det_hrana">Еда</string>
+    <string name="det_punjaci">Зарядка электромобилей</string>
+    <string name="det_usluge">Удобства</string>
+    <string name="det_radno_vreme">Часы работы</string>
+    <string name="det_navigacija">Навигация</string>
+    <string name="det_podeli">Поделиться</string>
+    <string name="det_nema_podataka">В OpenStreetMap нет данных об этом месте.</string>
+    <string name="det_izvor">Данные: © OpenStreetMap contributors (ODbL)</string>
+    <string name="det_izvor_logo">Логотипы: Wikimedia Commons; товарные знаки принадлежат их владельцам</string>
+    <string name="det_cene_ucitavanje">Загрузка цен…</string>
+    <string name="det_cene_greska">Цены сейчас недоступны.</string>
+    <string name="det_cene_nedelja">Средняя цена по стране, неделя с %s (EU Weekly Oil Bulletin, fuel-prices.eu). На заправках у автомагистралей обычно дороже.</string>
 </resources>

@@ -35,4 +35,24 @@
     <string name="podeli">Distribuie aplicația</string>
     <string name="podeli_naslov">Distribuie prin</string>
     <string name="podeli_poruka">Uită-te la Autobahn Info – zone de servicii, benzinării, ieșiri și parcări pe autostrăzile germane: %s</string>
+    <!-- Ekran jednog mesta -->
+    <string name="det_lokacija">Locație</string>
+    <string name="det_autoput">Autostradă</string>
+    <string name="det_deonica">Tronson</string>
+    <string name="det_kilometar">Kilometru</string>
+    <string name="det_broj_izlaza">Număr ieșire</string>
+    <string name="det_ka">Spre</string>
+    <string name="det_gorivo">Carburant</string>
+    <string name="det_hrana">Mâncare</string>
+    <string name="det_punjaci">Încărcare vehicule electrice</string>
+    <string name="det_usluge">Facilități</string>
+    <string name="det_radno_vreme">Program</string>
+    <string name="det_navigacija">Navigare</string>
+    <string name="det_podeli">Distribuie</string>
+    <string name="det_nema_podataka">OpenStreetMap nu are date despre acest loc.</string>
+    <string name="det_izvor">Date: © OpenStreetMap contributors (ODbL)</string>
+    <string name="det_izvor_logo">Logouri: Wikimedia Commons; mărcile aparțin proprietarilor lor</string>
+    <string name="det_cene_ucitavanje">Se încarcă prețurile…</string>
+    <string name="det_cene_greska">Prețurile nu sunt disponibile acum.</string>
+    <string name="det_cene_nedelja">Preț mediu național, săptămâna din %s (EU Weekly Oil Bulletin, fuel-prices.eu). Benzinăriile de pe autostradă sunt de obicei mai scumpe.</string>
 </resources>

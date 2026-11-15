@@ -35,4 +35,24 @@
     <string name="podeli">Condividi l\'app</string>
     <string name="podeli_naslov">Condividi con</string>
     <string name="podeli_poruka">Guarda Autobahn Info – aree di servizio, distributori, uscite e parcheggi sulle autostrade tedesche: %s</string>
+    <!-- Ekran jednog mesta -->
+    <string name="det_lokacija">Posizione</string>
+    <string name="det_autoput">Autostrada</string>
+    <string name="det_deonica">Tratto</string>
+    <string name="det_kilometar">Chilometro</string>
+    <string name="det_broj_izlaza">Numero di uscita</string>
+    <string name="det_ka">Verso</string>
+    <string name="det_gorivo">Carburante</string>
+    <string name="det_hrana">Ristoro</string>
+    <string name="det_punjaci">Ricarica auto elettriche</string>
+    <string name="det_usluge">Servizi</string>
+    <string name="det_radno_vreme">Orari</string>
+    <string name="det_navigacija">Naviga</string>
+    <string name="det_podeli">Condividi</string>
+    <string name="det_nema_podataka">OpenStreetMap non ha dati su questo luogo.</string>
+    <string name="det_izvor">Dati: © OpenStreetMap contributors (ODbL)</string>
+    <string name="det_izvor_logo">Loghi: Wikimedia Commons; i marchi appartengono ai rispettivi proprietari</string>
+    <string name="det_cene_ucitavanje">Caricamento prezzi…</string>
+    <string name="det_cene_greska">Prezzi non disponibili al momento.</string>
+    <string name="det_cene_nedelja">Prezzo medio nazionale, settimana del %s (EU Weekly Oil Bulletin, fuel-prices.eu). I distributori in autostrada di solito costano di più.</string>
 </resources>

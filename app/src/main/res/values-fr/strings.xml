@@ -35,4 +35,24 @@
     <string name="podeli">Partager l\'appli</string>
     <string name="podeli_naslov">Partager via</string>
     <string name="podeli_poruka">Découvre Autobahn Info – aires, stations, sorties et parkings sur les autoroutes allemandes : %s</string>
+    <!-- Ekran jednog mesta -->
+    <string name="det_lokacija">Emplacement</string>
+    <string name="det_autoput">Autoroute</string>
+    <string name="det_deonica">Tronçon</string>
+    <string name="det_kilometar">Kilomètre</string>
+    <string name="det_broj_izlaza">Numéro de sortie</string>
+    <string name="det_ka">Vers</string>
+    <string name="det_gorivo">Carburant</string>
+    <string name="det_hrana">Restauration</string>
+    <string name="det_punjaci">Bornes de recharge</string>
+    <string name="det_usluge">Services</string>
+    <string name="det_radno_vreme">Horaires</string>
+    <string name="det_navigacija">Itinéraire</string>
+    <string name="det_podeli">Partager</string>
+    <string name="det_nema_podataka">OpenStreetMap n\'a aucune information sur ce lieu.</string>
+    <string name="det_izvor">Données : © OpenStreetMap contributors (ODbL)</string>
+    <string name="det_izvor_logo">Logos : Wikimedia Commons ; les marques appartiennent à leurs propriétaires</string>
+    <string name="det_cene_ucitavanje">Chargement des prix…</string>
+    <string name="det_cene_greska">Les prix ne sont pas disponibles pour le moment.</string>
+    <string name="det_cene_nedelja">Prix moyen national, semaine du %s (EU Weekly Oil Bulletin, fuel-prices.eu). Les stations d\'autoroute sont souvent plus chères.</string>
 </resources>

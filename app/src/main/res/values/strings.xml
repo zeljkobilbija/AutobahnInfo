@@ -36,4 +36,24 @@
     <string name="podeli">Share the app</string>
     <string name="podeli_naslov">Share via</string>
     <string name="podeli_poruka">Check out Autobahn Info – rest areas, fuel, exits and parking on German motorways: %s</string>
+    <!-- Ekran jednog mesta -->
+    <string name="det_lokacija">Location</string>
+    <string name="det_autoput">Motorway</string>
+    <string name="det_deonica">Section</string>
+    <string name="det_kilometar">Kilometre</string>
+    <string name="det_broj_izlaza">Exit number</string>
+    <string name="det_ka">Towards</string>
+    <string name="det_gorivo">Fuel</string>
+    <string name="det_hrana">Food</string>
+    <string name="det_punjaci">EV charging</string>
+    <string name="det_usluge">Facilities</string>
+    <string name="det_radno_vreme">Opening hours</string>
+    <string name="det_navigacija">Navigate</string>
+    <string name="det_podeli">Share</string>
+    <string name="det_nema_podataka">OpenStreetMap has no details about this place.</string>
+    <string name="det_izvor">Data: © OpenStreetMap contributors (ODbL)</string>
+    <string name="det_izvor_logo">Logos: Wikimedia Commons; trademarks belong to their owners</string>
+    <string name="det_cene_ucitavanje">Loading prices…</string>
+    <string name="det_cene_greska">Prices are not available right now.</string>
+    <string name="det_cene_nedelja">National average price, week of %s (EU Weekly Oil Bulletin, fuel-prices.eu). Motorway stations are usually more expensive.</string>
 </resources>

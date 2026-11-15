@@ -35,4 +35,24 @@
     <string name="podeli">Κοινοποίηση εφαρμογής</string>
     <string name="podeli_naslov">Κοινοποίηση μέσω</string>
     <string name="podeli_poruka">Δες το Autobahn Info – σταθμοί, πρατήρια, έξοδοι και στάθμευση στους γερμανικούς αυτοκινητόδρομους: %s</string>
+    <!-- Ekran jednog mesta -->
+    <string name="det_lokacija">Τοποθεσία</string>
+    <string name="det_autoput">Αυτοκινητόδρομος</string>
+    <string name="det_deonica">Τμήμα</string>
+    <string name="det_kilometar">Χιλιόμετρο</string>
+    <string name="det_broj_izlaza">Αριθμός εξόδου</string>
+    <string name="det_ka">Προς</string>
+    <string name="det_gorivo">Καύσιμα</string>
+    <string name="det_hrana">Φαγητό</string>
+    <string name="det_punjaci">Φόρτιση ηλεκτρικών</string>
+    <string name="det_usluge">Παροχές</string>
+    <string name="det_radno_vreme">Ωράριο</string>
+    <string name="det_navigacija">Πλοήγηση</string>
+    <string name="det_podeli">Κοινοποίηση</string>
+    <string name="det_nema_podataka">Το OpenStreetMap δεν έχει στοιχεία για αυτό το σημείο.</string>
+    <string name="det_izvor">Δεδομένα: © OpenStreetMap contributors (ODbL)</string>
+    <string name="det_izvor_logo">Λογότυπα: Wikimedia Commons· τα σήματα ανήκουν στους κατόχους τους</string>
+    <string name="det_cene_ucitavanje">Φόρτωση τιμών…</string>
+    <string name="det_cene_greska">Οι τιμές δεν είναι διαθέσιμες τώρα.</string>
+    <string name="det_cene_nedelja">Εθνική μέση τιμή, εβδομάδα %s (EU Weekly Oil Bulletin, fuel-prices.eu). Τα πρατήρια στους αυτοκινητόδρομους είναι συνήθως ακριβότερα.</string>
 </resources>
