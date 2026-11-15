@@ -36,6 +36,7 @@
     <string name="podeli_naslov">Podijeli putem</string>
     <string name="podeli_poruka">Pogledaj Autobahn Info – odmorišta, benzinske, izlazi i parkirališta na njemačkim autocestama: %s</string>
     <!-- Ekran jednog mesta -->
+    <string name="det_kontakt">Kontakt</string>
     <string name="det_lokacija">Lokacija</string>
     <string name="det_autoput">Autocesta</string>
     <string name="det_deonica">Dionica</string>

@@ -36,6 +36,7 @@
     <string name="podeli_naslov">Megosztás ezzel</string>
     <string name="podeli_poruka">Nézd meg az Autobahn Infót – pihenők, benzinkutak, lehajtók és parkolók a német autópályákon: %s</string>
     <!-- Ekran jednog mesta -->
+    <string name="det_kontakt">Kapcsolat</string>
     <string name="det_lokacija">Helyszín</string>
     <string name="det_autoput">Autópálya</string>
     <string name="det_deonica">Szakasz</string>

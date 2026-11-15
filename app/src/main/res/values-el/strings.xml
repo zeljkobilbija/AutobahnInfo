@@ -36,6 +36,7 @@
     <string name="podeli_naslov">Κοινοποίηση μέσω</string>
     <string name="podeli_poruka">Δες το Autobahn Info – σταθμοί, πρατήρια, έξοδοι και στάθμευση στους γερμανικούς αυτοκινητόδρομους: %s</string>
     <!-- Ekran jednog mesta -->
+    <string name="det_kontakt">Επικοινωνία</string>
     <string name="det_lokacija">Τοποθεσία</string>
     <string name="det_autoput">Αυτοκινητόδρομος</string>
     <string name="det_deonica">Τμήμα</string>

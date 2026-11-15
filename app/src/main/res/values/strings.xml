@@ -37,6 +37,7 @@
     <string name="podeli_naslov">Share via</string>
     <string name="podeli_poruka">Check out Autobahn Info – rest areas, fuel, exits and parking on German motorways: %s</string>
     <!-- Ekran jednog mesta -->
+    <string name="det_kontakt">Contact</string>
     <string name="det_lokacija">Location</string>
     <string name="det_autoput">Motorway</string>
     <string name="det_deonica">Section</string>

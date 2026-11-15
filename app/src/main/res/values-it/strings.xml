@@ -36,6 +36,7 @@
     <string name="podeli_naslov">Condividi con</string>
     <string name="podeli_poruka">Guarda Autobahn Info – aree di servizio, distributori, uscite e parcheggi sulle autostrade tedesche: %s</string>
     <!-- Ekran jednog mesta -->
+    <string name="det_kontakt">Contatti</string>
     <string name="det_lokacija">Posizione</string>
     <string name="det_autoput">Autostrada</string>
     <string name="det_deonica">Tratto</string>

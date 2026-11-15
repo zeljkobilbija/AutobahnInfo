@@ -36,6 +36,7 @@
     <string name="podeli_naslov">Distribuie prin</string>
     <string name="podeli_poruka">Uită-te la Autobahn Info – zone de servicii, benzinării, ieșiri și parcări pe autostrăzile germane: %s</string>
     <!-- Ekran jednog mesta -->
+    <string name="det_kontakt">Contact</string>
     <string name="det_lokacija">Locație</string>
     <string name="det_autoput">Autostradă</string>
     <string name="det_deonica">Tronson</string>

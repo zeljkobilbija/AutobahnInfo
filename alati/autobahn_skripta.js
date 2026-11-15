@@ -26,6 +26,16 @@ globalThis.AB = (() => {
   const nazad = q => [+(q[1] / (RAD * R)).toFixed(5), +(q[0] / (RAD * R * cosLat)).toFixed(5)];
   const d = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
   const pauza = ms => new Promise(r => setTimeout(r, ms));
+  /** Kontakt iz OSM tagova: tel, mail, web (prvi, ako ih je više odvojenih sa ';'). */
+  const kontakt = t => {
+    const prvi = (...k) => { for (const x of k) if (t[x]) return String(t[x]).split(';')[0].trim(); return ''; };
+    const o = {}, tel = prvi('phone', 'contact:phone'), mail = prvi('email', 'contact:email').replace(/^mailto:/i, ''),
+      web = prvi('website', 'contact:website');
+    if (tel) o.tel = tel;
+    if (/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(mail)) o.mail = mail;
+    if (/\.[a-z]{2,}/i.test(web)) o.web = /^https?:\/\//i.test(web) ? web : 'https://' + web;
+    return Object.keys(o).length ? o : null;
+  };
 
   const LANCI = ["McDonald's", 'Burger King', 'KFC', 'Nordsee', 'Subway', 'Coffee Fellows', 'Segafredo',
     "L'Osteria", 'Starbucks', 'Serways', 'Marché', 'Axxe', 'Pizza Pronto', 'Greko', 'Tim Hortons', 'Dunkin\''];
@@ -343,7 +353,7 @@ globalThis.AB = (() => {
       if (!p || !(/^(services|rest_area)$/.test(t.highway || '') || /autohof/i.test(t.name || ''))) continue;
       const q = xy(p[0], p[1]), pr = projekcija(linija, q);
       if (pr.d > 1500) continue;
-      sv.push({ q, p, pr, tag: t, t: t.highway === 'services' ? 'R' : 'P', s: strana(linija, q, pr),
+      sv.push({ q, p, pr, tag: t, kon: kontakt(t), t: t.highway === 'services' ? 'R' : 'P', s: strana(linija, q, pr),
         f: new Set(), h: new Set(), e: new Set(), re: /yes/.test(t.restaurant || ''), wc: /yes|designated/.test(t.toilets || ''),
         du: /yes/.test(t.shower || ''), ho: false, sh: /yes/.test(t.shop || ''), lkw: t['capacity:truck'] || t['capacity:hgv'] || '' });
     }
@@ -357,6 +367,8 @@ globalThis.AB = (() => {
       const st = strana(linija, q, projekcija(linija, q));
       const s = blizu.find(x => x.s === st && Math.abs(x.pr.km - blizu[0].pr.km) < 1.5) || blizu[0];
       const ime = (t.brand || t.name || '').trim();
+      const kk = kontakt(t), kg = t.amenity === 'fuel' ? 'konF' : 'konX'; // pumpa ima prednost
+      if (kk && !s[kg]) s[kg] = kk;
       if (t.amenity === 'fuel') s.f.add(GORIVO[ime] || ime || 'Tankstelle');
       else if (/^(fast_food|restaurant|cafe)$/.test(t.amenity)) {
         const lanac = /serways/i.test(ime) ? 'Serways' : /^axxe/i.test(ime) ? 'Axxe' : ime;
@@ -403,6 +415,7 @@ globalThis.AB = (() => {
       if (s.e.size) o.e = e.length ? e : ['E-Laden'];
       if (s.ho) o.ho = 1; if (s.sh) o.sh = 1; if (s.lkw) o.lkw = String(s.lkw);
       if (s.tag.opening_hours) o.oh = s.tag.opening_hours;
+      Object.assign(o, s.kon || s.konF || s.konX || {}); // ceo kontakt iz istog izvora
       const ll = nazad(s.q); o.la = ll[0]; o.lo = ll[1];
       // isto mesto ucrtano dvaput → spoji
       // Autohof: pumpa, parking i ceo kompleks su često posebno ucrtani (i sa obe strane trase) → jedan unos

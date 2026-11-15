@@ -36,6 +36,7 @@
     <string name="podeli_naslov">Sdílet přes</string>
     <string name="podeli_poruka">Podívej se na Autobahn Info – odpočívadla, čerpací stanice, sjezdy a parkoviště na německých dálnicích: %s</string>
     <!-- Ekran jednog mesta -->
+    <string name="det_kontakt">Kontakt</string>
     <string name="det_lokacija">Poloha</string>
     <string name="det_autoput">Dálnice</string>
     <string name="det_deonica">Úsek</string>

@@ -36,6 +36,7 @@
     <string name="podeli_naslov">Compartir con</string>
     <string name="podeli_poruka">Mira Autobahn Info: áreas de servicio, gasolineras, salidas y aparcamientos en las autopistas alemanas: %s</string>
     <!-- Ekran jednog mesta -->
+    <string name="det_kontakt">Contacto</string>
     <string name="det_lokacija">Ubicación</string>
     <string name="det_autoput">Autopista</string>
     <string name="det_deonica">Tramo</string>

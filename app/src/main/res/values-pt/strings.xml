@@ -36,6 +36,7 @@
     <string name="podeli_naslov">Partilhar via</string>
     <string name="podeli_poruka">Vê o Autobahn Info – áreas de serviço, postos, saídas e estacionamentos nas autoestradas alemãs: %s</string>
     <!-- Ekran jednog mesta -->
+    <string name="det_kontakt">Contacto</string>
     <string name="det_lokacija">Localização</string>
     <string name="det_autoput">Autoestrada</string>
     <string name="det_deonica">Troço</string>

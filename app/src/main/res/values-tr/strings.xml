@@ -36,6 +36,7 @@
     <string name="podeli_naslov">Şununla paylaş</string>
     <string name="podeli_poruka">Autobahn Info\'ya bak – Alman otoyollarında dinlenme tesisleri, akaryakıt, çıkışlar ve otoparklar: %s</string>
     <!-- Ekran jednog mesta -->
+    <string name="det_kontakt">İletişim</string>
     <string name="det_lokacija">Konum</string>
     <string name="det_autoput">Otoyol</string>
     <string name="det_deonica">Kesim</string>

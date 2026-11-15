@@ -36,6 +36,7 @@
     <string name="podeli_naslov">Поделиться через</string>
     <string name="podeli_poruka">Посмотри Autobahn Info – площадки отдыха, АЗС, съезды и парковки на автобанах Германии: %s</string>
     <!-- Ekran jednog mesta -->
+    <string name="det_kontakt">Контакты</string>
     <string name="det_lokacija">Местоположение</string>
     <string name="det_autoput">Автомагистраль</string>
     <string name="det_deonica">Участок</string>

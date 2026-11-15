@@ -36,6 +36,7 @@
     <string name="podeli_naslov">Teilen über</string>
     <string name="podeli_poruka">Schau dir Autobahn Info an – Rastanlagen, Tankstellen, Ausfahrten und Parkplätze an deutschen Autobahnen: %s</string>
     <!-- Ekran jednog mesta -->
+    <string name="det_kontakt">Kontakt</string>
     <string name="det_lokacija">Standort</string>
     <string name="det_autoput">Autobahn</string>
     <string name="det_deonica">Abschnitt</string>
