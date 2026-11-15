@@ -12,6 +12,7 @@ logo_hess.webp	Hess	Q1615684	https://commons.wikimedia.org/wiki/File:Hess_Corpor
 logo_hoyer.webp	Hoyer	Q1606119	https://commons.wikimedia.org/wiki/File:Logo_Hoyer_svg.svg
 logo_jet.webp	JET	Q568940	https://commons.wikimedia.org/wiki/File:Jet_brand_logo.png
 logo_omv.webp	OMV	Q168238	https://commons.wikimedia.org/wiki/File:Omv_logo.svg
+logo_orlen.webp	Orlen	Q971649	https://commons.wikimedia.org/wiki/File:Orlen_wordmark_logo.svg
 logo_q8.webp	Q8	Q4119207	https://commons.wikimedia.org/wiki/File:Q8_logo.svg
 logo_shell.webp	Shell	Q110716465	https://commons.wikimedia.org/wiki/File:Shell_wordmark_2019.svg
 logo_star.webp	star	Q89432390	https://commons.wikimedia.org/wiki/File:Star_Tankstelle_Logo_2020.svg

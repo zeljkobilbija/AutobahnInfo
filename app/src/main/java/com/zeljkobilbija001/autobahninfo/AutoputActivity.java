@@ -274,7 +274,7 @@ public class AutoputActivity extends AppCompatActivity {
         for (Stavka s : podaci.stavke) {
             if (s.deonica != deonica) continue;
             if (s.jeIzlaz()) izlaza++;
-            if (!s.gorivo.isEmpty() && s.strana == smer) pumpi++;
+            if (!s.gorivo.isEmpty() && (s.strana == smer || s.tip == Stavka.AUTOHOF)) pumpi++;
             if (s.uSmeru(smer) && prolazi(s)) rezultat.add(s);
         }
         Collections.sort(rezultat, (x, y) -> smer == '+' ? Double.compare(x.km, y.km) : Double.compare(y.km, x.km));

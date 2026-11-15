@@ -37,6 +37,7 @@ public final class Stavka {
 
     /** Da li se vidi kada se vozi u datom smeru. */
     public boolean uSmeru(char smer) {
-        return jeIzlaz() || strana == smer;
+        // Autohof je kod izlaza, pa se do njega stiže iz oba smera
+        return jeIzlaz() || tip == AUTOHOF || strana == smer;
     }
 }
