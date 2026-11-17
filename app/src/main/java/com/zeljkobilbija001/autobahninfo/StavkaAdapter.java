@@ -27,7 +27,7 @@ public class StavkaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private int ovde = -1;
     private double ovdeKm;
     private String ovdeTekst = "";
-    private boolean ovdeSmer;
+    private boolean ovdeSmer, ovdeNagore;
 
     /** Dodir na red (deljenje mesta). */
     public interface Klik {
@@ -101,7 +101,8 @@ public class StavkaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * {@code sasmerom}: strelica pokazuje napred (niz listu); inače samo tačka.
      */
     @SuppressLint("NotifyDataSetChanged")
-    public void postaviOvde(int indeks, double km, String tekst, boolean saSmerom) {
+    public void postaviOvde(int indeks, double km, String tekst, boolean saSmerom, boolean nagore) {
+        ovdeNagore = nagore;
         ovde = indeks;
         ovdeKm = km;
         ovdeTekst = tekst;
@@ -151,8 +152,9 @@ public class StavkaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             View v = h.itemView;
             ((TextView) v.findViewById(R.id.ovdeKm)).setText(String.format(Locale.getDefault(), "%.1f", ovdeKm));
             ((TextView) v.findViewById(R.id.ovdeTekst)).setText(ovdeTekst);
-            ((ImageView) v.findViewById(R.id.ovdeStrelica)).setImageResource(
-                    ovdeSmer ? R.drawable.ic_strelica_napred : R.drawable.ic_tacka_ovde);
+            ImageView strelica = v.findViewById(R.id.ovdeStrelica);
+            strelica.setImageResource(ovdeSmer ? R.drawable.ic_strelica_napred : R.drawable.ic_tacka_ovde);
+            strelica.setRotation(ovdeNagore ? 180f : 0f);
         }
     }
 

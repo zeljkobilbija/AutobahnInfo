@@ -230,16 +230,17 @@ public class AutoputActivity extends AppCompatActivity {
      * (ili smer još nije poznat), između mesta iza njega i prvog mesta ispred.
      */
     private void postaviStrelicu() {
-        if (mojaDeonica != deonica || (mojSmer != '?' && mojSmer != smer) || prikazano.isEmpty()) {
-            if (adapter.pozicijaOvde() >= 0) adapter.postaviOvde(-1, 0, "", false);
+        if (mojaDeonica != deonica || prikazano.isEmpty()) {
+            if (adapter.pozicijaOvde() >= 0) adapter.postaviOvde(-1, 0, "", false, false);
             return;
         }
         int i = 0;
         while (i < prikazano.size() && (smer == '+' ? prikazano.get(i).km < mojKm : prikazano.get(i).km > mojKm)) i++;
         Deonica d = podaci.deonice.get(deonica);
+        // tekst uvek kazuje kuda vozač stvarno ide; u suprotnom smeru liste strelica gleda nagore
         String tekst = mojSmer == '?' ? getString(R.string.lokacija_vi_ste_ovde)
-                : getString(R.string.lokacija_vi_ste_ovde) + " · " + (smer == '+' ? d.plus : d.minus);
-        adapter.postaviOvde(i, mojKm, tekst, mojSmer != '?');
+                : getString(R.string.lokacija_vi_ste_ovde) + " · " + (mojSmer == '+' ? d.plus : d.minus);
+        adapter.postaviOvde(i, mojKm, tekst, mojSmer != '?', mojSmer != '?' && mojSmer != smer);
     }
 
     @Override
