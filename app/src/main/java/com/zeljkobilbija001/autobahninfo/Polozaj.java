@@ -13,16 +13,22 @@ import java.util.List;
  */
 public final class Polozaj {
 
-    /** Rezultat: autoput, deonica, kilometar i udaljenost od linije autoputa (km). */
+    /**
+     * Rezultat: autoput, deonica, kilometar i udaljenost od linije autoputa (km).
+     * Deonice koje se fizički nastavljaju jedna na drugu imaju istu {@code grupa}, a {@code kmUkupno}
+     * teče kroz njih bez prekida (da se vide poruke i iza granice deonice).
+     */
     public static final class Tacka {
         public final String autoput;
-        public final int deonica;
-        public final double km, udaljenost;
+        public final int deonica, grupa;
+        public final double km, kmUkupno, udaljenost;
 
-        Tacka(String autoput, int deonica, double km, double udaljenost) {
+        Tacka(String autoput, int deonica, int grupa, double km, double kmUkupno, double udaljenost) {
             this.autoput = autoput;
             this.deonica = deonica;
+            this.grupa = grupa;
             this.km = km;
+            this.kmUkupno = kmUkupno;
             this.udaljenost = udaljenost;
         }
     }
@@ -31,6 +37,8 @@ public final class Polozaj {
     private static final class Linija {
         final String autoput;
         final int deonica;
+        int grupa;
+        double pomak;   // km od početka grupe do početka ove deonice
         final double[] km, lat, lon;
         final double minLat, maxLat, minLon, maxLon;
 
@@ -70,16 +78,35 @@ public final class Polozaj {
         for (Autoput a : Autoputevi.SVE) {
             Podaci p = Podaci.za(c, a);
             if (p == null) continue;
+            Linija prethodna = null;
+            int grupa = 0;
             for (int d = 0; d < p.deonice.size(); d++) {
                 List<Stavka> tacke = new ArrayList<>();
                 for (Stavka s : p.stavke) if (s.deonica == d && s.imaKoordinate()) tacke.add(s);
                 if (tacke.size() < 2) continue;
                 Collections.sort(tacke, (x, y) -> Double.compare(x.km, y.km));
-                l.add(new Linija(a.id, d, tacke));
+                Linija li = new Linija(a.id, d, tacke);
+                // nastavak prethodne deonice ako joj je početak do 5 km od kraja prethodne
+                double razmak = prethodna == null ? Double.MAX_VALUE : km(prethodna, prethodna.km.length - 1, li, 0);
+                if (razmak <= 5) {
+                    li.grupa = prethodna.grupa;
+                    li.pomak = prethodna.pomak + prethodna.km[prethodna.km.length - 1] + razmak;
+                } else {
+                    li.grupa = prethodna == null ? 0 : ++grupa;
+                }
+                l.add(li);
+                prethodna = li;
             }
         }
         linije = l;
         return l;
+    }
+
+    /** Vazdušna razdaljina (km) između tačke i linije a i tačke j linije b. */
+    private static double km(Linija a, int i, Linija b, int j) {
+        double kx = 111.32 * Math.cos(Math.toRadians(a.lat[i])), ky = 110.57;
+        double dx = (a.lon[i] - b.lon[j]) * kx, dy = (a.lat[i] - b.lat[j]) * ky;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     /**
@@ -102,7 +129,7 @@ public final class Polozaj {
                 double u = Math.sqrt(px * px + py * py);
                 if (najbolja == null || u < najbolja.udaljenost) {
                     double km = li.km[i] + t * (li.km[i + 1] - li.km[i]);
-                    najbolja = new Tacka(li.autoput, li.deonica, km, u);
+                    najbolja = new Tacka(li.autoput, li.deonica, li.grupa, km, li.pomak + km, u);
                 }
             }
         }

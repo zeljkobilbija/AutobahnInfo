@@ -101,8 +101,8 @@ public class VoznjaService extends Service {
 
     // stanje (menja se samo na niti "nit")
     private String autoput;          // trenutni autoput ili null
-    private int deonica;
-    private double km, kmZaSmer = Double.NaN;
+    private int deonica, grupa;
+    private double km, kmUkupno, kmZaSmer = Double.NaN;
     private char smer = '?';
     private String kandidat;         // autoput koji se pojavio jednom, čeka potvrdu
     private Location prethodna;
@@ -214,18 +214,21 @@ public class VoznjaService extends Service {
         if (t != null) {
             kandidat = null;
             poslednjiPutNaAutoputu = sad;
-            if (!t.autoput.equals(autoput) || t.deonica != deonica) {
+            // smer se pamti i pri prelasku na sledeću deonicu iste grupe (km teče dalje)
+            if (!t.autoput.equals(autoput) || t.grupa != grupa) {
                 autoput = t.autoput;
-                deonica = t.deonica;
+                grupa = t.grupa;
                 smer = '?';
-                kmZaSmer = t.km;
+                kmZaSmer = t.kmUkupno;
             } else if (Double.isNaN(kmZaSmer)) {
-                kmZaSmer = t.km;
-            } else if (Math.abs(t.km - kmZaSmer) >= 0.5) {
-                smer = t.km > kmZaSmer ? '+' : '-';
-                kmZaSmer = t.km;
+                kmZaSmer = t.kmUkupno;
+            } else if (Math.abs(t.kmUkupno - kmZaSmer) >= 0.5) {
+                smer = t.kmUkupno > kmZaSmer ? '+' : '-';
+                kmZaSmer = t.kmUkupno;
             }
+            deonica = t.deonica;
             km = t.km;
+            kmUkupno = t.kmUkupno;
         } else if (sad - poslednjiPutNaAutoputu > BEZ_AUTOPUTA_MS) {
             Dnevnik.upisi(this, "STOP: 45 min van autoputa");
             glavna.post(this::stopSelf);
@@ -335,12 +338,12 @@ public class VoznjaService extends Service {
         if (!d.imaKoordinate()) return "bez koordinata";
         Polozaj.Tacka p1 = Polozaj.nadji(this, d.lat, d.lon, id);
         if (p1 == null || p1.udaljenost > OSTAJE_KM) return "ne leži na autoputu";
-        if (p1.deonica != deonica) return "druga deonica (d" + p1.deonica + ")";
-        double k1 = p1.km, k2 = p1.km;
+        if (p1.grupa != grupa) return "nepovezan deo autoputa (d" + p1.deonica + ")";
+        double k1 = p1.kmUkupno, k2 = p1.kmUkupno;
         if (!Double.isNaN(d.lat2) && !Double.isNaN(d.lon2)) {
             Polozaj.Tacka p2 = Polozaj.nadji(this, d.lat2, d.lon2, id);
-            if (p2 != null && p2.deonica == deonica && p2.udaljenost <= OSTAJE_KM) {
-                k2 = p2.km;
+            if (p2 != null && p2.grupa == grupa && p2.udaljenost <= OSTAJE_KM) {
+                k2 = p2.kmUkupno;
                 // poruka je za suprotan smer
                 if (Math.abs(k2 - k1) >= 0.3 && (k2 > k1) != (smer == '+')) {
                     return String.format(Locale.US, "suprotan smer (km %.1f→%.1f)", k1, k2);
@@ -348,7 +351,7 @@ public class VoznjaService extends Service {
             }
         }
         double znak = smer == '+' ? 1 : -1;
-        double odPocetka = (k1 - km) * znak, doKraja = (k2 - km) * znak;
+        double odPocetka = (k1 - kmUkupno) * znak, doKraja = (k2 - kmUkupno) * znak;
         if (Math.max(odPocetka, doKraja) < -1) return String.format(Locale.US, "iza (km %.1f)", k1);
         if (Math.min(odPocetka, doKraja) > ISPRED_KM) {
             return String.format(Locale.US, "predaleko (%.0f km)", Math.min(odPocetka, doKraja));
