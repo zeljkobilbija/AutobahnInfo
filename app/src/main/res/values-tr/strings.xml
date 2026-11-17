@@ -100,4 +100,8 @@
     <string name="lokacija_nije_na">Şu anda %s üzerinde değilsiniz</string>
     <string name="lokacija_nema">Konum kullanılamıyor.</string>
     <string name="lokacija_vi_ste_ovde">Buradasınız</string>
+    <!-- kupovina „Bez reklama“ -->
+    <string name="bez_reklama">Reklamları kaldır</string>
+    <string name="kupovina_hvala">Teşekkürler! Reklamlar kaldırıldı.</string>
+    <string name="kupovina_nedostupna">Satın alma şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyin.</string>
 </resources>

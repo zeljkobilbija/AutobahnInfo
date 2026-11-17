@@ -100,4 +100,8 @@
     <string name="lokacija_nije_na">Nu sunteți acum pe %s</string>
     <string name="lokacija_nema">Locația nu este disponibilă.</string>
     <string name="lokacija_vi_ste_ovde">Sunteți aici</string>
+    <!-- kupovina „Bez reklama“ -->
+    <string name="bez_reklama">Elimină reclamele</string>
+    <string name="kupovina_hvala">Mulțumim! Reclamele au fost eliminate.</string>
+    <string name="kupovina_nedostupna">Achiziția nu este disponibilă acum. Încercați din nou mai târziu.</string>
 </resources>

@@ -100,4 +100,8 @@
     <string name="lokacija_nije_na">Teraz nie ste na %s</string>
     <string name="lokacija_nema">Poloha nie je dostupná.</string>
     <string name="lokacija_vi_ste_ovde">Ste tu</string>
+    <!-- kupovina „Bez reklama“ -->
+    <string name="bez_reklama">Odstrániť reklamy</string>
+    <string name="kupovina_hvala">Ďakujeme! Reklamy sú odstránené.</string>
+    <string name="kupovina_nedostupna">Nákup teraz nie je dostupný. Skúste to neskôr.</string>
 </resources>

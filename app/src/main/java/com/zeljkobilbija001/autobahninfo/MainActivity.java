@@ -86,6 +86,16 @@ public class MainActivity extends AppCompatActivity {
         dugmePrivatnosti.setOnClickListener(v ->
                 Reklame.prikaziPodesavanjaPrivatnosti(this, this::posleSaglasnosti));
         Reklame.prikupiSaglasnost(this, this::posleSaglasnosti);
+
+        // Kupovina „Bez reklama“: dugme dok nije kupljeno; promena stanja (kupovina,
+        // vraćanje na novom telefonu) ponovo iscrta ekran, pa baner nestane ili se pojavi
+        View dugmeBezReklama = findViewById(R.id.dugmeBezReklama);
+        dugmeBezReklama.setVisibility(Kupovina.bezReklama(this) ? View.GONE : View.VISIBLE);
+        dugmeBezReklama.setOnClickListener(v -> Kupovina.kupi(this, () -> runOnUiThread(() -> {
+            Toast.makeText(this, R.string.kupovina_hvala, Toast.LENGTH_LONG).show();
+            recreate();
+        })));
+        Kupovina.proveri(this, () -> runOnUiThread(this::recreate));
     }
 
     private void posleSaglasnosti() {

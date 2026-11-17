@@ -100,4 +100,8 @@
     <string name="lokacija_nije_na">Сейчас вы не на %s</string>
     <string name="lokacija_nema">Местоположение недоступно.</string>
     <string name="lokacija_vi_ste_ovde">Вы здесь</string>
+    <!-- kupovina „Bez reklama“ -->
+    <string name="bez_reklama">Убрать рекламу</string>
+    <string name="kupovina_hvala">Спасибо! Реклама удалена.</string>
+    <string name="kupovina_nedostupna">Покупка сейчас недоступна. Попробуйте позже.</string>
 </resources>

@@ -44,7 +44,8 @@ public final class Reklame {
 
     /** Da li smemo da tražimo reklame (saglasnost data ili nije potrebna). */
     public static boolean dozvoljene(Context c) {
-        return UserMessagingPlatform.getConsentInformation(c).canRequestAds();
+        // kupljeno „Bez reklama“: nema banera ni interstitiala
+        return !Kupovina.bezReklama(c) && UserMessagingPlatform.getConsentInformation(c).canRequestAds();
     }
 
     /** Da li korisniku treba ponuditi dugme za podešavanja privatnosti. */
@@ -65,6 +66,7 @@ public final class Reklame {
      * sređena (ili nije potrebna), pokreće SDK i poziva {@code kadaSpremno}.
      */
     public static void prikupiSaglasnost(Activity a, Runnable kadaSpremno) {
+        if (Kupovina.bezReklama(a)) { if (kadaSpremno != null) kadaSpremno.run(); return; }
         ConsentInformation info = UserMessagingPlatform.getConsentInformation(a);
         ConsentRequestParameters parametri = new ConsentRequestParameters.Builder().build();
         info.requestConsentInfoUpdate(a, parametri,

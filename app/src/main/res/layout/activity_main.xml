@@ -50,6 +50,17 @@
             android:layout_weight="1" />
 
         <ImageButton
+            android:id="@+id/dugmeBezReklama"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/bez_reklama"
+            android:src="@drawable/ic_bez_reklama"
+            android:tooltipText="@string/bez_reklama"
+            android:visibility="gone"
+            app:tint="@color/tekst_sekundarni" />
+
+        <ImageButton
             android:id="@+id/dugmePodeli"
             android:layout_width="48dp"
             android:layout_height="48dp"

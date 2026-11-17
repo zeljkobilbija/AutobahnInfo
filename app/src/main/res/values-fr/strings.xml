@@ -100,4 +100,8 @@
     <string name="lokacija_nije_na">Vous n’êtes pas sur l’%s en ce moment</string>
     <string name="lokacija_nema">Position non disponible.</string>
     <string name="lokacija_vi_ste_ovde">Vous êtes ici</string>
+    <!-- kupovina „Bez reklama“ -->
+    <string name="bez_reklama">Supprimer les pubs</string>
+    <string name="kupovina_hvala">Merci ! Les publicités sont supprimées.</string>
+    <string name="kupovina_nedostupna">L\'achat n\'est pas disponible pour le moment. Réessayez plus tard.</string>
 </resources>

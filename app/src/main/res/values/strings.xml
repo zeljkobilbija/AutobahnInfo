@@ -101,4 +101,8 @@
     <string name="lokacija_nije_na">You are not on the %s right now</string>
     <string name="lokacija_nema">Your location is not available.</string>
     <string name="lokacija_vi_ste_ovde">You are here</string>
+    <!-- kupovina „Bez reklama“ -->
+    <string name="bez_reklama">Remove ads</string>
+    <string name="kupovina_hvala">Thank you! Ads are removed.</string>
+    <string name="kupovina_nedostupna">Purchase is not available right now. Please try again later.</string>
 </resources>

@@ -100,4 +100,8 @@
     <string name="lokacija_nije_na">Δεν βρίσκεστε τώρα στον %s</string>
     <string name="lokacija_nema">Η τοποθεσία δεν είναι διαθέσιμη.</string>
     <string name="lokacija_vi_ste_ovde">Βρίσκεστε εδώ</string>
+    <!-- kupovina „Bez reklama“ -->
+    <string name="bez_reklama">Κατάργηση διαφημίσεων</string>
+    <string name="kupovina_hvala">Ευχαριστούμε! Οι διαφημίσεις καταργήθηκαν.</string>
+    <string name="kupovina_nedostupna">Η αγορά δεν είναι διαθέσιμη αυτή τη στιγμή. Δοκιμάστε ξανά αργότερα.</string>
 </resources>
