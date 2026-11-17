@@ -52,6 +52,7 @@ public class VoznjaService extends Service {
     private static final double NA_AUTOPUTU_KM = 2.5, OSTAJE_KM = 3.5;
     private static final int ISPRED_KM = 100;
     private static final float MIN_BRZINA = 8f; // m/s (~30 km/h)
+    private static final double PRELAZ_KM = 0.5, PRELAZ_RAZLIKA_KM = 0.6;
 
     /** Stanje za početni ekran. */
     public static volatile boolean radi;
@@ -111,6 +112,7 @@ public class VoznjaService extends Service {
     private char smer = '?';
     private String kandidat;         // autoput koji se pojavio jednom, čeka potvrdu
     private Location prethodna;
+    private double udaljenostOdTrenutnog = Double.NaN;
     private long pocetak, poslednjiPutNaAutoputu, poslednjaProvera;
 
     private final Runnable periodicno = new Runnable() {
@@ -196,6 +198,15 @@ public class VoznjaService extends Service {
 
         // ostaje na istom autoputu dok je blizu njega (čvorišta: ne skače na drugi odmah)
         Polozaj.Tacka t = autoput != null ? Polozaj.nadji(this, l.getLatitude(), l.getLongitude(), autoput) : null;
+        udaljenostOdTrenutnog = t != null ? t.udaljenost : Double.NaN;
+        // prelaz na drugi autoput (čvorište): drugi je jasno bliži, iako je stari još u blizini
+        if (t != null && t.udaljenost <= OSTAJE_KM) {
+            Polozaj.Tacka n = Polozaj.nadji(this, l.getLatitude(), l.getLongitude(), null);
+            if (n != null && !n.autoput.equals(autoput) && n.udaljenost <= PRELAZ_KM
+                    && t.udaljenost - n.udaljenost >= PRELAZ_RAZLIKA_KM && v >= MIN_BRZINA) {
+                t = null;   // dalje kao da je napustio stari: novi se prihvata posle još jedne potvrde
+            }
+        }
         if (t == null || t.udaljenost > OSTAJE_KM) {
             Polozaj.Tacka n = Polozaj.nadji(this, l.getLatitude(), l.getLongitude(), null);
             // novi autoput se prihvata samo u vožnji (ne kod kuće pored autoputa)
@@ -210,7 +221,8 @@ public class VoznjaService extends Service {
                 kandidat = null;
                 t = null;
             }
-            if (t == null && autoput != null) {
+            // dok novi autoput čeka potvrdu, ostaje stari
+            if (t == null && autoput != null && kandidat == null) {
                 autoput = null;
                 smer = '?';
                 kmZaSmer = Double.NaN;
@@ -254,8 +266,8 @@ public class VoznjaService extends Service {
                     : String.format(Locale.US, "najbliži %s d%d km %.1f (%.2f km od linije)", n.autoput, n.deonica, n.km, n.udaljenost);
             String kuda = kuda();
             String trenutno = autoput == null ? (kandidat != null ? "kandidat " + kandidat + " (čeka potvrdu)" : "van autoputa")
-                    : String.format(Locale.US, "NA %s d%d km %.1f smer %s%s", autoput, deonica, km, smer,
-                    kuda != null ? " → " + kuda : "");
+                    : String.format(Locale.US, "NA %s d%d km %.1f (%.2f km) smer %s%s", autoput, deonica, km,
+                    udaljenostOdTrenutnog, smer, kuda != null ? " → " + kuda : "");
             String red = String.format(Locale.US, "LOK %.5f,%.5f ±%.0fm %.0f km/h | %s | %s",
                     l.getLatitude(), l.getLongitude(), l.getAccuracy(), v * 3.6f, najblizi, trenutno);
             Dnevnik.upisi(this, red);
