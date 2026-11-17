@@ -88,12 +88,11 @@ public class AutoputActivity extends AppCompatActivity {
                 pozicijaVreme = System.currentTimeMillis();
                 char sadSmer = VoznjaService.sadSmer;
                 if (sadSmer != '?' && sadSmer != mojSmer) {
-                    // smer vožnje je tek saznat (ili se vozač okrenuo): lista prelazi na taj smer,
-                    // da se ne vide parkinzi i pumpe sa druge strane kolovoza
+                    // smer vožnje je tek saznat (ili se vozač okrenuo): lista prikazuje parkinge i pumpe
+                    // samo sa njegove strane kolovoza; redosled (dugme smera) ostaje kako ga je vozač izabrao
                     mojSmer = sadSmer;
                     mojaDeonica = VoznjaService.sadDeonica;
                     deonica = mojaDeonica;
-                    smer = sadSmer;
                     osvezi(false);
                     int poz = adapter.pozicijaOvde();
                     if (poz > 0) ((LinearLayoutManager) lista.getLayoutManager())
@@ -463,14 +462,16 @@ public class AutoputActivity extends AppCompatActivity {
             b.setSelected(on);
         }
 
-        // Lista: samo tačke ove deonice koje se vide u izabranom smeru, redom kojim se nailazi na njih
+        // Lista: samo tačke ove deonice sa strane kolovoza kojom se vozi. Kad se zna stvarni smer vožnje,
+        // strana je uvek njegova, a dugme smera menja samo redosled (strelica nagore ili nadole).
+        char strana = mojaDeonica == deonica && (mojSmer == '+' || mojSmer == '-') ? mojSmer : smer;
         List<Stavka> rezultat = new ArrayList<>();
         int izlaza = 0, pumpi = 0;
         for (Stavka s : podaci.stavke) {
             if (s.deonica != deonica) continue;
             if (s.jeIzlaz()) izlaza++;
-            if (!s.gorivo.isEmpty() && (s.strana == smer || s.tip == Stavka.AUTOHOF)) pumpi++;
-            if (s.uSmeru(smer) && prolazi(s)) rezultat.add(s);
+            if (!s.gorivo.isEmpty() && (s.strana == strana || s.tip == Stavka.AUTOHOF)) pumpi++;
+            if (s.uSmeru(strana) && prolazi(s)) rezultat.add(s);
         }
         Collections.sort(rezultat, (x, y) -> smer == '+' ? Double.compare(x.km, y.km) : Double.compare(y.km, x.km));
 
