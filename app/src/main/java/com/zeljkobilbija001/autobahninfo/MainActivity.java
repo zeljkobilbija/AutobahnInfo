@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton dugmePrivatnosti;
     private MaterialButton voznjaDugme;
     private android.widget.TextView voznjaOpis;
+    private AutoputAdapter adapterAutoputeva;
+    /** Autoput čiji je štit narandžast (Vožnja: vozač je na njemu). */
+    private String obojeniAutoput;
 
     /** Dozvole za režim vožnje: precizna lokacija (obavezno) i obaveštenja (Android 13+). */
     private final ActivityResultLauncher<String[]> dozvoleVoznje = registerForActivityResult(
@@ -59,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView lista = findViewById(R.id.listaAutoputeva);
         lista.setLayoutManager(new GridLayoutManager(this, 2));
-        lista.setAdapter(new AutoputAdapter(Autoputevi.SVE, this::otvori));
+        adapterAutoputeva = new AutoputAdapter(Autoputevi.SVE, this::otvori);
+        lista.setAdapter(adapterAutoputeva);
 
         findViewById(R.id.dugmePodeli).setOnClickListener(v -> podeliAplikaciju());
         // provera stanja na praćenim autoputevima (ako ih ima) ostaje zakazana
@@ -128,6 +132,11 @@ public class MainActivity extends AppCompatActivity {
         String tekst = radi && !opis.isEmpty() ? opis : getString(R.string.voznja_opis);
         if (Dnevnik.ukljucen(this)) tekst += "\nDNEVNIK › (dodir na karticu)";
         voznjaOpis.setText(tekst);
+        String sad = VoznjaService.sadAutoput;
+        if (!java.util.Objects.equals(sad, obojeniAutoput)) {
+            obojeniAutoput = sad;
+            adapterAutoputeva.notifyDataSetChanged();
+        }
     }
 
     @Override
