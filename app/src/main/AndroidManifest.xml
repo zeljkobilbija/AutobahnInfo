@@ -25,6 +25,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/Theme.AutobahnInfo.Splash">
             <intent-filter>
@@ -35,16 +36,20 @@
         </activity>
         <activity
             android:name=".AutoputActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".DetaljiActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".StanjeActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
 
         <activity
             android:name=".DnevnikActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
 
         <!-- Režim "Vožnja": korisnik ga sam uključi, lokacija samo dok traje -->
