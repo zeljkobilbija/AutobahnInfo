@@ -60,6 +60,15 @@ public final class Podaci {
                     d.kalSmer[j] = q.getInt(2);
                 }
             }
+            JSONArray prek = s.optJSONArray("prekidi");
+            if (prek != null) {
+                d.prekidOd = new double[prek.length()];
+                d.prekidDo = new double[prek.length()];
+                for (int j = 0; j < prek.length(); j++) {
+                    d.prekidOd[j] = prek.getJSONArray(j).getDouble(0);
+                    d.prekidDo[j] = prek.getJSONArray(j).getDouble(1);
+                }
+            }
             p.deonice.add(d);
         }
 

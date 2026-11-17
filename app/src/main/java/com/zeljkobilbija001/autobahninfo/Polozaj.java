@@ -40,12 +40,16 @@ public final class Polozaj {
         int grupa;
         double pomak;   // km od početka grupe do početka ove deonice
         final double[] km, lat, lon;
+        /** prekid[i]: između tačke i i i+1 autoput je prekinut (ne spaja se). */
+        final boolean[] prekid;
         final double minLat, maxLat, minLon, maxLon;
 
-        Linija(String autoput, int deonica, List<Stavka> tacke) {
+        Linija(String autoput, int deonica, List<Stavka> tacke, Deonica deo) {
             this.autoput = autoput;
             this.deonica = deonica;
             int n = tacke.size();
+            prekid = new boolean[n];
+            for (int i = 0; i + 1 < n; i++) prekid[i] = deo.prekidIzmedju(tacke.get(i).km, tacke.get(i + 1).km);
             km = new double[n];
             lat = new double[n];
             lon = new double[n];
@@ -85,7 +89,7 @@ public final class Polozaj {
                 for (Stavka s : p.stavke) if (s.deonica == d && s.imaKoordinate()) tacke.add(s);
                 if (tacke.size() < 2) continue;
                 Collections.sort(tacke, (x, y) -> Double.compare(x.km, y.km));
-                Linija li = new Linija(a.id, d, tacke);
+                Linija li = new Linija(a.id, d, tacke, p.deonice.get(d));
                 // nastavak prethodne deonice ako joj je početak do 5 km od kraja prethodne
                 double razmak = prethodna == null ? Double.MAX_VALUE : km(prethodna, prethodna.km.length - 1, li, 0);
                 if (razmak <= 5) {
@@ -136,6 +140,7 @@ public final class Polozaj {
             if (samoAutoput != null && !samoAutoput.equals(li.autoput)) continue;
             if (lat < li.minLat || lat > li.maxLat || lon < li.minLon || lon > li.maxLon) continue;
             for (int i = 0; i + 1 < li.km.length; i++) {
+                if (li.prekid[i]) continue;
                 // ravan sistem u km, tačka je u koordinatnom početku
                 double ax = (li.lon[i] - lon) * kx, ay = (li.lat[i] - lat) * ky;
                 double bx = (li.lon[i + 1] - lon) * kx, by = (li.lat[i + 1] - lat) * ky;

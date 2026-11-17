@@ -70,28 +70,51 @@ for (const t of table) {
 console.log(`table: ${table.length}, uz autoput: ${dodeljeno}`);
 
 /**
- * Deonice koje se fizički nastavljaju (početak sledeće do 5 km od kraja prethodne) spajaju se u jednu:
- * kilometri sledeće se nastavljaju, naziv ide od početka prve do kraja poslednje. Ostaju odvojene samo
- * deonice između kojih je autoput stvarno prekinut. Ponovno pokretanje ne menja već spojeno.
+ * Ceo autoput u jednom komadu: sve deonice se spajaju u jednu listu, redom kojim idu.
+ * Deonica okrenuta suprotno od prethodne se okreće (km, strana, plus/minus). Kilometri se nastavljaju
+ * (dodaje se vazdušna razdaljina preko prekida). Gde je autoput stvarno prekinut (razmak > 5 km),
+ * upisuje se "prekidi": [[km kraja, km nastavka]] – aplikacija tu ne spaja liniju autoputa.
+ * Ponovno pokretanje ne menja već spojeno.
  */
 function spojiDeonice(d) {
-  const kraj = si => { const a = d.stavke.filter(x => x.si === si && x.la != null); return a.length ? a.reduce((m, x) => x.km > m.km ? x : m) : null; };
-  const pocetak = si => { const a = d.stavke.filter(x => x.si === si && x.la != null); return a.length ? a.reduce((m, x) => x.km < m.km ? x : m) : null; };
-  for (let si = 0; si + 1 < d.sekcije.length;) {
-    const a = kraj(si), b = pocetak(si + 1);
-    const razmak = a && b ? Math.hypot((a.la - b.la) * KY, (a.lo - b.lo) * KX(a.la)) : 1e9;
-    if (razmak > 5) { si++; continue; }
-    const duz = Math.max(...d.stavke.filter(x => x.si === si).map(x => x.km));
-    const pomak = duz + razmak - b.km;
-    for (const x of d.stavke) {
-      if (x.si === si + 1) { x.si = si; x.km = +(x.km + pomak).toFixed(1); }
-      else if (x.si > si + 1) x.si--;
+  if (d.sekcije.length < 2) return;
+  const tac = si => d.stavke.filter(x => x.si === si && x.la != null);
+  const dist = (a, b) => Math.hypot((a.la - b.la) * KY, (a.lo - b.lo) * KX(a.la));
+  const krajevi = si => { const a = tac(si); if (!a.length) return null;
+    return [a.reduce((m, x) => x.km < m.km ? x : m), a.reduce((m, x) => x.km > m.km ? x : m)]; };
+  const duzina = si => Math.max(0, ...d.stavke.filter(x => x.si === si).map(x => x.km));
+  const prekidi = [];
+  let pomak = 0, prethodniKraj = null;
+  const nova = { ...d.sekcije[0] };
+  for (let si = 0; si < d.sekcije.length; si++) {
+    const s = d.sekcije[si], L = duzina(si);
+    let kr = krajevi(si), okreni = false;
+    // okreće se ako mu je kraj bliži kraju prethodne nego početak
+    if (prethodniKraj && kr && dist(prethodniKraj, kr[1]) < dist(prethodniKraj, kr[0])) okreni = true;
+    let razmak = 0;
+    if (si > 0) {
+      const pocetak = kr ? (okreni ? kr[1] : kr[0]) : null;
+      razmak = prethodniKraj && pocetak ? dist(prethodniKraj, pocetak) : 0;
+      if (razmak > 5) prekidi.push([+pomak.toFixed(1), +(pomak + razmak).toFixed(1)]);
+      pomak += razmak;
+      nova.do = s.do;
+      nova.plus = okreni ? s.minus : s.plus;
+      spojeno.push(`${d.id}: + ${s.od} – ${s.do}${okreni ? ' (okrenuta)' : ''}, razmak ${razmak.toFixed(1)} km`);
     }
-    const s0 = d.sekcije[si], s1 = d.sekcije[si + 1];
-    d.sekcije.splice(si, 2, { ...s0, do: s1.do, plus: s1.plus });
-    spojeno.push(`${d.id}: ${s0.od} – ${s0.do} + ${s1.od} – ${s1.do} (razmak ${razmak.toFixed(1)} km)`);
+    for (const x of d.stavke) {
+      if (x.si !== si) continue;
+      const k = okreni ? L - x.km : x.km;
+      x.km = +(pomak + k).toFixed(1);
+      if (okreni) x.s = (x.s || '+') === '+' ? '-' : '+';
+      x.si = 0;
+    }
+    if (kr) prethodniKraj = okreni ? kr[0] : kr[1];
+    pomak += L;
   }
-  d.stavke.sort((x, y) => x.si - y.si || x.km - y.km);
+  delete nova.kal;
+  if (prekidi.length) nova.prekidi = prekidi;
+  d.sekcije = [nova];
+  d.stavke.sort((x, y) => x.km - y.km);
 }
 const spojeno = [];
 
@@ -113,6 +136,7 @@ for (const f of fs.readdirSync(ASSETS).filter(f => f.endsWith('.json'))) {
       const kx = KX(t.la);
       for (let i = 1; i < tacke.length; i++) {
         const A = tacke[i - 1], B = tacke[i];
+        if ((sek.prekidi || []).some(q => q[0] >= A.km - 0.05 && q[1] <= B.km + 0.05)) continue;
         const ax = (A.lo - t.lo) * kx, ay = (A.la - t.la) * KY, bx = (B.lo - t.lo) * kx, by = (B.la - t.la) * KY;
         const dx = bx - ax, dy = by - ay, d2 = dx * dx + dy * dy;
         const u = d2 ? Math.max(0, Math.min(1, -(ax * dx + ay * dy) / d2)) : 0;

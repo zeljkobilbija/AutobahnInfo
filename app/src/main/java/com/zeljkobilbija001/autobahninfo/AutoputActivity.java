@@ -111,6 +111,8 @@ public class AutoputActivity extends AppCompatActivity {
         podnaslov = findViewById(R.id.podnaslov);
         prazno = findViewById(R.id.prazno);
         deoniceRed = findViewById(R.id.deonice);
+        // autoput u jednom komadu: dugmad za deonice samo ako ih ima više
+        if (podaci.deonice.size() < 2) ((View) deoniceRed.getParent()).setVisibility(View.GONE);
         smeroviRed = findViewById(R.id.smerovi);
         filteriRed = findViewById(R.id.filteri);
 
