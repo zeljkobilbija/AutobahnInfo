@@ -23,5 +23,7 @@
     <color name="plava_tekst">#8FB0F0</color>
     <color name="hrana">#F2A39A</color>
     <color name="kasnjenje">#FF8A80</color>
-    <color name="ovde_pozadina">#1A2740</color>
+    <color name="ovde_pozadina">#4A2A08</color>
+    <color name="ovde">#FF8F1F</color>
+    <color name="ovde_tekst">#FFC27A</color>
 </resources>

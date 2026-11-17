@@ -17,7 +17,7 @@
         android:fontFamily="sans-serif-condensed"
         android:gravity="end"
         android:includeFontPadding="false"
-        android:textColor="@color/plava_tekst"
+        android:textColor="@color/ovde_tekst"
         android:textSize="20sp"
         android:textStyle="bold"
         tools:text="29,5" />
@@ -50,7 +50,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textColor="@color/plava_tekst"
+        android:textColor="@color/ovde_tekst"
         android:textSize="15sp"
         android:textStyle="bold"
         tools:text="Vi ste ovde · Saarbrücken" />
