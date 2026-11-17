@@ -58,7 +58,7 @@ public class StavkaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public static String opis(Context c, Stavka s) {
         switch (s.tip) {
-            case Stavka.IZLAZ: return c.getString(R.string.tip_izlaz, s.ref);
+            case Stavka.IZLAZ: return c.getString(R.string.tip_izlaz, s.ref).trim(); // izlaz bez broja: samo "Izlaz"
             case Stavka.CVORISTE: return c.getString(R.string.tip_cvoriste, s.ref);
             case Stavka.ODMORISTE: return c.getString(R.string.tip_odmoriste);
             case Stavka.AUTOHOF: return c.getString(R.string.tip_autohof);
@@ -186,7 +186,7 @@ public class StavkaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             int plava = Izgled.boja(c, R.color.plava);
             if (s.tip == Stavka.IZLAZ) {
                 znak.setBackground(Izgled.oblik(c, plava, 7, 0, 0));
-                tekstZnaka(s.ref, bela);
+                tekstZnaka(s.ref.isEmpty() ? "↗" : s.ref, bela); // bez broja: strelica izlaza
             } else if (s.tip == Stavka.CVORISTE) {
                 znak.setBackground(Izgled.oblik(c, bela, 7, plava, 2.5f));
                 tekstZnaka(s.ref, plava);

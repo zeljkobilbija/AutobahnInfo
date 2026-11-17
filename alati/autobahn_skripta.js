@@ -388,18 +388,28 @@ globalThis.AB = (() => {
     const izlazi = {};
     for (const e of osnova.elements) {
       const t = e.tags || {};
-      if (t.highway !== 'motorway_junction' || !t.ref || e.lat == null) continue;
+      if (t.highway !== 'motorway_junction' || e.lat == null) continue;
+      // izlaz bez broja (npr. A62 Höheinöd, nekadašnji parking) se uzima po imenu;
+      // čvorovi odmorišta i parkinga (noref, Rastplatz…) nisu izlazi
+      if (!t.ref && (!t.name || t.noref === 'yes' || /Rast|Parkplatz|Tank|Autohof|Raststätte/i.test(t.name))) continue;
       const q = xy(e.lat, e.lon), pr = projekcija(linija, q);
       if (pr.d > 800) continue;
-      const ref1 = t.ref.split(';')[0].trim(), k = pr.si + '|' + ref1;
+      const ref1 = t.ref ? t.ref.split(';')[0].trim() : '', k = pr.si + '|' + (ref1 || 'ime:' + t.name);
       (izlazi[k] = izlazi[k] || []).push({ pr, e, t, ref1 });
     }
     for (const a of Object.values(izlazi)) {
       const km = a.reduce((s, x) => s + x.pr.km, 0) / a.length;
       const la = a.reduce((s, x) => s + x.e.lat, 0) / a.length, lo = a.reduce((s, x) => s + x.e.lon, 0) / a.length;
       const n = (a.find(x => x.t.name) || a[0]).t.name || '';
-      stavke.push({ t: /Kreuz|Dreieck/.test(n) ? 'K' : 'A', si: a[0].pr.si, km: +km.toFixed(1), ref: a[0].ref1, n,
+      stavke.push({ t: /Kreuz|Dreieck/.test(n) ? 'K' : 'A', si: a[0].pr.si, km: +km.toFixed(1), ...(a[0].ref1 ? { ref: a[0].ref1 } : {}), n,
         la: +la.toFixed(5), lo: +lo.toFixed(5) });
+    }
+    // izlaz bez broja koji je samo drugi čvor obližnjeg numerisanog (npr. "Landstuhl-West" uz Kreuz Landstuhl-West) se izbacuje
+    for (let i = stavke.length - 1; i >= 0; i--) {
+      const x = stavke[i];
+      if (x.ref || !x.n) continue;
+      if (stavke.some(y => y !== x && y.ref && y.si === x.si && Math.abs(y.km - x.km) < 2
+          && (y.n.includes(x.n) || x.n.includes(y.n)))) stavke.splice(i, 1);
     }
     // Odmorišta, Autohof-i i parkinzi
     const prefiks = /^(Tank & Rast |Autobahnraststätte |Serways Raststätte |Raststätte |Rastanlage |Rasthof |Raststation |Rastplatz |Parkplatz )/;
