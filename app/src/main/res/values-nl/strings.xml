@@ -99,4 +99,5 @@
     <string name="lokacija_ovde_smer">U bent hier: km %1$s, richting %2$s</string>
     <string name="lokacija_nije_na">U bent nu niet op de %s</string>
     <string name="lokacija_nema">Locatie niet beschikbaar.</string>
+    <string name="lokacija_vi_ste_ovde">U bent hier</string>
 </resources>

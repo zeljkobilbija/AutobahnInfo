@@ -99,4 +99,5 @@
     <string name="lokacija_ovde_smer">Você está aqui: km %1$s, sentido %2$s</string>
     <string name="lokacija_nije_na">Você não está na %s agora</string>
     <string name="lokacija_nema">Localização indisponível.</string>
+    <string name="lokacija_vi_ste_ovde">Você está aqui</string>
 </resources>

@@ -99,4 +99,5 @@
     <string name="lokacija_ovde_smer">Buradasınız: km %1$s, %2$s yönünde</string>
     <string name="lokacija_nije_na">Şu anda %s üzerinde değilsiniz</string>
     <string name="lokacija_nema">Konum kullanılamıyor.</string>
+    <string name="lokacija_vi_ste_ovde">Buradasınız</string>
 </resources>

@@ -99,4 +99,5 @@
     <string name="lokacija_ovde_smer">Sunteți aici: km %1$s, spre %2$s</string>
     <string name="lokacija_nije_na">Nu sunteți acum pe %s</string>
     <string name="lokacija_nema">Locația nu este disponibilă.</string>
+    <string name="lokacija_vi_ste_ovde">Sunteți aici</string>
 </resources>

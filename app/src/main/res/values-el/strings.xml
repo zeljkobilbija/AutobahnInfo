@@ -99,4 +99,5 @@
     <string name="lokacija_ovde_smer">Βρίσκεστε εδώ: χλμ. %1$s, προς %2$s</string>
     <string name="lokacija_nije_na">Δεν βρίσκεστε τώρα στον %s</string>
     <string name="lokacija_nema">Η τοποθεσία δεν είναι διαθέσιμη.</string>
+    <string name="lokacija_vi_ste_ovde">Βρίσκεστε εδώ</string>
 </resources>

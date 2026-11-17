@@ -55,6 +55,24 @@ public class AutoputActivity extends AppCompatActivity {
     private boolean zatvaranje;
     /** Stavke koje su trenutno u listi (za odmotavanje do kilometra). */
     private List<Stavka> prikazano = new ArrayList<>();
+    /** Gde je vozač (iz lokacije): deonica, km i smer ('?' = nepoznat); mojaDeonica -1 = nepoznato. */
+    private int mojaDeonica = -1;
+    private double mojKm;
+    private char mojSmer = '?';
+    private final android.os.Handler glavna = new android.os.Handler(android.os.Looper.getMainLooper());
+    /** Dok je Vožnja uključena: strelica se sama pomera (svakih 10 s). */
+    private final Runnable pracenje = new Runnable() {
+        @Override
+        public void run() {
+            if (autoput.id.equals(VoznjaService.sadAutoput)) {
+                mojaDeonica = VoznjaService.sadDeonica;
+                mojKm = VoznjaService.sadKm;
+                if (VoznjaService.sadSmer != '?') mojSmer = VoznjaService.sadSmer;
+                postaviStrelicu();
+            }
+            glavna.postDelayed(this, 10_000);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,14 +203,19 @@ public class AutoputActivity extends AppCompatActivity {
     private void postaviMesto(int novaDeonica, double km, char noviSmer) {
         if (novaDeonica < 0 || novaDeonica >= podaci.deonice.size()) return;
         deonica = novaDeonica;
-        if (noviSmer == '+' || noviSmer == '-') smer = noviSmer;
+        mojaDeonica = novaDeonica;
+        mojKm = km;
+        if (noviSmer == '+' || noviSmer == '-') {
+            smer = noviSmer;
+            mojSmer = noviSmer;
+        }
         filter = SVE;
         osvezi(true);
-        // prvo mesto koje je još ispred (lista je poređana redom nailaska)
-        int i = 0;
-        while (i < prikazano.size() && (smer == '+' ? prikazano.get(i).km < km - 0.3 : prikazano.get(i).km > km + 0.3)) i++;
-        if (i >= prikazano.size()) i = prikazano.size() - 1;
-        if (i > 0) ((LinearLayoutManager) lista.getLayoutManager()).scrollToPositionWithOffset(i, 0);
+        int poz = adapter.pozicijaOvde();
+        if (poz > 0) {
+            ((LinearLayoutManager) lista.getLayoutManager())
+                    .scrollToPositionWithOffset(poz, Izgled.dp(this, 24));
+        }
 
         Deonica d = podaci.deonice.get(deonica);
         String kmTekst = String.format(Locale.getDefault(), "%.1f", km);
@@ -200,6 +223,35 @@ public class AutoputActivity extends AppCompatActivity {
                 ? getString(R.string.lokacija_ovde_smer, kmTekst, smer == '+' ? d.plus : d.minus)
                 : getString(R.string.lokacija_ovde, kmTekst);
         Toast.makeText(this, poruka, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Red "Vi ste ovde" sa strelicom smera: samo kad je izabrana deonica vozača i njegov smer
+     * (ili smer još nije poznat), između mesta iza njega i prvog mesta ispred.
+     */
+    private void postaviStrelicu() {
+        if (mojaDeonica != deonica || (mojSmer != '?' && mojSmer != smer) || prikazano.isEmpty()) {
+            if (adapter.pozicijaOvde() >= 0) adapter.postaviOvde(-1, 0, "", false);
+            return;
+        }
+        int i = 0;
+        while (i < prikazano.size() && (smer == '+' ? prikazano.get(i).km < mojKm : prikazano.get(i).km > mojKm)) i++;
+        Deonica d = podaci.deonice.get(deonica);
+        String tekst = mojSmer == '?' ? getString(R.string.lokacija_vi_ste_ovde)
+                : getString(R.string.lokacija_vi_ste_ovde) + " · " + (smer == '+' ? d.plus : d.minus);
+        adapter.postaviOvde(i, mojKm, tekst, mojSmer != '?');
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        glavna.postDelayed(pracenje, 10_000);
+    }
+
+    @Override
+    protected void onPause() {
+        glavna.removeCallbacks(pracenje);
+        super.onPause();
     }
 
     // ---------- Animacija okretanja ----------
@@ -362,6 +414,7 @@ public class AutoputActivity extends AppCompatActivity {
         podnaslov.setText(getString(R.string.podnaslov_lista, izlaza, pumpi));
         adapter.postavi(rezultat);
         prikazano = rezultat;
+        postaviStrelicu();
         prazno.setVisibility(rezultat.isEmpty() ? View.VISIBLE : View.GONE);
         if (naVrh) lista.scrollToPosition(0);
     }

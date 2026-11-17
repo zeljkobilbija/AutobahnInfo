@@ -99,4 +99,5 @@
     <string name="lokacija_ovde_smer">Itt van: %1$s. km, %2$s felé</string>
     <string name="lokacija_nije_na">Most nem a(z) %s autópályán van</string>
     <string name="lokacija_nema">A helyadat nem érhető el.</string>
+    <string name="lokacija_vi_ste_ovde">Itt van</string>
 </resources>
