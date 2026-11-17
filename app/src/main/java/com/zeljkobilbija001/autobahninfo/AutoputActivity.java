@@ -59,6 +59,8 @@ public class AutoputActivity extends AppCompatActivity {
     private int mojaDeonica = -1;
     private double mojKm;
     private char mojSmer = '?';
+    private long pozicijaVreme;
+    private static final long ZASTARELO_MS = 5 * 60_000L;
     private final android.os.Handler glavna = new android.os.Handler(android.os.Looper.getMainLooper());
     /** Dok je Vožnja uključena: strelica se sama pomera (svakih 10 s). */
     private final Runnable pracenje = new Runnable() {
@@ -68,6 +70,13 @@ public class AutoputActivity extends AppCompatActivity {
                 mojaDeonica = VoznjaService.sadDeonica;
                 mojKm = VoznjaService.sadKm;
                 if (VoznjaService.sadSmer != '?') mojSmer = VoznjaService.sadSmer;
+                pozicijaVreme = System.currentTimeMillis();
+                postaviStrelicu();
+            } else if (mojaDeonica >= 0 && (VoznjaService.radi
+                    || System.currentTimeMillis() - pozicijaVreme > ZASTARELO_MS)) {
+                // više nije na ovom autoputu (ili je pozicija stara): strelica se sklanja
+                mojaDeonica = -1;
+                mojSmer = '?';
                 postaviStrelicu();
             }
             glavna.postDelayed(this, 10_000);
@@ -188,7 +197,9 @@ public class AutoputActivity extends AppCompatActivity {
                         char smerKonacno = s;
                         runOnUiThread(() -> {
                             if (isFinishing() || isDestroyed()) return;
-                            if (t == null || t.udaljenost > 3) {
+                            Geometrija.Rezultat g = Geometrija.najblizi(app, l.getLatitude(), l.getLongitude(), id);
+                            boolean naKolovozu = g != null && g.udaljenost <= 0.1 + Math.min(l.getAccuracy(), 150f) / 1000.0;
+                            if (t == null || !naKolovozu) {
                                 if (pitaj) Toast.makeText(this, getString(R.string.lokacija_nije_na,
                                         autoput.oznaka()), Toast.LENGTH_SHORT).show();
                                 return;
@@ -206,6 +217,7 @@ public class AutoputActivity extends AppCompatActivity {
         if (novaDeonica < 0 || novaDeonica >= podaci.deonice.size()) return;
         deonica = novaDeonica;
         mojaDeonica = novaDeonica;
+        pozicijaVreme = System.currentTimeMillis();
         mojKm = km;
         if (noviSmer == '+' || noviSmer == '-') {
             smer = noviSmer;

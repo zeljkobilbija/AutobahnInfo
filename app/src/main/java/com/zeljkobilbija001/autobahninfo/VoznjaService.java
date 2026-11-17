@@ -52,7 +52,8 @@ public class VoznjaService extends Service {
     private static final double NA_AUTOPUTU_KM = 2.5, OSTAJE_KM = 3.5;
     private static final int ISPRED_KM = 100;
     private static final float MIN_BRZINA = 8f; // m/s (~30 km/h)
-    private static final double PRELAZ_KM = 0.5, PRELAZ_RAZLIKA_KM = 0.6;
+    /** Do koliko km od kolovoza je vozač "na autoputu" (plus tačnost GPS-a). */
+    private static final double NA_KOLOVOZU_KM = 0.06;
 
     /** Stanje za početni ekran. */
     public static volatile boolean radi;
@@ -113,6 +114,7 @@ public class VoznjaService extends Service {
     private String kandidat;         // autoput koji se pojavio jednom, čeka potvrdu
     private Location prethodna;
     private double udaljenostOdTrenutnog = Double.NaN;
+    private int vanKolovoza;
     private long pocetak, poslednjiPutNaAutoputu, poslednjaProvera;
 
     private final Runnable periodicno = new Runnable() {
@@ -155,7 +157,7 @@ public class VoznjaService extends Service {
         lokacije = LocationServices.getFusedLocationProviderClient(this);
         LocationRequest zahtev = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 60_000L)
                 .setMinUpdateIntervalMillis(30_000L)
-                .setMinUpdateDistanceMeters(150f)
+                .setMinUpdateDistanceMeters(0f)
                 .build();
         try {
             lokacije.requestLocationUpdates(zahtev, povratni, Looper.getMainLooper());
@@ -196,36 +198,41 @@ public class VoznjaService extends Service {
         char stariSmer = smer;
         float v = brzina(l);
 
-        // ostaje na istom autoputu dok je blizu njega (čvorišta: ne skače na drugi odmah)
-        Polozaj.Tacka t = autoput != null ? Polozaj.nadji(this, l.getLatitude(), l.getLongitude(), autoput) : null;
-        udaljenostOdTrenutnog = t != null ? t.udaljenost : Double.NaN;
-        // prelaz na drugi autoput (čvorište): drugi je jasno bliži, iako je stari još u blizini
-        if (t != null && t.udaljenost <= OSTAJE_KM) {
-            Polozaj.Tacka n = Polozaj.nadji(this, l.getLatitude(), l.getLongitude(), null);
-            if (n != null && !n.autoput.equals(autoput) && n.udaljenost <= PRELAZ_KM
-                    && t.udaljenost - n.udaljenost >= PRELAZ_RAZLIKA_KM && v >= MIN_BRZINA) {
-                t = null;   // dalje kao da je napustio stari: novi se prihvata posle još jedne potvrde
-            }
+        // Na autoputu = do ~100 m od kolovoza (tačna linija iz Geometrija), uz tačnost GPS-a.
+        // Kilometar daje Polozaj (linija kroz izlaze), a ovde se samo odlučuje NA kom je autoputu.
+        double lat = l.getLatitude(), lon = l.getLongitude();
+        double tol = NA_KOLOVOZU_KM + Math.min(l.getAccuracy(), 150f) / 1000.0;
+        Geometrija.Rezultat g = Geometrija.najblizi(this, lat, lon, null);
+        Polozaj.Tacka t = null;
+        boolean naTrenutnom = false;
+        if (autoput != null) {
+            Geometrija.Rezultat gt = Geometrija.najblizi(this, lat, lon, autoput);
+            udaljenostOdTrenutnog = gt != null ? gt.udaljenost : Double.NaN;
+            naTrenutnom = gt != null && gt.udaljenost <= tol + 0.05;
+            // čvorište: drugi autoput je jasno bliži, a stari se udaljava
+            if (naTrenutnom && g != null && !g.autoput.equals(autoput) && g.udaljenost <= tol
+                    && gt.udaljenost - g.udaljenost >= 0.05 && v >= MIN_BRZINA) naTrenutnom = false;
         }
-        if (t == null || t.udaljenost > OSTAJE_KM) {
-            Polozaj.Tacka n = Polozaj.nadji(this, l.getLatitude(), l.getLongitude(), null);
-            // novi autoput se prihvata samo u vožnji (ne kod kuće pored autoputa)
-            if (n != null && n.udaljenost <= NA_AUTOPUTU_KM && v >= MIN_BRZINA) {
-                if (n.autoput.equals(kandidat)) {
-                    t = n;
-                } else {
-                    kandidat = n.autoput;   // treba još jedna potvrda
-                    t = null;
-                }
+        if (naTrenutnom) {
+            vanKolovoza = 0;
+            t = Polozaj.nadji(this, lat, lon, autoput);
+        } else if (autoput != null && ++vanKolovoza < 2) {
+            // jedna lokacija van kolovoza se toleriše (skok GPS-a, tunel)
+            t = Polozaj.nadji(this, lat, lon, autoput);
+        } else {
+            // nije (više) na trenutnom: novi autoput tek posle dve uzastopne lokacije, i samo u vožnji
+            if (g != null && g.udaljenost <= tol && v >= MIN_BRZINA) {
+                if (g.autoput.equals(kandidat)) t = Polozaj.nadji(this, lat, lon, g.autoput);
+                else kandidat = g.autoput;
             } else {
                 kandidat = null;
-                t = null;
             }
-            // dok novi autoput čeka potvrdu, ostaje stari
-            if (t == null && autoput != null && kandidat == null) {
+            if (t == null && autoput != null) {
+                Dnevnik.upisi(this, "NAPUSTIO " + autoput);
                 autoput = null;
                 smer = '?';
                 kmZaSmer = Double.NaN;
+                vanKolovoza = 0;
             }
         }
 
@@ -261,12 +268,11 @@ public class VoznjaService extends Service {
         }
 
         if (Dnevnik.ukljucen(this)) {
-            Polozaj.Tacka n = Polozaj.nadji(this, l.getLatitude(), l.getLongitude(), null);
-            String najblizi = n == null ? "nema autoputa u blizini"
-                    : String.format(Locale.US, "najbliži %s d%d km %.1f (%.2f km od linije)", n.autoput, n.deonica, n.km, n.udaljenost);
+            String najblizi = g == null ? "nema kolovoza u krugu 1 km"
+                    : String.format(Locale.US, "kolovoz %s na %.0f m (granica %.0f m)", g.autoput, g.udaljenost * 1000, tol * 1000);
             String kuda = kuda();
             String trenutno = autoput == null ? (kandidat != null ? "kandidat " + kandidat + " (čeka potvrdu)" : "van autoputa")
-                    : String.format(Locale.US, "NA %s d%d km %.1f [tabla %s] (%.2f km) smer %s%s", autoput, deonica, km,
+                    : String.format(Locale.US, "NA %s km %.1f [tabla %s] (%.2f km od kolovoza) smer %s%s", autoput, km,
                     kmTablaTekst(), udaljenostOdTrenutnog, smer, kuda != null ? " → " + kuda : "");
             String red = String.format(Locale.US, "LOK %.5f,%.5f ±%.0fm %.0f km/h | %s | %s",
                     l.getLatitude(), l.getLongitude(), l.getAccuracy(), v * 3.6f, najblizi, trenutno);
