@@ -85,9 +85,22 @@ public class AutoputActivity extends AppCompatActivity {
             if (autoput.id.equals(sadAutoput)) {
                 mojaDeonica = VoznjaService.sadDeonica;
                 mojKm = VoznjaService.sadKm;
-                if (VoznjaService.sadSmer != '?') mojSmer = VoznjaService.sadSmer;
                 pozicijaVreme = System.currentTimeMillis();
-                postaviStrelicu();
+                char sadSmer = VoznjaService.sadSmer;
+                if (sadSmer != '?' && sadSmer != mojSmer) {
+                    // smer vožnje je tek saznat (ili se vozač okrenuo): lista prelazi na taj smer,
+                    // da se ne vide parkinzi i pumpe sa druge strane kolovoza
+                    mojSmer = sadSmer;
+                    mojaDeonica = VoznjaService.sadDeonica;
+                    deonica = mojaDeonica;
+                    smer = sadSmer;
+                    osvezi(false);
+                    int poz = adapter.pozicijaOvde();
+                    if (poz > 0) ((LinearLayoutManager) lista.getLayoutManager())
+                            .scrollToPositionWithOffset(poz, Izgled.dp(AutoputActivity.this, 24));
+                } else {
+                    postaviStrelicu();
+                }
             } else if (mojaDeonica >= 0 && (VoznjaService.radi
                     || System.currentTimeMillis() - pozicijaVreme > ZASTARELO_MS)) {
                 // više nije na ovom autoputu (ili je pozicija stara): strelica se sklanja
