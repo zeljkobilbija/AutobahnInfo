@@ -93,4 +93,10 @@
     <string name="voznja_na_smer">%1$s spre %2$s</string>
     <string name="voznja_dozvola">Modul condus are nevoie de locația exactă.</string>
     <string name="voznja_za_km">în %d km</string>
+    <!-- Moja pozicija na autoputu -->
+    <string name="lokacija_dugme">Poziția mea</string>
+    <string name="lokacija_ovde">Sunteți aici: km %s</string>
+    <string name="lokacija_ovde_smer">Sunteți aici: km %1$s, spre %2$s</string>
+    <string name="lokacija_nije_na">Nu sunteți acum pe %s</string>
+    <string name="lokacija_nema">Locația nu este disponibilă.</string>
 </resources>

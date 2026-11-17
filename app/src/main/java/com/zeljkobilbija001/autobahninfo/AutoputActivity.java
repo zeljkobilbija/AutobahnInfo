@@ -8,6 +8,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
@@ -52,6 +53,8 @@ public class AutoputActivity extends AppCompatActivity {
     private RecyclerView lista;
     private View koren;
     private boolean zatvaranje;
+    /** Stavke koje su trenutno u listi (za odmotavanje do kilometra). */
+    private List<Stavka> prikazano = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +114,11 @@ public class AutoputActivity extends AppCompatActivity {
         napraviFiltere();
         osvezi(true);
 
-        if (savedInstanceState == null) ulaznaAnimacija();
+        findViewById(R.id.mojaLokacija).setOnClickListener(v -> poLokaciji(true));
+        if (savedInstanceState == null) {
+            ulaznaAnimacija();
+            poLokaciji(false);
+        }
         Reklame.prikaziBaner(this, findViewById(R.id.reklamaKontejner));
     }
 
@@ -121,6 +128,78 @@ public class AutoputActivity extends AppCompatActivity {
         out.putInt(STANJE_DEONICA, deonica);
         out.putChar(STANJE_SMER, smer);
         out.putInt(STANJE_FILTER, filter);
+    }
+
+    // ---------- Gde sam: deonica, smer i kilometar iz lokacije ----------
+
+    /**
+     * Ako je vozač na ovom autoputu: bira njegovu deonicu i smer i odmotava listu do njegovog kilometra.
+     * Režim vožnje već zna sve; inače se uzima jedna lokacija, a smer iz GPS kursa (dok se vozi).
+     *
+     * @param pitaj dugme je pritisnuto: javi i kad lokacija nije dostupna ili nije na ovom autoputu
+     */
+    @android.annotation.SuppressLint("MissingPermission")
+    private void poLokaciji(boolean pitaj) {
+        if (autoput.id.equals(VoznjaService.sadAutoput)) {
+            postaviMesto(VoznjaService.sadDeonica, VoznjaService.sadKm, VoznjaService.sadSmer);
+            return;
+        }
+        boolean ima = androidx.core.content.ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) == android.content.pm.PackageManager.PERMISSION_GRANTED;
+        if (!ima) {
+            if (pitaj) Toast.makeText(this, R.string.voznja_dozvola, Toast.LENGTH_LONG).show();
+            return;
+        }
+        com.google.android.gms.location.LocationServices.getFusedLocationProviderClient(this)
+                .getCurrentLocation(com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY, null)
+                .addOnSuccessListener(l -> {
+                    if (l == null) {
+                        if (pitaj) Toast.makeText(this, R.string.lokacija_nema, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Context app = getApplicationContext();
+                    String id = autoput.id;
+                    new Thread(() -> {
+                        Polozaj.Tacka t = Polozaj.nadji(app, l.getLatitude(), l.getLongitude(), id);
+                        char s = '?';
+                        if (t != null && l.hasBearing() && l.hasSpeed() && l.getSpeed() > 3f) {
+                            s = Polozaj.smerIzKursa(app, l.getLatitude(), l.getLongitude(), l.getBearing(), id);
+                        }
+                        char smerKonacno = s;
+                        runOnUiThread(() -> {
+                            if (isFinishing() || isDestroyed()) return;
+                            if (t == null || t.udaljenost > 3) {
+                                if (pitaj) Toast.makeText(this, getString(R.string.lokacija_nije_na,
+                                        autoput.oznaka()), Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            postaviMesto(t.deonica, t.km, smerKonacno);
+                        });
+                    }).start();
+                })
+                .addOnFailureListener(e -> {
+                    if (pitaj) Toast.makeText(this, R.string.lokacija_nema, Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void postaviMesto(int novaDeonica, double km, char noviSmer) {
+        if (novaDeonica < 0 || novaDeonica >= podaci.deonice.size()) return;
+        deonica = novaDeonica;
+        if (noviSmer == '+' || noviSmer == '-') smer = noviSmer;
+        filter = SVE;
+        osvezi(true);
+        // prvo mesto koje je još ispred (lista je poređana redom nailaska)
+        int i = 0;
+        while (i < prikazano.size() && (smer == '+' ? prikazano.get(i).km < km - 0.3 : prikazano.get(i).km > km + 0.3)) i++;
+        if (i >= prikazano.size()) i = prikazano.size() - 1;
+        if (i > 0) ((LinearLayoutManager) lista.getLayoutManager()).scrollToPositionWithOffset(i, 0);
+
+        Deonica d = podaci.deonice.get(deonica);
+        String kmTekst = String.format(Locale.getDefault(), "%.1f", km);
+        String poruka = noviSmer == '+' || noviSmer == '-'
+                ? getString(R.string.lokacija_ovde_smer, kmTekst, smer == '+' ? d.plus : d.minus)
+                : getString(R.string.lokacija_ovde, kmTekst);
+        Toast.makeText(this, poruka, Toast.LENGTH_LONG).show();
     }
 
     // ---------- Animacija okretanja ----------
@@ -282,6 +361,7 @@ public class AutoputActivity extends AppCompatActivity {
 
         podnaslov.setText(getString(R.string.podnaslov_lista, izlaza, pumpi));
         adapter.postavi(rezultat);
+        prikazano = rezultat;
         prazno.setVisibility(rezultat.isEmpty() ? View.VISIBLE : View.GONE);
         if (naVrh) lista.scrollToPosition(0);
     }

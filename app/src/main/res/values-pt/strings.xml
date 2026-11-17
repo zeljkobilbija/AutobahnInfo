@@ -93,4 +93,10 @@
     <string name="voznja_na_smer">%1$s sentido %2$s</string>
     <string name="voznja_dozvola">O modo condução precisa da sua localização exata.</string>
     <string name="voznja_za_km">a %d km</string>
+    <!-- Moja pozicija na autoputu -->
+    <string name="lokacija_dugme">Minha posição</string>
+    <string name="lokacija_ovde">Você está aqui: km %s</string>
+    <string name="lokacija_ovde_smer">Você está aqui: km %1$s, sentido %2$s</string>
+    <string name="lokacija_nije_na">Você não está na %s agora</string>
+    <string name="lokacija_nema">Localização indisponível.</string>
 </resources>

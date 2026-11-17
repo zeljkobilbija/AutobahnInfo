@@ -93,4 +93,10 @@
     <string name="voznja_na_smer">%1$s richting %2$s</string>
     <string name="voznja_dozvola">Rijmodus heeft je precieze locatie nodig.</string>
     <string name="voznja_za_km">over %d km</string>
+    <!-- Moja pozicija na autoputu -->
+    <string name="lokacija_dugme">Mijn positie</string>
+    <string name="lokacija_ovde">U bent hier: km %s</string>
+    <string name="lokacija_ovde_smer">U bent hier: km %1$s, richting %2$s</string>
+    <string name="lokacija_nije_na">U bent nu niet op de %s</string>
+    <string name="lokacija_nema">Locatie niet beschikbaar.</string>
 </resources>

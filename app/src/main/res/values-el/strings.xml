@@ -93,4 +93,10 @@
     <string name="voznja_na_smer">%1$s προς %2$s</string>
     <string name="voznja_dozvola">Η λειτουργία οδήγησης χρειάζεται την ακριβή τοποθεσία σας.</string>
     <string name="voznja_za_km">σε %d χλμ.</string>
+    <!-- Moja pozicija na autoputu -->
+    <string name="lokacija_dugme">Η θέση μου</string>
+    <string name="lokacija_ovde">Βρίσκεστε εδώ: χλμ. %s</string>
+    <string name="lokacija_ovde_smer">Βρίσκεστε εδώ: χλμ. %1$s, προς %2$s</string>
+    <string name="lokacija_nije_na">Δεν βρίσκεστε τώρα στον %s</string>
+    <string name="lokacija_nema">Η τοποθεσία δεν είναι διαθέσιμη.</string>
 </resources>

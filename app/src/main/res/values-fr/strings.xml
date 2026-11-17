@@ -93,4 +93,10 @@
     <string name="voznja_na_smer">%1$s direction %2$s</string>
     <string name="voznja_dozvola">Le mode conduite a besoin de votre position précise.</string>
     <string name="voznja_za_km">dans %d km</string>
+    <!-- Moja pozicija na autoputu -->
+    <string name="lokacija_dugme">Ma position</string>
+    <string name="lokacija_ovde">Vous êtes ici : km %s</string>
+    <string name="lokacija_ovde_smer">Vous êtes ici : km %1$s, direction %2$s</string>
+    <string name="lokacija_nije_na">Vous n’êtes pas sur l’%s en ce moment</string>
+    <string name="lokacija_nema">Position non disponible.</string>
 </resources>

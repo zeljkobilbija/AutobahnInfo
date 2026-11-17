@@ -57,6 +57,11 @@ public class VoznjaService extends Service {
     public static volatile boolean radi;
     public static volatile String opisStanja = "";
     private static Runnable slusalac;
+    /** Gde je vozač sada (za ekran autoputa); null autoput = nepoznato. */
+    public static volatile String sadAutoput;
+    public static volatile int sadDeonica;
+    public static volatile double sadKm;
+    public static volatile char sadSmer = '?';
     /** Poslednji red o lokaciji (za ekran Dnevnik). */
     public static volatile String uzivo = "";
     private static VoznjaService instanca;
@@ -167,6 +172,7 @@ public class VoznjaService extends Service {
         nit.shutdownNow();
         radi = false;
         instanca = null;
+        sadAutoput = null;
         opisStanja = "";
         uzivo = "";
         Dnevnik.upisi(this, "STOP režim vožnje");
@@ -229,7 +235,14 @@ public class VoznjaService extends Service {
             deonica = t.deonica;
             km = t.km;
             kmUkupno = t.kmUkupno;
-        } else if (sad - poslednjiPutNaAutoputu > BEZ_AUTOPUTA_MS) {
+            sadDeonica = deonica;
+            sadKm = km;
+            sadSmer = smer;
+            sadAutoput = autoput;
+        } else {
+            sadAutoput = null;
+        }
+        if (t == null && sad - poslednjiPutNaAutoputu > BEZ_AUTOPUTA_MS) {
             Dnevnik.upisi(this, "STOP: 45 min van autoputa");
             glavna.post(this::stopSelf);
             return;

@@ -102,6 +102,22 @@ public final class Polozaj {
         return l;
     }
 
+    /**
+     * Smer vožnje iz GPS kursa (stepeni od severa): tačka 300 m napred po kursu se projektuje
+     * na isti autoput; ako kilometar raste, smer je '+'. '?' ako se ne može odrediti.
+     */
+    public static char smerIzKursa(Context c, double lat, double lon, float kurs, String autoput) {
+        Tacka sad = nadji(c, lat, lon, autoput);
+        double r = Math.toRadians(kurs), d = 0.3;
+        double lat2 = lat + d * Math.cos(r) / 110.57;
+        double lon2 = lon + d * Math.sin(r) / (111.32 * Math.cos(Math.toRadians(lat)));
+        Tacka napred = nadji(c, lat2, lon2, autoput);
+        if (sad == null || napred == null || sad.grupa != napred.grupa) return '?';
+        double razlika = napred.kmUkupno - sad.kmUkupno;
+        if (Math.abs(razlika) < 0.05) return '?';
+        return razlika > 0 ? '+' : '-';
+    }
+
     /** Vazdušna razdaljina (km) između tačke i linije a i tačke j linije b. */
     private static double km(Linija a, int i, Linija b, int j) {
         double kx = 111.32 * Math.cos(Math.toRadians(a.lat[i])), ky = 110.57;

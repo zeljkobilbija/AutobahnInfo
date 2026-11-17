@@ -93,4 +93,10 @@
     <string name="voznja_na_smer">%1$s, %2$s yönünde</string>
     <string name="voznja_dozvola">Sürüş modu için kesin konum gerekir.</string>
     <string name="voznja_za_km">%d km sonra</string>
+    <!-- Moja pozicija na autoputu -->
+    <string name="lokacija_dugme">Konumum</string>
+    <string name="lokacija_ovde">Buradasınız: km %s</string>
+    <string name="lokacija_ovde_smer">Buradasınız: km %1$s, %2$s yönünde</string>
+    <string name="lokacija_nije_na">Şu anda %s üzerinde değilsiniz</string>
+    <string name="lokacija_nema">Konum kullanılamıyor.</string>
 </resources>

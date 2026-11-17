@@ -93,4 +93,10 @@
     <string name="voznja_na_smer">%1$s, %2$s felé</string>
     <string name="voznja_dozvola">A vezetés módhoz pontos helyadat szükséges.</string>
     <string name="voznja_za_km">%d km múlva</string>
+    <!-- Moja pozicija na autoputu -->
+    <string name="lokacija_dugme">Saját pozíció</string>
+    <string name="lokacija_ovde">Itt van: %s. km</string>
+    <string name="lokacija_ovde_smer">Itt van: %1$s. km, %2$s felé</string>
+    <string name="lokacija_nije_na">Most nem a(z) %s autópályán van</string>
+    <string name="lokacija_nema">A helyadat nem érhető el.</string>
 </resources>

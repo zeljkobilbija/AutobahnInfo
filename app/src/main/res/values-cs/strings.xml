@@ -93,4 +93,10 @@
     <string name="voznja_na_smer">%1$s směr %2$s</string>
     <string name="voznja_dozvola">Režim jízdy potřebuje přesnou polohu.</string>
     <string name="voznja_za_km">za %d km</string>
+    <!-- Moja pozicija na autoputu -->
+    <string name="lokacija_dugme">Moje poloha</string>
+    <string name="lokacija_ovde">Jste zde: km %s</string>
+    <string name="lokacija_ovde_smer">Jste zde: km %1$s, směr %2$s</string>
+    <string name="lokacija_nije_na">Nyní nejste na %s</string>
+    <string name="lokacija_nema">Poloha není k dispozici.</string>
 </resources>
