@@ -45,8 +45,22 @@ public final class Podaci {
         JSONArray sek = koren.getJSONArray("sekcije");
         for (int i = 0; i < sek.length(); i++) {
             JSONObject s = sek.getJSONObject(i);
-            p.deonice.add(new Deonica(s.getString("od"), s.getString("do"),
-                    s.getString("plus"), s.getString("minus")));
+            Deonica d = new Deonica(s.getString("od"), s.getString("do"),
+                    s.getString("plus"), s.getString("minus"));
+            JSONArray kal = s.optJSONArray("kal");
+            if (kal != null) {
+                int n = kal.length();
+                d.kalNas = new double[n];
+                d.kalTabla = new double[n];
+                d.kalSmer = new int[n];
+                for (int j = 0; j < n; j++) {
+                    JSONArray q = kal.getJSONArray(j);
+                    d.kalNas[j] = q.getDouble(0);
+                    d.kalTabla[j] = q.getDouble(1);
+                    d.kalSmer[j] = q.getInt(2);
+                }
+            }
+            p.deonice.add(d);
         }
 
         JSONArray niz = koren.getJSONArray("stavke");
@@ -75,6 +89,7 @@ public final class Podaci {
             s.sajt = o.optString("web", "");
             s.lat = o.optDouble("la", Double.NaN);
             s.lon = o.optDouble("lo", Double.NaN);
+            if (s.deonica >= 0 && s.deonica < p.deonice.size()) s.kmTabla = p.deonice.get(s.deonica).kmTabla(s.km);
             p.stavke.add(s);
         }
         return p;

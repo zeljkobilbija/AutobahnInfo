@@ -28,7 +28,7 @@
     <string name="cip_0_24">24 h</string>
     <string name="podnaslov_lista">%1$d saídas · %2$d postos neste sentido</string>
     <string name="nema_stavki">Nada corresponde a este filtro neste troço.</string>
-    <string name="izvor">Dados: © contribuidores do OpenStreetMap (ODbL). Os quilómetros contam desde o início do troço.</string>
+    <string name="izvor">Dados: © contribuidores do OpenStreetMap (ODbL). Quilómetros como nos marcos da autoestrada (onde estão mapeados); caso contrário, desde o início do troço.</string>
     <string name="privatnost">Definições de privacidade</string>
     <string name="greska_podaci">Não foi possível carregar os dados.</string>
     <string name="km">km</string>

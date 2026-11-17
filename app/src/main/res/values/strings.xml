@@ -29,7 +29,7 @@
     <string name="cip_0_24">24/7</string>
     <string name="podnaslov_lista">%1$d exits · %2$d fuel stations in this direction</string>
     <string name="nema_stavki">Nothing matches this filter on this section.</string>
-    <string name="izvor">Data: © OpenStreetMap contributors (ODbL). Kilometres are counted from the start of each section.</string>
+    <string name="izvor">Data: © OpenStreetMap contributors (ODbL). Kilometres as on the roadside marker posts (where mapped), otherwise from the start of each section.</string>
     <string name="privatnost">Privacy settings</string>
     <string name="greska_podaci">The data could not be loaded.</string>
     <string name="km">km</string>

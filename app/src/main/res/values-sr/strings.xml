@@ -28,7 +28,7 @@
     <string name="cip_0_24">0–24</string>
     <string name="podnaslov_lista">%1$d izlaza · %2$d pumpi u ovom smeru</string>
     <string name="nema_stavki">Nema stavki za ovaj filter na ovoj deonici.</string>
-    <string name="izvor">Podaci: © OpenStreetMap saradnici (ODbL). Kilometri se računaju od početka deonice.</string>
+    <string name="izvor">Podaci: © OpenStreetMap saradnici (ODbL). Kilometri kao na tablama pored autoputa (gde su ucrtane), inače od početka deonice.</string>
     <string name="privatnost">Podešavanja privatnosti</string>
     <string name="greska_podaci">Podaci nisu mogli da se učitaju.</string>
     <string name="km">km</string>

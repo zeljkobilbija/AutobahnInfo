@@ -28,7 +28,7 @@
     <string name="cip_0_24">24/7</string>
     <string name="podnaslov_lista">%1$d съездов · %2$d АЗС в этом направлении</string>
     <string name="nema_stavki">На этом участке ничего не найдено по фильтру.</string>
-    <string name="izvor">Данные: © участники OpenStreetMap (ODbL). Километры считаются от начала участка.</string>
+    <string name="izvor">Данные: © участники OpenStreetMap (ODbL). Километры как на табличках вдоль автобана (где они нанесены на карту), иначе от начала участка.</string>
     <string name="privatnost">Настройки конфиденциальности</string>
     <string name="greska_podaci">Не удалось загрузить данные.</string>
     <string name="km">км</string>

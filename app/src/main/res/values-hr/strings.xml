@@ -28,7 +28,7 @@
     <string name="cip_0_24">0–24</string>
     <string name="podnaslov_lista">Izlazi: %1$d · benzinske u ovom smjeru: %2$d</string>
     <string name="nema_stavki">Nema stavki za ovaj filtar na ovoj dionici.</string>
-    <string name="izvor">Podaci: © OpenStreetMap suradnici (ODbL). Kilometri se računaju od početka dionice.</string>
+    <string name="izvor">Podaci: © OpenStreetMap suradnici (ODbL). Kilometri kao na pločama uz autocestu (gdje su ucrtane), inače od početka dionice.</string>
     <string name="privatnost">Postavke privatnosti</string>
     <string name="greska_podaci">Podaci se nisu mogli učitati.</string>
     <string name="km">km</string>

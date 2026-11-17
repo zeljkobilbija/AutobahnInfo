@@ -28,7 +28,7 @@
     <string name="cip_0_24">0–24</string>
     <string name="podnaslov_lista">Izvozi: %1$d · bencinski servisi v tej smeri: %2$d</string>
     <string name="nema_stavki">Za ta filter na tem odseku ni ničesar.</string>
-    <string name="izvor">Podatki: © sodelavci OpenStreetMap (ODbL). Kilometri se štejejo od začetka odseka.</string>
+    <string name="izvor">Podatki: © sodelavci OpenStreetMap (ODbL). Kilometri kot na tablah ob avtocesti (kjer so vrisane), sicer od začetka odseka.</string>
     <string name="privatnost">Nastavitve zasebnosti</string>
     <string name="greska_podaci">Podatkov ni bilo mogoče naložiti.</string>
     <string name="km">km</string>

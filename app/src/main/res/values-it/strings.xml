@@ -28,7 +28,7 @@
     <string name="cip_0_24">24 ore</string>
     <string name="podnaslov_lista">%1$d uscite · %2$d distributori in questa direzione</string>
     <string name="nema_stavki">Nessun risultato per questo filtro su questo tratto.</string>
-    <string name="izvor">Dati: © contributori di OpenStreetMap (ODbL). I chilometri partono dall\'inizio del tratto.</string>
+    <string name="izvor">Dati: © contributori di OpenStreetMap (ODbL). Chilometri come sui cippi dell’autostrada (dove mappati), altrimenti dall’inizio del tratto.</string>
     <string name="privatnost">Impostazioni privacy</string>
     <string name="greska_podaci">Impossibile caricare i dati.</string>
     <string name="km">km</string>

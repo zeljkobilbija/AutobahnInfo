@@ -28,7 +28,7 @@
     <string name="cip_0_24">24/7</string>
     <string name="podnaslov_lista">%1$d afritten · %2$d tankstations in deze richting</string>
     <string name="nema_stavki">Niets gevonden voor dit filter op dit traject.</string>
-    <string name="izvor">Gegevens: © OpenStreetMap-bijdragers (ODbL). Kilometers worden geteld vanaf het begin van het traject.</string>
+    <string name="izvor">Gegevens: © OpenStreetMap-bijdragers (ODbL). Kilometers zoals op de hectometerpaaltjes (waar ze in kaart zijn gebracht), anders vanaf het begin van het traject.</string>
     <string name="privatnost">Privacyinstellingen</string>
     <string name="greska_podaci">De gegevens konden niet worden geladen.</string>
     <string name="km">km</string>

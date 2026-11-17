@@ -28,7 +28,7 @@
     <string name="cip_0_24">Non-stop</string>
     <string name="podnaslov_lista">Ieșiri: %1$d · benzinării în acest sens: %2$d</string>
     <string name="nema_stavki">Nimic pentru acest filtru pe acest tronson.</string>
-    <string name="izvor">Date: © contribuitorii OpenStreetMap (ODbL). Kilometrii se numără de la începutul tronsonului.</string>
+    <string name="izvor">Date: © contribuitorii OpenStreetMap (ODbL). Kilometri ca pe bornele de pe autostradă (unde sunt cartografiate), altfel de la începutul tronsonului.</string>
     <string name="privatnost">Setări de confidențialitate</string>
     <string name="greska_podaci">Datele nu au putut fi încărcate.</string>
     <string name="km">km</string>

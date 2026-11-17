@@ -177,7 +177,7 @@ public class StavkaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         void povezi(Stavka s) {
             Context c = itemView.getContext();
-            km.setText(String.format(Locale.getDefault(), "%.1f", s.km));
+            km.setText(String.format(Locale.getDefault(), "%.1f", s.kmPrikaz()));
 
             // Znak na šini: broj izlaza, P, pumpa ili pribor za jelo
             boolean pumpa = !s.jeIzlaz() && s.tip != Stavka.PARKING && !s.gorivo.isEmpty();

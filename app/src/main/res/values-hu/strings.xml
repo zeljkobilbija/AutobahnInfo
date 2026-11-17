@@ -28,7 +28,7 @@
     <string name="cip_0_24">0–24</string>
     <string name="podnaslov_lista">%1$d lehajtó · %2$d benzinkút ebben az irányban</string>
     <string name="nema_stavki">Ezen a szakaszon nincs találat erre a szűrőre.</string>
-    <string name="izvor">Adatok: © OpenStreetMap közreműködők (ODbL). A kilométereket a szakasz elejétől számoljuk.</string>
+    <string name="izvor">Adatok: © OpenStreetMap közreműködők (ODbL). Kilométerek az út menti táblák szerint (ahol fel vannak térképezve), egyébként a szakasz elejétől.</string>
     <string name="privatnost">Adatvédelmi beállítások</string>
     <string name="greska_podaci">Az adatokat nem sikerült betölteni.</string>
     <string name="km">km</string>

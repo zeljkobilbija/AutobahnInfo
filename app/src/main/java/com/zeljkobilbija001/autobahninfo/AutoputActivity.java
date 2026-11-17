@@ -218,7 +218,7 @@ public class AutoputActivity extends AppCompatActivity {
         }
 
         Deonica d = podaci.deonice.get(deonica);
-        String kmTekst = String.format(Locale.getDefault(), "%.1f", km);
+        String kmTekst = String.format(Locale.getDefault(), "%.1f", d.kmZaPrikaz(km));
         String poruka = noviSmer == '+' || noviSmer == '-'
                 ? getString(R.string.lokacija_ovde_smer, kmTekst, smer == '+' ? d.plus : d.minus)
                 : getString(R.string.lokacija_ovde, kmTekst);
@@ -240,7 +240,7 @@ public class AutoputActivity extends AppCompatActivity {
         // tekst uvek kazuje kuda vozač stvarno ide; u suprotnom smeru liste strelica gleda nagore
         String tekst = mojSmer == '?' ? getString(R.string.lokacija_vi_ste_ovde)
                 : getString(R.string.lokacija_vi_ste_ovde) + " · " + (mojSmer == '+' ? d.plus : d.minus);
-        adapter.postaviOvde(i, mojKm, tekst, mojSmer != '?', mojSmer != '?' && mojSmer != smer);
+        adapter.postaviOvde(i, d.kmZaPrikaz(mojKm), tekst, mojSmer != '?', mojSmer != '?' && mojSmer != smer);
     }
 
     @Override
@@ -431,7 +431,7 @@ public class AutoputActivity extends AppCompatActivity {
         t.append(StavkaAdapter.opis(this, s)).append('\n');
         t.append(autoput.oznaka()).append(" · ").append(d.naziv()).append(" · ")
                 .append(getString(R.string.km)).append(' ')
-                .append(String.format(Locale.getDefault(), "%.1f", s.km)).append('\n');
+                .append(String.format(Locale.getDefault(), "%.1f", s.kmPrikaz())).append('\n');
         if (!s.jeIzlaz()) {
             t.append(getString(R.string.smer_voznje)).append(": ")
                     .append(s.strana == '+' ? d.minus + " → " + d.plus : d.plus + " → " + d.minus).append('\n');

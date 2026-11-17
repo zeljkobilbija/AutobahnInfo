@@ -28,7 +28,7 @@
     <string name="cip_0_24">24/7</string>
     <string name="podnaslov_lista">Έξοδοι: %1$d · πρατήρια σε αυτή την κατεύθυνση: %2$d</string>
     <string name="nema_stavki">Τίποτα για αυτό το φίλτρο σε αυτό το τμήμα.</string>
-    <string name="izvor">Δεδομένα: © συντελεστές OpenStreetMap (ODbL). Τα χιλιόμετρα μετρώνται από την αρχή του τμήματος.</string>
+    <string name="izvor">Δεδομένα: © συντελεστές OpenStreetMap (ODbL). Χιλιόμετρα όπως στις πινακίδες του δρόμου (όπου είναι χαρτογραφημένες), αλλιώς από την αρχή του τμήματος.</string>
     <string name="privatnost">Ρυθμίσεις απορρήτου</string>
     <string name="greska_podaci">Δεν ήταν δυνατή η φόρτωση των δεδομένων.</string>
     <string name="km">χλμ.</string>

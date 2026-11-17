@@ -28,7 +28,7 @@
     <string name="cip_0_24">7/24</string>
     <string name="podnaslov_lista">Çıkış: %1$d · bu yönde akaryakıt: %2$d</string>
     <string name="nema_stavki">Bu kesimde bu filtre için sonuç yok.</string>
-    <string name="izvor">Veriler: © OpenStreetMap katkıcıları (ODbL). Kilometreler kesimin başından sayılır.</string>
+    <string name="izvor">Veriler: © OpenStreetMap katkıcıları (ODbL). Kilometreler otoyol kenarındaki tabelalardaki gibi (haritada olduğu yerlerde), aksi halde kesimin başından.</string>
     <string name="privatnost">Gizlilik ayarları</string>
     <string name="greska_podaci">Veriler yüklenemedi.</string>
     <string name="km">km</string>

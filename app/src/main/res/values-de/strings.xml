@@ -28,7 +28,7 @@
     <string name="cip_0_24">24 h</string>
     <string name="podnaslov_lista">%1$d Ausfahrten · %2$d Tankstellen in dieser Richtung</string>
     <string name="nema_stavki">Für diesen Filter gibt es auf diesem Abschnitt nichts.</string>
-    <string name="izvor">Daten: © OpenStreetMap-Mitwirkende (ODbL). Kilometer ab Beginn des Abschnitts.</string>
+    <string name="izvor">Daten: © OpenStreetMap-Mitwirkende (ODbL). Kilometer wie auf den Kilometertafeln (wo erfasst), sonst ab Beginn des Abschnitts.</string>
     <string name="privatnost">Datenschutz-Einstellungen</string>
     <string name="greska_podaci">Die Daten konnten nicht geladen werden.</string>
     <string name="km">km</string>

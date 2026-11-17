@@ -28,7 +28,7 @@
     <string name="cip_0_24">24 h</string>
     <string name="podnaslov_lista">%1$d salidas · %2$d gasolineras en este sentido</string>
     <string name="nema_stavki">No hay nada con este filtro en este tramo.</string>
-    <string name="izvor">Datos: © colaboradores de OpenStreetMap (ODbL). Los kilómetros se cuentan desde el inicio del tramo.</string>
+    <string name="izvor">Datos: © colaboradores de OpenStreetMap (ODbL). Kilómetros como en los hitos de la carretera (donde están mapeados); si no, desde el inicio del tramo.</string>
     <string name="privatnost">Ajustes de privacidad</string>
     <string name="greska_podaci">No se pudieron cargar los datos.</string>
     <string name="km">km</string>

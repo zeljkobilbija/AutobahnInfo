@@ -28,7 +28,7 @@
     <string name="cip_0_24">Nonstop</string>
     <string name="podnaslov_lista">Zjazdy: %1$d · čerpacie stanice v tomto smere: %2$d</string>
     <string name="nema_stavki">Pre tento filter na tomto úseku nič nie je.</string>
-    <string name="izvor">Dáta: © prispievatelia OpenStreetMap (ODbL). Kilometre sa počítajú od začiatku úseku.</string>
+    <string name="izvor">Dáta: © prispievatelia OpenStreetMap (ODbL). Kilometre ako na tabuliach pri diaľnici (kde sú zmapované), inak od začiatku úseku.</string>
     <string name="privatnost">Nastavenia súkromia</string>
     <string name="greska_podaci">Údaje sa nepodarilo načítať.</string>
     <string name="km">km</string>

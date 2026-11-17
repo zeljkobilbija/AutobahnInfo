@@ -266,8 +266,8 @@ public class VoznjaService extends Service {
                     : String.format(Locale.US, "najbliži %s d%d km %.1f (%.2f km od linije)", n.autoput, n.deonica, n.km, n.udaljenost);
             String kuda = kuda();
             String trenutno = autoput == null ? (kandidat != null ? "kandidat " + kandidat + " (čeka potvrdu)" : "van autoputa")
-                    : String.format(Locale.US, "NA %s d%d km %.1f (%.2f km) smer %s%s", autoput, deonica, km,
-                    udaljenostOdTrenutnog, smer, kuda != null ? " → " + kuda : "");
+                    : String.format(Locale.US, "NA %s d%d km %.1f [tabla %s] (%.2f km) smer %s%s", autoput, deonica, km,
+                    kmTablaTekst(), udaljenostOdTrenutnog, smer, kuda != null ? " → " + kuda : "");
             String red = String.format(Locale.US, "LOK %.5f,%.5f ±%.0fm %.0f km/h | %s | %s",
                     l.getLatitude(), l.getLongitude(), l.getAccuracy(), v * 3.6f, najblizi, trenutno);
             Dnevnik.upisi(this, red);
@@ -304,6 +304,14 @@ public class VoznjaService extends Service {
         NotificationManager nm = getSystemService(NotificationManager.class);
         if (nm != null) nm.notify(ID_OBAVESTENJA, obavestenje(tekst));
         javiStanje(tekst);
+    }
+
+    /** Kilometar sa tabli na trenutnoj poziciji (za dnevnik), ili "?". */
+    private String kmTablaTekst() {
+        Podaci p = autoput != null ? Podaci.za(this, Autoputevi.poId(autoput)) : null;
+        if (p == null || deonica >= p.deonice.size()) return "?";
+        double z = p.deonice.get(deonica).kmTabla(km);
+        return Double.isNaN(z) ? "?" : String.format(Locale.US, "%.1f", z);
     }
 
     /** Naziv mesta prema kome se vozi, iz podataka o deonici. */
