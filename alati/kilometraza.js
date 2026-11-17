@@ -69,12 +69,39 @@ for (const t of table) {
 }
 console.log(`table: ${table.length}, uz autoput: ${dodeljeno}`);
 
+/**
+ * Deonice koje se fizički nastavljaju (početak sledeće do 5 km od kraja prethodne) spajaju se u jednu:
+ * kilometri sledeće se nastavljaju, naziv ide od početka prve do kraja poslednje. Ostaju odvojene samo
+ * deonice između kojih je autoput stvarno prekinut. Ponovno pokretanje ne menja već spojeno.
+ */
+function spojiDeonice(d) {
+  const kraj = si => { const a = d.stavke.filter(x => x.si === si && x.la != null); return a.length ? a.reduce((m, x) => x.km > m.km ? x : m) : null; };
+  const pocetak = si => { const a = d.stavke.filter(x => x.si === si && x.la != null); return a.length ? a.reduce((m, x) => x.km < m.km ? x : m) : null; };
+  for (let si = 0; si + 1 < d.sekcije.length;) {
+    const a = kraj(si), b = pocetak(si + 1);
+    const razmak = a && b ? Math.hypot((a.la - b.la) * KY, (a.lo - b.lo) * KX(a.la)) : 1e9;
+    if (razmak > 5) { si++; continue; }
+    const duz = Math.max(...d.stavke.filter(x => x.si === si).map(x => x.km));
+    const pomak = duz + razmak - b.km;
+    for (const x of d.stavke) {
+      if (x.si === si + 1) { x.si = si; x.km = +(x.km + pomak).toFixed(1); }
+      else if (x.si > si + 1) x.si--;
+    }
+    const s0 = d.sekcije[si], s1 = d.sekcije[si + 1];
+    d.sekcije.splice(si, 2, { ...s0, do: s1.do, plus: s1.plus });
+    spojeno.push(`${d.id}: ${s0.od} – ${s0.do} + ${s1.od} – ${s1.do} (razmak ${razmak.toFixed(1)} km)`);
+  }
+  d.stavke.sort((x, y) => x.si - y.si || x.km - y.km);
+}
+const spojeno = [];
+
 // ---- 3. Po deonici: projekcija na liniju kroz izlaze/odmorišta i provera sa susedima ----
 
 let ukupnoStavki = 0, pokriveno = 0;
 for (const f of fs.readdirSync(ASSETS).filter(f => f.endsWith('.json'))) {
   const p = path.join(ASSETS, f);
   const d = JSON.parse(fs.readFileSync(p, 'utf8'));
+  spojiDeonice(d);
   const tabl = poAutoputu.get(norm(d.id)) || [];
   d.sekcije.forEach((sek, si) => {
     delete sek.kal;
@@ -104,7 +131,7 @@ for (const f of fs.readdirSync(ASSETS).filter(f => f.endsWith('.json'))) {
       let plus = 0, minus = 0;
       for (const [qn, qz] of parovi) {
         const dn = qn - n;
-        if (Math.abs(dn) < 0.3 || Math.abs(dn) > 6) continue;
+        if (Math.abs(dn) < 0.3 || Math.abs(dn) > 15) continue;
         const nagib = (qz - z) / dn;
         if (Math.abs(nagib - 1) <= 0.2 || Math.abs((qz - z) - dn) <= 0.5) plus++;
         else if (Math.abs(nagib + 1) <= 0.2 || Math.abs((qz - z) + dn) <= 0.5) minus++;
@@ -123,4 +150,5 @@ for (const f of fs.readdirSync(ASSETS).filter(f => f.endsWith('.json'))) {
   });
   fs.writeFileSync(p, JSON.stringify(d));
 }
+console.log('spojene deonice:\n  ' + spojeno.join('\n  '));
 console.log(`mesta sa zvaničnim km (tabla do 5 km): ${pokriveno} / ${ukupnoStavki} (${(100 * pokriveno / ukupnoStavki).toFixed(0)} %)`);

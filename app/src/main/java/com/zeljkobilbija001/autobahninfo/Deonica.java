@@ -25,7 +25,7 @@ public final class Deonica {
     int[] kalSmer = new int[0];
 
     /** Najdalje od table do koje se kilometraža računa od nje. */
-    private static final double DOMET_KM = 20;
+    private static final double DOMET_KM = 40;
 
     /** Kilometar kao na tablama pored autoputa (od najbliže table), ili NaN ako table nema u blizini. */
     public double kmTabla(double km) {
