@@ -399,6 +399,10 @@ public class AutoputActivity extends AppCompatActivity {
         b.setOnClickListener(v -> {
             smer = smer == '+' ? '-' : '+';
             osvezi(true);
+            // u vožnji: posle okretanja liste odmah na red "Vi ste ovde"
+            int poz = adapter.pozicijaOvde();
+            if (poz > 0) ((LinearLayoutManager) lista.getLayoutManager())
+                    .scrollToPositionWithOffset(poz, Izgled.dp(this, 24));
         });
         smeroviRed.addView(b, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
