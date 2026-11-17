@@ -8,4 +8,6 @@
     -->
     <string name="admob_app_id" translatable="false">ca-app-pub-7920431183682527~5497918348</string>
     <string name="admob_banner_id" translatable="false">ca-app-pub-7920431183682527/6434549317</string>
+    <!-- interstitial pri otvaranju autoputa: UPISATI pravi ID iz AdMob konzole (prazno = oglas se ne prikazuje) -->
+    <string name="admob_interstitial_id" translatable="false"></string>
 </resources>

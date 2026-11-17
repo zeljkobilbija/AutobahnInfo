@@ -178,12 +178,13 @@ public class MainActivity extends AppCompatActivity {
                 .scaleY(1.08f)
                 .setDuration(280)
                 .setInterpolator(new AccelerateInterpolator())
-                .withEndAction(() -> {
+                .withEndAction(() -> Reklame.posleOglasa(this, () -> {
+                    // svako treće otvaranje (najviše jednom u 3 min, ne u Vožnji) prvo interstitial, pa autoput
                     Intent i = AutoputActivity.namera(this, a.id)
                             .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(i);
                     otvaranjeUToku = false;
-                })
+                }))
                 .start();
     }
 

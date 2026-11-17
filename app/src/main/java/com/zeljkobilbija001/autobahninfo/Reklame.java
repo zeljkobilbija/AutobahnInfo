@@ -2,6 +2,7 @@ package com.zeljkobilbija001.autobahninfo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -11,10 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.ump.ConsentInformation;
 import com.google.android.ump.ConsentRequestParameters;
 import com.google.android.ump.UserMessagingPlatform;
@@ -103,6 +109,7 @@ public final class Reklame {
             baner.setAdSize(AdSize.getInlineAdaptiveBannerAdSize(sirinaDp(a, kontejner), VISINA_BANERA_DP));
             kontejner.addView(baner);
             baner.loadAd(new AdRequest.Builder().build());
+            ucitajInterstitial(a); // da bude spreman kad zatreba
 
             a.getLifecycle().addObserver((LifecycleEventObserver) (izvor, dogadjaj) -> {
                 if (dogadjaj == Lifecycle.Event.ON_PAUSE) baner.pause();
@@ -113,6 +120,54 @@ public final class Reklame {
                 }
             });
         });
+    }
+
+    // ---------- Interstitial (oglas preko celog ekrana) ----------
+    /** Najranije pri trećem otvaranju autoputa, pa svako treće, i najviše jednom u 3 minuta. */
+    private static final int SVAKO_OTVARANJE = 3;
+    private static final long RAZMAK_MS = 3 * 60 * 1000L;
+    private static InterstitialAd interstitial;
+    private static boolean ucitavaSe;
+    private static int otvaranja;
+    private static long poslednjiPrikaz = -RAZMAK_MS;
+
+    /** Unapred učita interstitial (ako su reklame dozvoljene, ID je upisan i već nije učitan). */
+    public static void ucitajInterstitial(Context c) {
+        if (interstitial != null || ucitavaSe || !dozvoljene(c)) return;
+        Context app = c.getApplicationContext();
+        String id = app.getString(R.string.admob_interstitial_id);
+        if (id.isEmpty()) return;
+        ucitavaSe = true;
+        InterstitialAd.load(app, id, new AdRequest.Builder().build(),
+                new InterstitialAdLoadCallback() {
+                    @Override public void onAdLoaded(@NonNull InterstitialAd oglas) { interstitial = oglas; ucitavaSe = false; }
+                    @Override public void onAdFailedToLoad(@NonNull LoadAdError greska) { ucitavaSe = false; }
+                });
+    }
+
+    /**
+     * Na prelazu između ekrana (otvaranje autoputa): ako je vreme za oglas i oglas je spreman,
+     * prikaže ga pa posle zatvaranja nastavi; inače odmah nastavi. Korisnik nikad ne čeka učitavanje.
+     * Dok je uključena Vožnja oglasa nema (aplikacija se koristi u autu).
+     */
+    public static void posleOglasa(Activity a, Runnable dalje) {
+        otvaranja++;
+        long sad = SystemClock.elapsedRealtime();
+        InterstitialAd oglas = interstitial;
+        if (oglas == null || VoznjaService.radi || otvaranja < SVAKO_OTVARANJE
+                || sad - poslednjiPrikaz < RAZMAK_MS || !dozvoljene(a)) {
+            dalje.run();
+            ucitajInterstitial(a);
+            return;
+        }
+        interstitial = null;
+        otvaranja = 0;
+        poslednjiPrikaz = sad;
+        oglas.setFullScreenContentCallback(new FullScreenContentCallback() {
+            @Override public void onAdDismissedFullScreenContent() { dalje.run(); ucitajInterstitial(a); }
+            @Override public void onAdFailedToShowFullScreenContent(@NonNull AdError greska) { dalje.run(); ucitajInterstitial(a); }
+        });
+        oglas.show(a);
     }
 
     /** Širina kontejnera u dp (ili širina ekrana ako kontejner još nema širinu). */
