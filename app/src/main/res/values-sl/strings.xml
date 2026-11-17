@@ -56,4 +56,41 @@
     <string name="det_cene_ucitavanje">Nalagam cene…</string>
     <string name="det_cene_greska">Cene trenutno niso na voljo.</string>
     <string name="det_cene_nedelja">Povprečna cena v državi, teden od %s (EU Weekly Oil Bulletin, fuel-prices.eu). Bencinske črpalke ob avtocesti so običajno dražje.</string>
+    <!-- Stanje na putu i obaveštenja -->
+    <string name="stanje_naslov">Stanje na cesti</string>
+    <string name="stanje_osvezi">Osveži</string>
+    <string name="stanje_osvezeno">Posodobljeno ob %s</string>
+    <string name="stanje_ucitavanje">Nalaganje prometnih informacij…</string>
+    <string name="stanje_greska">Prometne informacije trenutno niso na voljo.</string>
+    <string name="stanje_nema">Za %s trenutno ni prometnih informacij.</string>
+    <string name="stanje_obavestenja">Obvestila</string>
+    <string name="stanje_obavestenja_opis">Nesreče, zastoji in zapore na %1$s, preverjanje približno vsakih %2$d minut</string>
+    <string name="stanje_dozvola">Obvestila so za to aplikacijo izklopljena.</string>
+    <string name="stanje_podesavanja">Nastavitve</string>
+    <string name="stanje_izvor">Prometni podatki: Autobahn GmbH des Bundes (verkehr.autobahn.de). Tapnite obvestilo za celotno besedilo (v nemščini).</string>
+    <string name="stanje_kasnjenje">+%d min</string>
+    <string name="stanje_od">Od %s</string>
+    <string name="stanje_na_mapi">Pokaži na zemljevidu</string>
+    <string name="vrsta_zatvoreno">Zaprto</string>
+    <string name="vrsta_udes">Nesreča</string>
+    <string name="vrsta_opasnost">Nevarnost</string>
+    <string name="vrsta_kolona">Zastoj</string>
+    <string name="vrsta_traka">Zaprt pas</string>
+    <string name="vrsta_sporo">Počasen promet</string>
+    <string name="vrsta_prilaz">Zaprt izvoz</string>
+    <string name="vrsta_ostalo">Obvestilo</string>
+    <string name="obav_kanal">Stanje na cesti</string>
+    <string name="obav_naslov_vise">%1$s: novih prometnih informacij: %2$d</string>
+    <!-- Režim vožnje -->
+    <string name="voznja_kanal">Vožnja</string>
+    <string name="voznja_opis">Obvestila za avtocesto, po kateri vozite – samo kar je pred vami</string>
+    <string name="voznja_pokreni">Zaženi</string>
+    <string name="voznja_zaustavi">Ustavi</string>
+    <string name="voznja_naslov">Način vožnje je vklopljen</string>
+    <string name="voznja_trazim">Iščem avtocesto…</string>
+    <string name="voznja_van">Niste na nemški avtocesti</string>
+    <string name="voznja_na">Na %s</string>
+    <string name="voznja_na_smer">%1$s proti %2$s</string>
+    <string name="voznja_dozvola">Način vožnje potrebuje natančno lokacijo.</string>
+    <string name="voznja_za_km">čez %d km</string>
 </resources>

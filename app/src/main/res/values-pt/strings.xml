@@ -56,4 +56,41 @@
     <string name="det_cene_ucitavanje">A carregar preços…</string>
     <string name="det_cene_greska">Os preços não estão disponíveis agora.</string>
     <string name="det_cene_nedelja">Preço médio nacional, semana de %s (EU Weekly Oil Bulletin, fuel-prices.eu). Os postos na autoestrada costumam ser mais caros.</string>
+    <!-- Stanje na putu i obaveštenja -->
+    <string name="stanje_naslov">Trânsito</string>
+    <string name="stanje_osvezi">Atualizar</string>
+    <string name="stanje_osvezeno">Atualizado às %s</string>
+    <string name="stanje_ucitavanje">Carregando avisos de trânsito…</string>
+    <string name="stanje_greska">Os avisos de trânsito não estão disponíveis agora.</string>
+    <string name="stanje_nema">Nenhum aviso de trânsito para a %s no momento.</string>
+    <string name="stanje_obavestenja">Notificações</string>
+    <string name="stanje_obavestenja_opis">Acidentes, filas e interdições na %1$s, verificado a cada %2$d minutos aprox.</string>
+    <string name="stanje_dozvola">As notificações estão desativadas para este app.</string>
+    <string name="stanje_podesavanja">Configurações</string>
+    <string name="stanje_izvor">Dados de trânsito: Autobahn GmbH des Bundes (verkehr.autobahn.de). Toque num aviso para ver o texto completo (em alemão).</string>
+    <string name="stanje_kasnjenje">+%d min</string>
+    <string name="stanje_od">Desde %s</string>
+    <string name="stanje_na_mapi">Ver no mapa</string>
+    <string name="vrsta_zatvoreno">Interditado</string>
+    <string name="vrsta_udes">Acidente</string>
+    <string name="vrsta_opasnost">Perigo</string>
+    <string name="vrsta_kolona">Fila</string>
+    <string name="vrsta_traka">Faixa interditada</string>
+    <string name="vrsta_sporo">Trânsito lento</string>
+    <string name="vrsta_prilaz">Saída fechada</string>
+    <string name="vrsta_ostalo">Aviso</string>
+    <string name="obav_kanal">Alertas de trânsito</string>
+    <string name="obav_naslov_vise">%1$s: %2$d novos avisos de trânsito</string>
+    <!-- Režim vožnje -->
+    <string name="voznja_kanal">Modo condução</string>
+    <string name="voznja_opis">Avisos da autoestrada em que você está – só o que está à frente</string>
+    <string name="voznja_pokreni">Iniciar</string>
+    <string name="voznja_zaustavi">Parar</string>
+    <string name="voznja_naslov">Modo condução ativado</string>
+    <string name="voznja_trazim">Procurando a autoestrada…</string>
+    <string name="voznja_van">Você não está numa autoestrada alemã</string>
+    <string name="voznja_na">Na %s</string>
+    <string name="voznja_na_smer">%1$s sentido %2$s</string>
+    <string name="voznja_dozvola">O modo condução precisa da sua localização exata.</string>
+    <string name="voznja_za_km">a %d km</string>
 </resources>

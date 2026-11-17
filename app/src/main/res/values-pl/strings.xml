@@ -56,4 +56,41 @@
     <string name="det_cene_ucitavanje">Wczytywanie cen…</string>
     <string name="det_cene_greska">Ceny są teraz niedostępne.</string>
     <string name="det_cene_nedelja">Średnia cena krajowa, tydzień od %s (EU Weekly Oil Bulletin, fuel-prices.eu). Stacje przy autostradach są zwykle droższe.</string>
+    <!-- Stanje na putu i obaveštenja -->
+    <string name="stanje_naslov">Sytuacja na drodze</string>
+    <string name="stanje_osvezi">Odśwież</string>
+    <string name="stanje_osvezeno">Zaktualizowano o %s</string>
+    <string name="stanje_ucitavanje">Wczytywanie komunikatów drogowych…</string>
+    <string name="stanje_greska">Komunikaty drogowe są teraz niedostępne.</string>
+    <string name="stanje_nema">Brak komunikatów drogowych dla %s.</string>
+    <string name="stanje_obavestenja">Powiadomienia</string>
+    <string name="stanje_obavestenja_opis">Wypadki, korki i zamknięcia na %1$s, sprawdzane mniej więcej co %2$d minut</string>
+    <string name="stanje_dozvola">Powiadomienia są wyłączone dla tej aplikacji.</string>
+    <string name="stanje_podesavanja">Ustawienia</string>
+    <string name="stanje_izvor">Dane o ruchu: Autobahn GmbH des Bundes (verkehr.autobahn.de). Dotknij komunikatu, aby zobaczyć pełny tekst (po niemiecku).</string>
+    <string name="stanje_kasnjenje">+%d min</string>
+    <string name="stanje_od">Od %s</string>
+    <string name="stanje_na_mapi">Pokaż na mapie</string>
+    <string name="vrsta_zatvoreno">Zamknięte</string>
+    <string name="vrsta_udes">Wypadek</string>
+    <string name="vrsta_opasnost">Zagrożenie</string>
+    <string name="vrsta_kolona">Korek</string>
+    <string name="vrsta_traka">Zamknięty pas</string>
+    <string name="vrsta_sporo">Spowolniony ruch</string>
+    <string name="vrsta_prilaz">Zamknięty zjazd</string>
+    <string name="vrsta_ostalo">Komunikat</string>
+    <string name="obav_kanal">Alerty drogowe</string>
+    <string name="obav_naslov_vise">%1$s: nowe komunikaty drogowe (%2$d)</string>
+    <!-- Režim vožnje -->
+    <string name="voznja_kanal">Tryb jazdy</string>
+    <string name="voznja_opis">Powiadomienia dla autostrady, którą jedziesz – tylko to, co przed tobą</string>
+    <string name="voznja_pokreni">Włącz</string>
+    <string name="voznja_zaustavi">Wyłącz</string>
+    <string name="voznja_naslov">Tryb jazdy jest włączony</string>
+    <string name="voznja_trazim">Szukam autostrady…</string>
+    <string name="voznja_van">Nie jesteś na niemieckiej autostradzie</string>
+    <string name="voznja_na">Na %s</string>
+    <string name="voznja_na_smer">%1$s w kierunku %2$s</string>
+    <string name="voznja_dozvola">Tryb jazdy wymaga dokładnej lokalizacji.</string>
+    <string name="voznja_za_km">za %d km</string>
 </resources>

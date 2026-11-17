@@ -56,4 +56,41 @@
     <string name="det_cene_ucitavanje">Učitavam cijene…</string>
     <string name="det_cene_greska">Cijene trenutačno nisu dostupne.</string>
     <string name="det_cene_nedelja">Nacionalna prosječna cijena, tjedan od %s (EU Weekly Oil Bulletin, fuel-prices.eu). Benzinske na autocesti obično su skuplje.</string>
+    <!-- Stanje na putu i obaveštenja -->
+    <string name="stanje_naslov">Stanje na cesti</string>
+    <string name="stanje_osvezi">Osvježi</string>
+    <string name="stanje_osvezeno">Osvježeno u %s</string>
+    <string name="stanje_ucitavanje">Učitavanje prometnih informacija…</string>
+    <string name="stanje_greska">Prometne informacije trenutno nisu dostupne.</string>
+    <string name="stanje_nema">Trenutno nema prometnih informacija za %s.</string>
+    <string name="stanje_obavestenja">Obavijesti</string>
+    <string name="stanje_obavestenja_opis">Nesreće, kolone i zatvaranja na %1$s, provjera otprilike svakih %2$d minuta</string>
+    <string name="stanje_dozvola">Obavijesti su isključene za ovu aplikaciju.</string>
+    <string name="stanje_podesavanja">Postavke</string>
+    <string name="stanje_izvor">Prometni podaci: Autobahn GmbH des Bundes (verkehr.autobahn.de). Dodirnite vijest za cijeli tekst (na njemačkom).</string>
+    <string name="stanje_kasnjenje">+%d min</string>
+    <string name="stanje_od">Od %s</string>
+    <string name="stanje_na_mapi">Prikaži na karti</string>
+    <string name="vrsta_zatvoreno">Zatvoreno</string>
+    <string name="vrsta_udes">Nesreća</string>
+    <string name="vrsta_opasnost">Opasnost</string>
+    <string name="vrsta_kolona">Kolona</string>
+    <string name="vrsta_traka">Zatvoren trak</string>
+    <string name="vrsta_sporo">Usporen promet</string>
+    <string name="vrsta_prilaz">Zatvoren izlaz</string>
+    <string name="vrsta_ostalo">Vijest</string>
+    <string name="obav_kanal">Stanje na cesti</string>
+    <string name="obav_naslov_vise">%1$s: %2$d novih prometnih informacija</string>
+    <!-- Režim vožnje -->
+    <string name="voznja_kanal">Vožnja</string>
+    <string name="voznja_opis">Obavijesti za autocestu kojom vozite – samo ono što je ispred vas</string>
+    <string name="voznja_pokreni">Pokreni</string>
+    <string name="voznja_zaustavi">Zaustavi</string>
+    <string name="voznja_naslov">Način vožnje je uključen</string>
+    <string name="voznja_trazim">Tražim autocestu…</string>
+    <string name="voznja_van">Niste na njemačkoj autocesti</string>
+    <string name="voznja_na">Na %s</string>
+    <string name="voznja_na_smer">%1$s prema %2$s</string>
+    <string name="voznja_dozvola">Za način vožnje potrebna je precizna lokacija.</string>
+    <string name="voznja_za_km">za %d km</string>
 </resources>

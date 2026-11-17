@@ -1,0 +1,334 @@
+package com.zeljkobilbija001.autobahninfo;
+
+import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ServiceInfo;
+import android.location.Location;
+import android.os.Build;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Looper;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.ServiceCompat;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/**
+ * Režim „Vožnja“: korisnik ga sam uključi; dok traje, u traci stoji stalno obaveštenje.
+ * Iz lokacije se određuje autoput, kilometar i smer, a na svakih 15 minuta (i čim se pređe
+ * na drugi autoput) javljaju se nove važne poruke ispred vozača, u njegovom smeru.
+ * Lokacija ostaje na telefonu.
+ */
+public class VoznjaService extends Service {
+
+    private static final String AKCIJA_STOP = "stop";
+    private static final String KANAL = "voznja";
+    private static final int ID_OBAVESTENJA = 7001;
+    private static final long PROVERA_MS = Obavestenja.MINUTA * 60_000L;
+    private static final long BEZ_AUTOPUTA_MS = 45 * 60_000L;   // toliko van autoputa → samo se gasi
+    private static final long NAJDUZE_MS = 12 * 60 * 60_000L;
+    private static final double NA_AUTOPUTU_KM = 2.5, OSTAJE_KM = 3.5;
+    private static final int ISPRED_KM = 100;
+    private static final float MIN_BRZINA = 8f; // m/s (~30 km/h)
+
+    /** Stanje za početni ekran. */
+    public static volatile boolean radi;
+    public static volatile String opisStanja = "";
+    private static Runnable slusalac;
+
+    public static void pokreni(Context c) {
+        ContextCompat.startForegroundService(c, new Intent(c, VoznjaService.class));
+    }
+
+    public static void zaustavi(Context c) {
+        c.stopService(new Intent(c, VoznjaService.class));
+    }
+
+    /** Početni ekran se prijavljuje da osveži dugme kad se stanje promeni (poziva se na glavnoj niti). */
+    public static void postaviSlusaoca(Runnable r) {
+        slusalac = r;
+    }
+
+    private final Handler glavna = new Handler(Looper.getMainLooper());
+    private final ExecutorService nit = Executors.newSingleThreadExecutor();
+    private FusedLocationProviderClient lokacije;
+    private final LocationCallback povratni = new LocationCallback() {
+        @Override
+        public void onLocationResult(@NonNull LocationResult r) {
+            Location l = r.getLastLocation();
+            if (l != null) nit.execute(() -> obradiLokaciju(l));
+        }
+    };
+
+    // stanje (menja se samo na niti "nit")
+    private String autoput;          // trenutni autoput ili null
+    private int deonica;
+    private double km, kmZaSmer = Double.NaN;
+    private char smer = '?';
+    private String kandidat;         // autoput koji se pojavio jednom, čeka potvrdu
+    private Location prethodna;
+    private long pocetak, poslednjiPutNaAutoputu, poslednjaProvera;
+
+    private final Runnable periodicno = new Runnable() {
+        @Override
+        public void run() {
+            nit.execute(VoznjaService.this::proveri);
+            glavna.postDelayed(this, PROVERA_MS);
+        }
+    };
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent != null && AKCIJA_STOP.equals(intent.getAction())) {
+            stopSelf();
+            return START_NOT_STICKY;
+        }
+        if (radi) return START_NOT_STICKY;
+
+        napraviKanal();
+        try {
+            ServiceCompat.startForeground(this, ID_OBAVESTENJA, obavestenje(getString(R.string.voznja_trazim)),
+                    Build.VERSION.SDK_INT >= 29 ? ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION : 0);
+        } catch (Exception e) {
+            // nema dozvole za lokaciju ili sistem ne dozvoljava pokretanje
+            stopSelf();
+            return START_NOT_STICKY;
+        }
+        radi = true;
+        pocetak = poslednjiPutNaAutoputu = System.currentTimeMillis();
+        javiStanje(getString(R.string.voznja_trazim));
+
+        lokacije = LocationServices.getFusedLocationProviderClient(this);
+        LocationRequest zahtev = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 60_000L)
+                .setMinUpdateIntervalMillis(30_000L)
+                .setMinUpdateDistanceMeters(150f)
+                .build();
+        try {
+            lokacije.requestLocationUpdates(zahtev, povratni, Looper.getMainLooper());
+        } catch (SecurityException e) {
+            stopSelf();
+            return START_NOT_STICKY;
+        }
+        glavna.postDelayed(periodicno, PROVERA_MS);
+        return START_NOT_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        glavna.removeCallbacksAndMessages(null);
+        if (lokacije != null) lokacije.removeLocationUpdates(povratni);
+        nit.shutdownNow();
+        radi = false;
+        opisStanja = "";
+        Runnable r = slusalac;
+        if (r != null) r.run();
+        super.onDestroy();
+    }
+
+    // ---------- Lokacija → autoput, kilometar, smer ----------
+
+    private void obradiLokaciju(Location l) {
+        long sad = System.currentTimeMillis();
+        if (sad - pocetak > NAJDUZE_MS) {
+            glavna.post(this::stopSelf);
+            return;
+        }
+        String stari = autoput;
+        char stariSmer = smer;
+
+        // ostaje na istom autoputu dok je blizu njega (čvorišta: ne skače na drugi odmah)
+        Polozaj.Tacka t = autoput != null ? Polozaj.nadji(this, l.getLatitude(), l.getLongitude(), autoput) : null;
+        if (t == null || t.udaljenost > OSTAJE_KM) {
+            Polozaj.Tacka n = Polozaj.nadji(this, l.getLatitude(), l.getLongitude(), null);
+            // novi autoput se prihvata samo u vožnji (ne kod kuće pored autoputa)
+            if (n != null && n.udaljenost <= NA_AUTOPUTU_KM && brzina(l) >= MIN_BRZINA) {
+                if (n.autoput.equals(kandidat)) {
+                    t = n;
+                } else {
+                    kandidat = n.autoput;   // treba još jedna potvrda
+                    t = null;
+                }
+            } else {
+                kandidat = null;
+                t = null;
+            }
+            if (t == null && autoput != null) {
+                autoput = null;
+                smer = '?';
+                kmZaSmer = Double.NaN;
+            }
+        }
+
+        if (t != null) {
+            kandidat = null;
+            poslednjiPutNaAutoputu = sad;
+            if (!t.autoput.equals(autoput) || t.deonica != deonica) {
+                autoput = t.autoput;
+                deonica = t.deonica;
+                smer = '?';
+                kmZaSmer = t.km;
+            } else if (Double.isNaN(kmZaSmer)) {
+                kmZaSmer = t.km;
+            } else if (Math.abs(t.km - kmZaSmer) >= 0.5) {
+                smer = t.km > kmZaSmer ? '+' : '-';
+                kmZaSmer = t.km;
+            }
+            km = t.km;
+        } else if (sad - poslednjiPutNaAutoputu > BEZ_AUTOPUTA_MS) {
+            glavna.post(this::stopSelf);
+            return;
+        }
+
+        osveziObavestenje();
+        // novi autoput ili upravo saznat smer: odmah provera
+        boolean promena = autoput != null && smer != '?' && (!autoput.equals(stari) || stariSmer != smer);
+        if (promena && sad - poslednjaProvera > 60_000L) proveri();
+    }
+
+    /** Brzina u m/s: iz GPS-a, a ako je nema, iz razdaljine od prethodne lokacije. */
+    private float brzina(Location l) {
+        Location pre = prethodna;
+        prethodna = l;
+        if (l.hasSpeed() && l.getSpeed() > 0) return l.getSpeed();
+        if (pre == null) return 0;
+        long ms = l.getTime() - pre.getTime();
+        return ms > 0 ? l.distanceTo(pre) * 1000f / ms : 0;
+    }
+
+    private void osveziObavestenje() {
+        String tekst;
+        if (autoput == null) {
+            tekst = getString(kandidat != null ? R.string.voznja_trazim : R.string.voznja_van);
+        } else {
+            Autoput a = Autoputevi.poId(autoput);
+            String oznaka = a != null ? a.oznaka() : autoput;
+            String kuda = kuda();
+            tekst = kuda == null ? getString(R.string.voznja_na, oznaka)
+                    : getString(R.string.voznja_na_smer, oznaka, kuda);
+        }
+        NotificationManager nm = getSystemService(NotificationManager.class);
+        if (nm != null) nm.notify(ID_OBAVESTENJA, obavestenje(tekst));
+        javiStanje(tekst);
+    }
+
+    /** Naziv mesta prema kome se vozi, iz podataka o deonici. */
+    private String kuda() {
+        if (autoput == null || smer == '?') return null;
+        Podaci p = Podaci.za(this, Autoputevi.poId(autoput));
+        if (p == null || deonica >= p.deonice.size()) return null;
+        Deonica d = p.deonice.get(deonica);
+        return smer == '+' ? d.plus : d.minus;
+    }
+
+    private void javiStanje(String tekst) {
+        opisStanja = tekst;
+        glavna.post(() -> {
+            Runnable r = slusalac;
+            if (r != null) r.run();
+        });
+    }
+
+    // ---------- Provera poruka ispred vozača ----------
+
+    private void proveri() {
+        if (autoput == null || smer == '?') return;
+        poslednjaProvera = System.currentTimeMillis();
+        String id = autoput;
+        List<Dogadjaj> svi;
+        try {
+            svi = StanjeNaPutu.preuzmi(id);
+        } catch (Exception e) {
+            return;
+        }
+        List<Dogadjaj> ispred = new ArrayList<>();
+        Map<String, Integer> udaljenosti = new HashMap<>();
+        for (Dogadjaj d : svi) {
+            if (!d.zaObavestenje()) continue;
+            Integer u = ispred(d, id);
+            if (u != null) {
+                ispred.add(d);
+                udaljenosti.put(d.id, u);
+            }
+        }
+        Obavestenja.obradi(this, id, svi, ispred, udaljenosti);
+    }
+
+    /** Koliko km je poruka ispred vozača (u njegovom smeru), ili null ako nije ispred. */
+    private Integer ispred(Dogadjaj d, String id) {
+        if (!d.imaKoordinate()) return null;
+        Polozaj.Tacka p1 = Polozaj.nadji(this, d.lat, d.lon, id);
+        if (p1 == null || p1.udaljenost > OSTAJE_KM || p1.deonica != deonica) return null;
+        double k1 = p1.km, k2 = p1.km;
+        if (!Double.isNaN(d.lat2) && !Double.isNaN(d.lon2)) {
+            Polozaj.Tacka p2 = Polozaj.nadji(this, d.lat2, d.lon2, id);
+            if (p2 != null && p2.deonica == deonica && p2.udaljenost <= OSTAJE_KM) {
+                k2 = p2.km;
+                // poruka je za suprotan smer
+                if (Math.abs(k2 - k1) >= 0.3 && (k2 > k1) != (smer == '+')) return null;
+            }
+        }
+        double znak = smer == '+' ? 1 : -1;
+        double odPocetka = (k1 - km) * znak, doKraja = (k2 - km) * znak;
+        if (Math.max(odPocetka, doKraja) < -1 || Math.min(odPocetka, doKraja) > ISPRED_KM) return null;
+        return (int) Math.round(Math.max(0, Math.min(odPocetka, doKraja)));
+    }
+
+    // ---------- Stalno obaveštenje ----------
+
+    private Notification obavestenje(String tekst) {
+        Intent otvori = autoput != null ? StanjeActivity.namera(this, autoput) : new Intent(this, MainActivity.class);
+        otvori.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pi = PendingIntent.getActivity(this, 1, otvori,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent stop = PendingIntent.getService(this, 2,
+                new Intent(this, VoznjaService.class).setAction(AKCIJA_STOP), PendingIntent.FLAG_IMMUTABLE);
+        return new NotificationCompat.Builder(this, KANAL)
+                .setSmallIcon(R.drawable.ic_obavestenje)
+                .setColor(Izgled.boja(this, R.color.plava))
+                .setContentTitle(getString(R.string.voznja_naslov))
+                .setContentText(tekst)
+                .setContentIntent(pi)
+                .addAction(0, getString(R.string.voznja_zaustavi), stop)
+                .setOngoing(true)
+                .setOnlyAlertOnce(true)
+                .setSilent(true)
+                .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
+                .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .build();
+    }
+
+    private void napraviKanal() {
+        if (Build.VERSION.SDK_INT < 26) return;
+        NotificationManager nm = getSystemService(NotificationManager.class);
+        if (nm == null || nm.getNotificationChannel(KANAL) != null) return;
+        nm.createNotificationChannel(new NotificationChannel(KANAL,
+                getString(R.string.voznja_kanal), NotificationManager.IMPORTANCE_LOW));
+    }
+}

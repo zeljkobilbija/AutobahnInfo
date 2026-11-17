@@ -56,4 +56,41 @@
     <string name="det_cene_ucitavanje">Načítavam ceny…</string>
     <string name="det_cene_greska">Ceny teraz nie sú dostupné.</string>
     <string name="det_cene_nedelja">Celoštátna priemerná cena, týždeň od %s (EU Weekly Oil Bulletin, fuel-prices.eu). Diaľničné čerpacie stanice bývajú drahšie.</string>
+    <!-- Stanje na putu i obaveštenja -->
+    <string name="stanje_naslov">Dopravná situácia</string>
+    <string name="stanje_osvezi">Obnoviť</string>
+    <string name="stanje_osvezeno">Aktualizované o %s</string>
+    <string name="stanje_ucitavanje">Načítavajú sa dopravné informácie…</string>
+    <string name="stanje_greska">Dopravné informácie momentálne nie sú dostupné.</string>
+    <string name="stanje_nema">Pre %s teraz nie sú žiadne dopravné informácie.</string>
+    <string name="stanje_obavestenja">Upozornenia</string>
+    <string name="stanje_obavestenja_opis">Nehody, kolóny a uzávierky na %1$s, kontrola približne každých %2$d minút</string>
+    <string name="stanje_dozvola">Upozornenia sú pre túto aplikáciu vypnuté.</string>
+    <string name="stanje_podesavanja">Nastavenia</string>
+    <string name="stanje_izvor">Dopravné údaje: Autobahn GmbH des Bundes (verkehr.autobahn.de). Ťuknite na správu pre celý text (v nemčine).</string>
+    <string name="stanje_kasnjenje">+%d min</string>
+    <string name="stanje_od">Od %s</string>
+    <string name="stanje_na_mapi">Zobraziť na mape</string>
+    <string name="vrsta_zatvoreno">Uzavreté</string>
+    <string name="vrsta_udes">Nehoda</string>
+    <string name="vrsta_opasnost">Nebezpečenstvo</string>
+    <string name="vrsta_kolona">Kolóna</string>
+    <string name="vrsta_traka">Uzavretý pruh</string>
+    <string name="vrsta_sporo">Pomalá premávka</string>
+    <string name="vrsta_prilaz">Uzavretý zjazd</string>
+    <string name="vrsta_ostalo">Správa</string>
+    <string name="obav_kanal">Dopravné upozornenia</string>
+    <string name="obav_naslov_vise">%1$s: nové dopravné informácie (%2$d)</string>
+    <!-- Režim vožnje -->
+    <string name="voznja_kanal">Režim jazdy</string>
+    <string name="voznja_opis">Upozornenia pre diaľnicu, po ktorej idete – len to, čo je pred vami</string>
+    <string name="voznja_pokreni">Spustiť</string>
+    <string name="voznja_zaustavi">Zastaviť</string>
+    <string name="voznja_naslov">Režim jazdy je zapnutý</string>
+    <string name="voznja_trazim">Hľadám diaľnicu…</string>
+    <string name="voznja_van">Nie ste na nemeckej diaľnici</string>
+    <string name="voznja_na">Na %s</string>
+    <string name="voznja_na_smer">%1$s smer %2$s</string>
+    <string name="voznja_dozvola">Režim jazdy potrebuje presnú polohu.</string>
+    <string name="voznja_za_km">o %d km</string>
 </resources>

@@ -56,4 +56,41 @@
     <string name="det_cene_ucitavanje">Загрузка цен…</string>
     <string name="det_cene_greska">Цены сейчас недоступны.</string>
     <string name="det_cene_nedelja">Средняя цена по стране, неделя с %s (EU Weekly Oil Bulletin, fuel-prices.eu). На заправках у автомагистралей обычно дороже.</string>
+    <!-- Stanje na putu i obaveštenja -->
+    <string name="stanje_naslov">Дорожная обстановка</string>
+    <string name="stanje_osvezi">Обновить</string>
+    <string name="stanje_osvezeno">Обновлено в %s</string>
+    <string name="stanje_ucitavanje">Загрузка дорожных сообщений…</string>
+    <string name="stanje_greska">Дорожные сообщения сейчас недоступны.</string>
+    <string name="stanje_nema">Сейчас нет дорожных сообщений для %s.</string>
+    <string name="stanje_obavestenja">Уведомления</string>
+    <string name="stanje_obavestenja_opis">Аварии, пробки и перекрытия на %1$s, проверка примерно каждые %2$d минут</string>
+    <string name="stanje_dozvola">Уведомления для этого приложения отключены.</string>
+    <string name="stanje_podesavanja">Настройки</string>
+    <string name="stanje_izvor">Данные о движении: Autobahn GmbH des Bundes (verkehr.autobahn.de). Нажмите на сообщение, чтобы увидеть полный текст (на немецком).</string>
+    <string name="stanje_kasnjenje">+%d мин</string>
+    <string name="stanje_od">С %s</string>
+    <string name="stanje_na_mapi">Показать на карте</string>
+    <string name="vrsta_zatvoreno">Перекрыто</string>
+    <string name="vrsta_udes">Авария</string>
+    <string name="vrsta_opasnost">Опасность</string>
+    <string name="vrsta_kolona">Пробка</string>
+    <string name="vrsta_traka">Полоса перекрыта</string>
+    <string name="vrsta_sporo">Медленное движение</string>
+    <string name="vrsta_prilaz">Съезд закрыт</string>
+    <string name="vrsta_ostalo">Сообщение</string>
+    <string name="obav_kanal">Дорожные оповещения</string>
+    <string name="obav_naslov_vise">%1$s: новых дорожных сообщений: %2$d</string>
+    <!-- Režim vožnje -->
+    <string name="voznja_kanal">Режим поездки</string>
+    <string name="voznja_opis">Уведомления для автобана, по которому вы едете, – только то, что впереди</string>
+    <string name="voznja_pokreni">Включить</string>
+    <string name="voznja_zaustavi">Выключить</string>
+    <string name="voznja_naslov">Режим поездки включён</string>
+    <string name="voznja_trazim">Поиск автобана…</string>
+    <string name="voznja_van">Вы не на немецком автобане</string>
+    <string name="voznja_na">На %s</string>
+    <string name="voznja_na_smer">%1$s в сторону %2$s</string>
+    <string name="voznja_dozvola">Для режима поездки нужно точное местоположение.</string>
+    <string name="voznja_za_km">через %d км</string>
 </resources>

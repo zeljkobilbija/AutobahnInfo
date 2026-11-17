@@ -56,4 +56,41 @@
     <string name="det_cene_ucitavanje">Árak betöltése…</string>
     <string name="det_cene_greska">Az árak most nem érhetők el.</string>
     <string name="det_cene_nedelja">Országos átlagár, %s heti (EU Weekly Oil Bulletin, fuel-prices.eu). Az autópálya-kutak általában drágábbak.</string>
+    <!-- Stanje na putu i obaveštenja -->
+    <string name="stanje_naslov">Forgalmi helyzet</string>
+    <string name="stanje_osvezi">Frissítés</string>
+    <string name="stanje_osvezeno">Frissítve: %s</string>
+    <string name="stanje_ucitavanje">Forgalmi hírek betöltése…</string>
+    <string name="stanje_greska">A forgalmi hírek most nem érhetők el.</string>
+    <string name="stanje_nema">Jelenleg nincs forgalmi hír a(z) %s autópályáról.</string>
+    <string name="stanje_obavestenja">Értesítések</string>
+    <string name="stanje_obavestenja_opis">Balesetek, torlódások és lezárások a(z) %1$s autópályán, ellenőrzés kb. %2$d percenként</string>
+    <string name="stanje_dozvola">Az értesítések ki vannak kapcsolva ennél az alkalmazásnál.</string>
+    <string name="stanje_podesavanja">Beállítások</string>
+    <string name="stanje_izvor">Forgalmi adatok: Autobahn GmbH des Bundes (verkehr.autobahn.de). Koppintson egy hírre a teljes szövegért (németül).</string>
+    <string name="stanje_kasnjenje">+%d perc</string>
+    <string name="stanje_od">%s óta</string>
+    <string name="stanje_na_mapi">Megjelenítés térképen</string>
+    <string name="vrsta_zatvoreno">Lezárva</string>
+    <string name="vrsta_udes">Baleset</string>
+    <string name="vrsta_opasnost">Veszély</string>
+    <string name="vrsta_kolona">Torlódás</string>
+    <string name="vrsta_traka">Lezárt sáv</string>
+    <string name="vrsta_sporo">Lassú forgalom</string>
+    <string name="vrsta_prilaz">Lezárt kijárat</string>
+    <string name="vrsta_ostalo">Hír</string>
+    <string name="obav_kanal">Forgalmi értesítések</string>
+    <string name="obav_naslov_vise">%1$s: %2$d új forgalmi hír</string>
+    <!-- Režim vožnje -->
+    <string name="voznja_kanal">Vezetés mód</string>
+    <string name="voznja_opis">Értesítések arról az autópályáról, amelyen halad – csak ami Ön előtt van</string>
+    <string name="voznja_pokreni">Indítás</string>
+    <string name="voznja_zaustavi">Leállítás</string>
+    <string name="voznja_naslov">A vezetés mód be van kapcsolva</string>
+    <string name="voznja_trazim">Autópálya keresése…</string>
+    <string name="voznja_van">Nem német autópályán van</string>
+    <string name="voznja_na">%s</string>
+    <string name="voznja_na_smer">%1$s, %2$s felé</string>
+    <string name="voznja_dozvola">A vezetés módhoz pontos helyadat szükséges.</string>
+    <string name="voznja_za_km">%d km múlva</string>
 </resources>

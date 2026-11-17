@@ -56,4 +56,41 @@
     <string name="det_cene_ucitavanje">Preise werden geladen…</string>
     <string name="det_cene_greska">Preise sind derzeit nicht verfügbar.</string>
     <string name="det_cene_nedelja">Bundesweiter Durchschnittspreis, Woche vom %s (EU Weekly Oil Bulletin, fuel-prices.eu). Autobahntankstellen sind meist teurer.</string>
+    <!-- Stanje na putu i obaveštenja -->
+    <string name="stanje_naslov">Verkehrslage</string>
+    <string name="stanje_osvezi">Aktualisieren</string>
+    <string name="stanje_osvezeno">Aktualisiert um %s</string>
+    <string name="stanje_ucitavanje">Verkehrsmeldungen werden geladen…</string>
+    <string name="stanje_greska">Verkehrsmeldungen sind gerade nicht verfügbar.</string>
+    <string name="stanje_nema">Zurzeit keine Verkehrsmeldungen für die %s.</string>
+    <string name="stanje_obavestenja">Benachrichtigungen</string>
+    <string name="stanje_obavestenja_opis">Unfälle, Staus und Sperrungen auf der %1$s, Prüfung etwa alle %2$d Minuten</string>
+    <string name="stanje_dozvola">Benachrichtigungen sind für diese App ausgeschaltet.</string>
+    <string name="stanje_podesavanja">Einstellungen</string>
+    <string name="stanje_izvor">Verkehrsdaten: Autobahn GmbH des Bundes (verkehr.autobahn.de). Meldung antippen für den vollständigen Text.</string>
+    <string name="stanje_kasnjenje">+%d Min.</string>
+    <string name="stanje_od">Seit %s</string>
+    <string name="stanje_na_mapi">Auf Karte zeigen</string>
+    <string name="vrsta_zatvoreno">Gesperrt</string>
+    <string name="vrsta_udes">Unfall</string>
+    <string name="vrsta_opasnost">Gefahr</string>
+    <string name="vrsta_kolona">Stau</string>
+    <string name="vrsta_traka">Fahrstreifen gesperrt</string>
+    <string name="vrsta_sporo">Stockender Verkehr</string>
+    <string name="vrsta_prilaz">Ausfahrt gesperrt</string>
+    <string name="vrsta_ostalo">Meldung</string>
+    <string name="obav_kanal">Verkehrswarnungen</string>
+    <string name="obav_naslov_vise">%1$s: %2$d neue Verkehrsmeldungen</string>
+    <!-- Režim vožnje -->
+    <string name="voznja_kanal">Fahrmodus</string>
+    <string name="voznja_opis">Meldungen für die Autobahn, auf der Sie fahren – nur was vor Ihnen liegt</string>
+    <string name="voznja_pokreni">Starten</string>
+    <string name="voznja_zaustavi">Beenden</string>
+    <string name="voznja_naslov">Fahrmodus ist aktiv</string>
+    <string name="voznja_trazim">Autobahn wird gesucht…</string>
+    <string name="voznja_van">Nicht auf einer deutschen Autobahn</string>
+    <string name="voznja_na">Auf der %s</string>
+    <string name="voznja_na_smer">%1$s Richtung %2$s</string>
+    <string name="voznja_dozvola">Der Fahrmodus benötigt Ihren genauen Standort.</string>
+    <string name="voznja_za_km">in %d km</string>
 </resources>

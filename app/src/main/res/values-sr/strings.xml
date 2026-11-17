@@ -56,4 +56,41 @@
     <string name="det_cene_ucitavanje">Učitavam cene…</string>
     <string name="det_cene_greska">Cene trenutno nisu dostupne.</string>
     <string name="det_cene_nedelja">Prosečna cena u zemlji, nedelja od %s (EU Weekly Oil Bulletin, fuel-prices.eu). Pumpe na autoputu su obično skuplje.</string>
+    <!-- Stanje na putu i obaveštenja -->
+    <string name="stanje_naslov">Stanje na putu</string>
+    <string name="stanje_osvezi">Osveži</string>
+    <string name="stanje_osvezeno">Osveženo u %s</string>
+    <string name="stanje_ucitavanje">Učitavanje saobraćajnih vesti…</string>
+    <string name="stanje_greska">Saobraćajne vesti trenutno nisu dostupne.</string>
+    <string name="stanje_nema">Trenutno nema saobraćajnih vesti za %s.</string>
+    <string name="stanje_obavestenja">Obaveštenja</string>
+    <string name="stanje_obavestenja_opis">Udesi, kolone i zatvaranja na %1$s, provera otprilike na svakih %2$d minuta</string>
+    <string name="stanje_dozvola">Obaveštenja su isključena za ovu aplikaciju.</string>
+    <string name="stanje_podesavanja">Podešavanja</string>
+    <string name="stanje_izvor">Podaci o saobraćaju: Autobahn GmbH des Bundes (verkehr.autobahn.de). Dodirnite vest za ceo tekst (na nemačkom).</string>
+    <string name="stanje_kasnjenje">+%d min</string>
+    <string name="stanje_od">Od %s</string>
+    <string name="stanje_na_mapi">Prikaži na mapi</string>
+    <string name="vrsta_zatvoreno">Zatvoreno</string>
+    <string name="vrsta_udes">Udes</string>
+    <string name="vrsta_opasnost">Opasnost</string>
+    <string name="vrsta_kolona">Kolona</string>
+    <string name="vrsta_traka">Zatvorena traka</string>
+    <string name="vrsta_sporo">Usporen saobraćaj</string>
+    <string name="vrsta_prilaz">Zatvoren izlaz</string>
+    <string name="vrsta_ostalo">Vest</string>
+    <string name="obav_kanal">Stanje na putu</string>
+    <string name="obav_naslov_vise">%1$s: %2$d novih saobraćajnih vesti</string>
+    <!-- Režim vožnje -->
+    <string name="voznja_kanal">Vožnja</string>
+    <string name="voznja_opis">Obaveštenja za autoput kojim vozite – samo ono što je ispred vas</string>
+    <string name="voznja_pokreni">Pokreni</string>
+    <string name="voznja_zaustavi">Zaustavi</string>
+    <string name="voznja_naslov">Režim vožnje je uključen</string>
+    <string name="voznja_trazim">Tražim autoput…</string>
+    <string name="voznja_van">Niste na nemačkom autoputu</string>
+    <string name="voznja_na">Na %s</string>
+    <string name="voznja_na_smer">%1$s ka %2$s</string>
+    <string name="voznja_dozvola">Za režim vožnje potrebna je precizna lokacija.</string>
+    <string name="voznja_za_km">za %d km</string>
 </resources>

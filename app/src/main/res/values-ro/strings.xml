@@ -56,4 +56,41 @@
     <string name="det_cene_ucitavanje">Se încarcă prețurile…</string>
     <string name="det_cene_greska">Prețurile nu sunt disponibile acum.</string>
     <string name="det_cene_nedelja">Preț mediu național, săptămâna din %s (EU Weekly Oil Bulletin, fuel-prices.eu). Benzinăriile de pe autostradă sunt de obicei mai scumpe.</string>
+    <!-- Stanje na putu i obaveštenja -->
+    <string name="stanje_naslov">Situația traficului</string>
+    <string name="stanje_osvezi">Actualizează</string>
+    <string name="stanje_osvezeno">Actualizat la %s</string>
+    <string name="stanje_ucitavanje">Se încarcă știrile de trafic…</string>
+    <string name="stanje_greska">Știrile de trafic nu sunt disponibile acum.</string>
+    <string name="stanje_nema">Nu există știri de trafic pentru %s în acest moment.</string>
+    <string name="stanje_obavestenja">Notificări</string>
+    <string name="stanje_obavestenja_opis">Accidente, cozi și închideri pe %1$s, verificate cam la fiecare %2$d minute</string>
+    <string name="stanje_dozvola">Notificările sunt dezactivate pentru această aplicație.</string>
+    <string name="stanje_podesavanja">Setări</string>
+    <string name="stanje_izvor">Date de trafic: Autobahn GmbH des Bundes (verkehr.autobahn.de). Atingeți o știre pentru textul complet (în germană).</string>
+    <string name="stanje_kasnjenje">+%d min</string>
+    <string name="stanje_od">Din %s</string>
+    <string name="stanje_na_mapi">Arată pe hartă</string>
+    <string name="vrsta_zatvoreno">Închis</string>
+    <string name="vrsta_udes">Accident</string>
+    <string name="vrsta_opasnost">Pericol</string>
+    <string name="vrsta_kolona">Coadă</string>
+    <string name="vrsta_traka">Bandă închisă</string>
+    <string name="vrsta_sporo">Trafic lent</string>
+    <string name="vrsta_prilaz">Ieșire închisă</string>
+    <string name="vrsta_ostalo">Știre</string>
+    <string name="obav_kanal">Alerte de trafic</string>
+    <string name="obav_naslov_vise">%1$s: %2$d știri de trafic noi</string>
+    <!-- Režim vožnje -->
+    <string name="voznja_kanal">Mod condus</string>
+    <string name="voznja_opis">Alerte pentru autostrada pe care conduceți – doar ce este în fața dvs.</string>
+    <string name="voznja_pokreni">Pornește</string>
+    <string name="voznja_zaustavi">Oprește</string>
+    <string name="voznja_naslov">Modul condus este activ</string>
+    <string name="voznja_trazim">Se caută autostrada…</string>
+    <string name="voznja_van">Nu sunteți pe o autostradă germană</string>
+    <string name="voznja_na">Pe %s</string>
+    <string name="voznja_na_smer">%1$s spre %2$s</string>
+    <string name="voznja_dozvola">Modul condus are nevoie de locația exactă.</string>
+    <string name="voznja_za_km">în %d km</string>
 </resources>

@@ -56,4 +56,41 @@
     <string name="det_cene_ucitavanje">Chargement des prix…</string>
     <string name="det_cene_greska">Les prix ne sont pas disponibles pour le moment.</string>
     <string name="det_cene_nedelja">Prix moyen national, semaine du %s (EU Weekly Oil Bulletin, fuel-prices.eu). Les stations d\'autoroute sont souvent plus chères.</string>
+    <!-- Stanje na putu i obaveštenja -->
+    <string name="stanje_naslov">Trafic</string>
+    <string name="stanje_osvezi">Actualiser</string>
+    <string name="stanje_osvezeno">Mis à jour à %s</string>
+    <string name="stanje_ucitavanje">Chargement des infos trafic…</string>
+    <string name="stanje_greska">Les infos trafic ne sont pas disponibles pour le moment.</string>
+    <string name="stanje_nema">Aucune info trafic pour l’%s en ce moment.</string>
+    <string name="stanje_obavestenja">Notifications</string>
+    <string name="stanje_obavestenja_opis">Accidents, bouchons et fermetures sur l’%1$s, vérifiés environ toutes les %2$d minutes</string>
+    <string name="stanje_dozvola">Les notifications sont désactivées pour cette application.</string>
+    <string name="stanje_podesavanja">Paramètres</string>
+    <string name="stanje_izvor">Données trafic : Autobahn GmbH des Bundes (verkehr.autobahn.de). Touchez une info pour le texte complet (en allemand).</string>
+    <string name="stanje_kasnjenje">+%d min</string>
+    <string name="stanje_od">Depuis %s</string>
+    <string name="stanje_na_mapi">Voir sur la carte</string>
+    <string name="vrsta_zatvoreno">Fermé</string>
+    <string name="vrsta_udes">Accident</string>
+    <string name="vrsta_opasnost">Danger</string>
+    <string name="vrsta_kolona">Bouchon</string>
+    <string name="vrsta_traka">Voie fermée</string>
+    <string name="vrsta_sporo">Trafic ralenti</string>
+    <string name="vrsta_prilaz">Sortie fermée</string>
+    <string name="vrsta_ostalo">Info</string>
+    <string name="obav_kanal">Alertes trafic</string>
+    <string name="obav_naslov_vise">%1$s : %2$d nouvelles infos trafic</string>
+    <!-- Režim vožnje -->
+    <string name="voznja_kanal">Mode conduite</string>
+    <string name="voznja_opis">Alertes pour l’autoroute sur laquelle vous roulez – seulement ce qui est devant vous</string>
+    <string name="voznja_pokreni">Démarrer</string>
+    <string name="voznja_zaustavi">Arrêter</string>
+    <string name="voznja_naslov">Mode conduite activé</string>
+    <string name="voznja_trazim">Recherche de l’autoroute…</string>
+    <string name="voznja_van">Vous n’êtes pas sur une autoroute allemande</string>
+    <string name="voznja_na">Sur l’%s</string>
+    <string name="voznja_na_smer">%1$s direction %2$s</string>
+    <string name="voznja_dozvola">Le mode conduite a besoin de votre position précise.</string>
+    <string name="voznja_za_km">dans %d km</string>
 </resources>

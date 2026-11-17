@@ -56,4 +56,41 @@
     <string name="det_cene_ucitavanje">Φόρτωση τιμών…</string>
     <string name="det_cene_greska">Οι τιμές δεν είναι διαθέσιμες τώρα.</string>
     <string name="det_cene_nedelja">Εθνική μέση τιμή, εβδομάδα %s (EU Weekly Oil Bulletin, fuel-prices.eu). Τα πρατήρια στους αυτοκινητόδρομους είναι συνήθως ακριβότερα.</string>
+    <!-- Stanje na putu i obaveštenja -->
+    <string name="stanje_naslov">Κυκλοφορία</string>
+    <string name="stanje_osvezi">Ανανέωση</string>
+    <string name="stanje_osvezeno">Ενημέρωση στις %s</string>
+    <string name="stanje_ucitavanje">Φόρτωση κυκλοφοριακών ειδήσεων…</string>
+    <string name="stanje_greska">Οι κυκλοφοριακές ειδήσεις δεν είναι διαθέσιμες τώρα.</string>
+    <string name="stanje_nema">Δεν υπάρχουν κυκλοφοριακές ειδήσεις για τον %s αυτή τη στιγμή.</string>
+    <string name="stanje_obavestenja">Ειδοποιήσεις</string>
+    <string name="stanje_obavestenja_opis">Ατυχήματα, ουρές και κλεισίματα στον %1$s, έλεγχος περίπου κάθε %2$d λεπτά</string>
+    <string name="stanje_dozvola">Οι ειδοποιήσεις είναι απενεργοποιημένες για αυτή την εφαρμογή.</string>
+    <string name="stanje_podesavanja">Ρυθμίσεις</string>
+    <string name="stanje_izvor">Δεδομένα κυκλοφορίας: Autobahn GmbH des Bundes (verkehr.autobahn.de). Πατήστε μια είδηση για όλο το κείμενο (στα γερμανικά).</string>
+    <string name="stanje_kasnjenje">+%d λεπ.</string>
+    <string name="stanje_od">Από %s</string>
+    <string name="stanje_na_mapi">Εμφάνιση στον χάρτη</string>
+    <string name="vrsta_zatvoreno">Κλειστό</string>
+    <string name="vrsta_udes">Ατύχημα</string>
+    <string name="vrsta_opasnost">Κίνδυνος</string>
+    <string name="vrsta_kolona">Ουρά</string>
+    <string name="vrsta_traka">Κλειστή λωρίδα</string>
+    <string name="vrsta_sporo">Αργή κίνηση</string>
+    <string name="vrsta_prilaz">Κλειστή έξοδος</string>
+    <string name="vrsta_ostalo">Είδηση</string>
+    <string name="obav_kanal">Ειδοποιήσεις κυκλοφορίας</string>
+    <string name="obav_naslov_vise">%1$s: %2$d νέες κυκλοφοριακές ειδήσεις</string>
+    <!-- Režim vožnje -->
+    <string name="voznja_kanal">Λειτουργία οδήγησης</string>
+    <string name="voznja_opis">Ειδοποιήσεις για τον αυτοκινητόδρομο που οδηγείτε – μόνο ό,τι είναι μπροστά σας</string>
+    <string name="voznja_pokreni">Έναρξη</string>
+    <string name="voznja_zaustavi">Διακοπή</string>
+    <string name="voznja_naslov">Η λειτουργία οδήγησης είναι ενεργή</string>
+    <string name="voznja_trazim">Αναζήτηση αυτοκινητόδρομου…</string>
+    <string name="voznja_van">Δεν βρίσκεστε σε γερμανικό αυτοκινητόδρομο</string>
+    <string name="voznja_na">Στον %s</string>
+    <string name="voznja_na_smer">%1$s προς %2$s</string>
+    <string name="voznja_dozvola">Η λειτουργία οδήγησης χρειάζεται την ακριβή τοποθεσία σας.</string>
+    <string name="voznja_za_km">σε %d χλμ.</string>
 </resources>

@@ -56,4 +56,41 @@
     <string name="det_cene_ucitavanje">Fiyatlar yükleniyor…</string>
     <string name="det_cene_greska">Fiyatlar şu anda kullanılamıyor.</string>
     <string name="det_cene_nedelja">Ülke ortalama fiyatı, %s haftası (EU Weekly Oil Bulletin, fuel-prices.eu). Otoyol istasyonları genellikle daha pahalıdır.</string>
+    <!-- Stanje na putu i obaveštenja -->
+    <string name="stanje_naslov">Trafik durumu</string>
+    <string name="stanje_osvezi">Yenile</string>
+    <string name="stanje_osvezeno">%s itibarıyla güncellendi</string>
+    <string name="stanje_ucitavanje">Trafik bilgileri yükleniyor…</string>
+    <string name="stanje_greska">Trafik bilgileri şu anda kullanılamıyor.</string>
+    <string name="stanje_nema">Şu anda %s için trafik bilgisi yok.</string>
+    <string name="stanje_obavestenja">Bildirimler</string>
+    <string name="stanje_obavestenja_opis">%1$s üzerindeki kazalar, kuyruklar ve kapanışlar, yaklaşık her %2$d dakikada kontrol edilir</string>
+    <string name="stanje_dozvola">Bu uygulama için bildirimler kapalı.</string>
+    <string name="stanje_podesavanja">Ayarlar</string>
+    <string name="stanje_izvor">Trafik verileri: Autobahn GmbH des Bundes (verkehr.autobahn.de). Tam metin için bir bildirime dokunun (Almanca).</string>
+    <string name="stanje_kasnjenje">+%d dk</string>
+    <string name="stanje_od">%s itibarıyla</string>
+    <string name="stanje_na_mapi">Haritada göster</string>
+    <string name="vrsta_zatvoreno">Kapalı</string>
+    <string name="vrsta_udes">Kaza</string>
+    <string name="vrsta_opasnost">Tehlike</string>
+    <string name="vrsta_kolona">Kuyruk</string>
+    <string name="vrsta_traka">Şerit kapalı</string>
+    <string name="vrsta_sporo">Yavaş trafik</string>
+    <string name="vrsta_prilaz">Çıkış kapalı</string>
+    <string name="vrsta_ostalo">Bildiri</string>
+    <string name="obav_kanal">Trafik uyarıları</string>
+    <string name="obav_naslov_vise">%1$s: %2$d yeni trafik bildirimi</string>
+    <!-- Režim vožnje -->
+    <string name="voznja_kanal">Sürüş modu</string>
+    <string name="voznja_opis">Sürdüğünüz otoyol için uyarılar – yalnızca önünüzdekiler</string>
+    <string name="voznja_pokreni">Başlat</string>
+    <string name="voznja_zaustavi">Durdur</string>
+    <string name="voznja_naslov">Sürüş modu açık</string>
+    <string name="voznja_trazim">Otoyol aranıyor…</string>
+    <string name="voznja_van">Bir Alman otoyolunda değilsiniz</string>
+    <string name="voznja_na">%s üzerinde</string>
+    <string name="voznja_na_smer">%1$s, %2$s yönünde</string>
+    <string name="voznja_dozvola">Sürüş modu için kesin konum gerekir.</string>
+    <string name="voznja_za_km">%d km sonra</string>
 </resources>

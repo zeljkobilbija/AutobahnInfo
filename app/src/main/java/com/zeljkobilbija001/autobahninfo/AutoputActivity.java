@@ -99,6 +99,7 @@ public class AutoputActivity extends AppCompatActivity {
         lista.setAdapter(adapter);
 
         findViewById(R.id.nazad).setOnClickListener(v -> zatvori());
+        findViewById(R.id.stanje).setOnClickListener(v -> startActivity(StanjeActivity.namera(this, autoput.id)));
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
