@@ -67,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
 
         voznjaDugme = findViewById(R.id.voznjaDugme);
         voznjaOpis = findViewById(R.id.voznjaOpis);
+        // proba (samo debug verzija): dodir na karticu "Vožnja" otvara dnevnik
+        if (Dnevnik.ukljucen(this)) {
+            findViewById(R.id.voznja).setOnClickListener(v ->
+                    startActivity(new Intent(this, DnevnikActivity.class)));
+        }
         voznjaDugme.setOnClickListener(v -> {
             if (VoznjaService.radi) VoznjaService.zaustavi(this);
             else pokreniVoznju();
@@ -120,7 +125,9 @@ public class MainActivity extends AppCompatActivity {
         boolean radi = VoznjaService.radi;
         voznjaDugme.setText(radi ? R.string.voznja_zaustavi : R.string.voznja_pokreni);
         String opis = VoznjaService.opisStanja;
-        voznjaOpis.setText(radi && !opis.isEmpty() ? opis : getString(R.string.voznja_opis));
+        String tekst = radi && !opis.isEmpty() ? opis : getString(R.string.voznja_opis);
+        if (Dnevnik.ukljucen(this)) tekst += "\nDNEVNIK › (dodir na karticu)";
+        voznjaOpis.setText(tekst);
     }
 
     @Override

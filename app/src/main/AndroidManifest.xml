@@ -43,6 +43,10 @@
             android:name=".StanjeActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".DnevnikActivity"
+            android:exported="false" />
+
         <!-- Režim "Vožnja": korisnik ga sam uključi, lokacija samo dok traje -->
         <service
             android:name=".VoznjaService"

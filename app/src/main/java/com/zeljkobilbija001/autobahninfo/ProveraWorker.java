@@ -20,8 +20,13 @@ public class ProveraWorker extends Worker {
         for (String id : Obavestenja.praceni(c)) {
             if (isStopped()) break;
             try {
-                Obavestenja.obradi(c, id, StanjeNaPutu.preuzmi(id));
-            } catch (Exception ignored) {
+                java.util.List<Dogadjaj> l = StanjeNaPutu.preuzmi(id);
+                int vaznih = 0;
+                for (Dogadjaj d : l) if (d.zaObavestenje()) vaznih++;
+                Dnevnik.upisi(c, "PRAĆENJE " + id + ": " + l.size() + " poruka, važnih " + vaznih);
+                Obavestenja.obradi(c, id, l);
+            } catch (Exception e) {
+                Dnevnik.upisi(c, "PRAĆENJE " + id + ": greška " + e.getMessage());
                 // nema mreže ili servis ne radi: pokušava se pri sledećoj proveri
             }
         }

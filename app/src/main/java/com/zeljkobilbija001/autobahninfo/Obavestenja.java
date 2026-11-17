@@ -116,6 +116,8 @@ public final class Obavestenja {
         List<Dogadjaj> novi = new java.util.ArrayList<>();
         for (Dogadjaj d : kandidati) if (vidjeno.add(d.id)) novi.add(d);
         p(c).edit().putStringSet(VIDJENO + autoputId, vidjeno).apply();
+        for (Dogadjaj d : novi) Dnevnik.upisi(c, "OBAVEŠTENJE " + autoputId + ": " + red(c, d, udaljenosti));
+        if (!novi.isEmpty() && !smeDaObavesti(c)) Dnevnik.upisi(c, "   (obaveštenja nisu dozvoljena – nije prikazano)");
         if (!novi.isEmpty()) prikazi(c, autoputId, novi, udaljenosti);
     }
 
