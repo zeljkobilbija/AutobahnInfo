@@ -182,7 +182,8 @@ public class AutoputActivity extends AppCompatActivity {
         com.google.android.gms.location.LocationServices.getFusedLocationProviderClient(this)
                 .getCurrentLocation(com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY, null)
                 .addOnSuccessListener(l -> {
-                    if (l == null) {
+                    // bez lokacije ili netačna (mreža, ±stotine metara): ne postavlja se ništa
+                    if (l == null || !l.hasAccuracy() || l.getAccuracy() > 100f) {
                         if (pitaj) Toast.makeText(this, R.string.lokacija_nema, Toast.LENGTH_SHORT).show();
                         return;
                     }

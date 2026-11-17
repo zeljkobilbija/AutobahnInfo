@@ -54,6 +54,8 @@ public class VoznjaService extends Service {
     private static final float MIN_BRZINA = 8f; // m/s (~30 km/h)
     /** Do koliko km od kolovoza je vozač "na autoputu" (plus tačnost GPS-a). */
     private static final double NA_KOLOVOZU_KM = 0.06;
+    /** Lokacije lošije od ovoga (m) se ne koriste. */
+    private static final float MAX_NETACNOST_M = 100f;
 
     /** Stanje za početni ekran. */
     public static volatile boolean radi;
@@ -192,6 +194,13 @@ public class VoznjaService extends Service {
         if (sad - pocetak > NAJDUZE_MS) {
             Dnevnik.upisi(this, "STOP: 12 sati");
             glavna.post(this::stopSelf);
+            return;
+        }
+        // netačna lokacija (mreža umesto GPS-a, ±300–900 m, često sa izmišljenom brzinom) ne menja ništa:
+        // ranije je okretala smer i držala vozača "na autoputu" posle izlaska
+        if (!l.hasAccuracy() || l.getAccuracy() > MAX_NETACNOST_M) {
+            Dnevnik.upisi(this, String.format(Locale.US, "LOK %.5f,%.5f ±%.0fm – preskočeno (netačno)",
+                    l.getLatitude(), l.getLongitude(), l.getAccuracy()));
             return;
         }
         String stari = autoput;
