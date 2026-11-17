@@ -157,8 +157,8 @@ public class VoznjaService extends Service {
         javiStanje(getString(R.string.voznja_trazim));
 
         lokacije = LocationServices.getFusedLocationProviderClient(this);
-        LocationRequest zahtev = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 60_000L)
-                .setMinUpdateIntervalMillis(30_000L)
+        LocationRequest zahtev = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 15_000L)
+                .setMinUpdateIntervalMillis(10_000L)
                 .setMinUpdateDistanceMeters(0f)
                 .build();
         try {

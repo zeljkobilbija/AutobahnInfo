@@ -62,7 +62,7 @@ public class AutoputActivity extends AppCompatActivity {
     private long pozicijaVreme;
     private static final long ZASTARELO_MS = 5 * 60_000L;
     private final android.os.Handler glavna = new android.os.Handler(android.os.Looper.getMainLooper());
-    /** Dok je Vožnja uključena: strelica se sama pomera (svakih 10 s). */
+    /** Dok je Vožnja uključena: strelica se sama pomera (svakih 5 s). */
     private final Runnable pracenje = new Runnable() {
         @Override
         public void run() {
@@ -79,7 +79,7 @@ public class AutoputActivity extends AppCompatActivity {
                 mojSmer = '?';
                 postaviStrelicu();
             }
-            glavna.postDelayed(this, 10_000);
+            glavna.postDelayed(this, 5_000);
         }
     };
 
@@ -261,7 +261,7 @@ public class AutoputActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        glavna.postDelayed(pracenje, 10_000);
+        glavna.postDelayed(pracenje, 5_000);
     }
 
     @Override
