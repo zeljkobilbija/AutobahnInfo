@@ -80,7 +80,7 @@ public final class Dogadjaj {
     }
 
     private static Dogadjaj jedan(JSONObject o) {
-        String id = o.optString("identifier", "");
+        String id = stabilanId(o.optString("identifier", ""));
         if (id.isEmpty()) return null;
 
         StringBuilder sb = new StringBuilder();
@@ -140,6 +140,18 @@ public final class Dogadjaj {
 
         return new Dogadjaj(id, vrsta, deonica, smer, opis, kasnjenje,
                 vreme(o.optString("startTimestamp", "")), lat, lon, lat2, lon2);
+    }
+
+    /**
+     * Oznaka koja se ne menja dok poruka traje. Zvanične poruke ("NLW_2026_002954--vi-hind.<vreme>",
+     * zatvaranja "2026-058313--…") posle "--" dobijaju vreme poslednje izmene, pa se uzima deo pre "--"
+     * (broj događaja). INRIX poruke ("INRIX--vi-avl.<početak>_NNN") su stalne u celini.
+     */
+    static String stabilanId(String id) {
+        int i = id.indexOf("--");
+        if (i <= 0) return id;
+        String pre = id.substring(0, i);
+        return pre.matches(".*\\d.*") ? pre : id;
     }
 
     private static int vrstaUpozorenja(String t, String tip, boolean blokirano, int kasnjenje) {

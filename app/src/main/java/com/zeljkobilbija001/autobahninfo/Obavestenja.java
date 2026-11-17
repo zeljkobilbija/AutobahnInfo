@@ -109,7 +109,9 @@ public final class Obavestenja {
      */
     static synchronized void obradi(Context c, String autoputId, List<Dogadjaj> trenutno,
                                     List<Dogadjaj> kandidati, java.util.Map<String, Integer> udaljenosti) {
-        Set<String> vidjeno = new HashSet<>(p(c).getStringSet(VIDJENO + autoputId, new HashSet<>()));
+        Set<String> vidjeno = new HashSet<>();
+        // stare sačuvane oznake (pre stabilnih) svode se na stabilne, da se ništa ne javi ponovo
+        for (String s : p(c).getStringSet(VIDJENO + autoputId, new HashSet<>())) vidjeno.add(Dogadjaj.stabilanId(s));
         Set<String> postoje = new HashSet<>();
         for (Dogadjaj d : trenutno) postoje.add(d.id);
         vidjeno.retainAll(postoje);
