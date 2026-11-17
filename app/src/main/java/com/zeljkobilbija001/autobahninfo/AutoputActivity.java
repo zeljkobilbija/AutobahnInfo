@@ -62,11 +62,27 @@ public class AutoputActivity extends AppCompatActivity {
     private long pozicijaVreme;
     private static final long ZASTARELO_MS = 5 * 60_000L;
     private final android.os.Handler glavna = new android.os.Handler(android.os.Looper.getMainLooper());
+    /**
+     * Vožnja je vozača videla na ovom autoputu. Samo tada se pri prelasku na drugi autoput ekran
+     * sam prebacuje; ako je otvoren neki drugi autoput (gleda se unapred), ostaje otvoren.
+     */
+    private boolean vozacBioOvde;
     /** Dok je Vožnja uključena: strelica se sama pomera (svakih 5 s). */
     private final Runnable pracenje = new Runnable() {
         @Override
         public void run() {
-            if (autoput.id.equals(VoznjaService.sadAutoput)) {
+            String sadAutoput = VoznjaService.sadAutoput;
+            if (autoput.id.equals(sadAutoput)) {
+                vozacBioOvde = true;
+            } else if (vozacBioOvde && sadAutoput != null && !zatvaranje) {
+                // vozač je sa ovog autoputa prešao na drugi: otvara se ekran novog
+                Autoput novi = Autoputevi.poId(sadAutoput);
+                if (novi != null && novi.dostupan()) {
+                    predjiNa(novi);
+                    return;
+                }
+            }
+            if (autoput.id.equals(sadAutoput)) {
                 mojaDeonica = VoznjaService.sadDeonica;
                 mojKm = VoznjaService.sadKm;
                 if (VoznjaService.sadSmer != '?') mojSmer = VoznjaService.sadSmer;
@@ -281,6 +297,24 @@ public class AutoputActivity extends AppCompatActivity {
                 .alpha(1f)
                 .setDuration(420)
                 .setInterpolator(new DecelerateInterpolator())
+                .start();
+    }
+
+    /** Vožnja: vozač je prešao na drugi autoput, pa se ovaj ekran okreće i otvara ekran novog. */
+    @SuppressWarnings("deprecation")
+    private void predjiNa(Autoput novi) {
+        zatvaranje = true;
+        koren.setCameraDistance(12000 * getResources().getDisplayMetrics().density);
+        koren.animate()
+                .rotationY(90f)
+                .alpha(0.4f)
+                .setDuration(240)
+                .setInterpolator(new AccelerateInterpolator())
+                .withEndAction(() -> {
+                    startActivity(namera(this, novi.id));
+                    finish();
+                    overridePendingTransition(0, 0);
+                })
                 .start();
     }
 
