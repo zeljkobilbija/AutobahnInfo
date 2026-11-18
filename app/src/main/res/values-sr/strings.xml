@@ -67,6 +67,7 @@
     <string name="stanje_obavestenja_opis">Udesi, kolone i zatvaranja na autoputu na kom ste, provera otprilike na svakih %1$d minuta</string>
     <string name="stanje_iskljuceno">Obaveštenja su isključena. Uključite ih da biste videli vesti o saobraćaju.</string>
     <string name="stanje_dozvola">Obaveštenja su isključena za ovu aplikaciju.</string>
+    <string name="stanje_dozvola_poruka">Da biste primali vesti o udesima, kolonama i zatvaranjima, dozvolite obaveštenja za ovu aplikaciju u podešavanjima telefona. Dodirnite Podešavanja i uključite obaveštenja.</string>
     <string name="stanje_podesavanja">Podešavanja</string>
     <string name="stanje_izvor">Podaci o saobraćaju: Autobahn GmbH des Bundes (verkehr.autobahn.de). Dodirnite vest za ceo tekst (na nemačkom).</string>
     <string name="stanje_kasnjenje">+%d min</string>

@@ -67,6 +67,7 @@
     <string name="stanje_obavestenja_opis">Nesreče, zastoji in zapore na avtocesti, na kateri ste, preverjanje približno vsakih %1$d minut</string>
     <string name="stanje_iskljuceno">Obvestila so izklopljena. Vklopite jih, da vidite prometne novice.</string>
     <string name="stanje_dozvola">Obvestila so za to aplikacijo izklopljena.</string>
+    <string name="stanje_dozvola_poruka">Če želite prejemati novice o nesrečah, zastojih in zaporah, dovolite obvestila za to aplikacijo v nastavitvah telefona. Tapnite Nastavitve in vklopite obvestila.</string>
     <string name="stanje_podesavanja">Nastavitve</string>
     <string name="stanje_izvor">Prometni podatki: Autobahn GmbH des Bundes (verkehr.autobahn.de). Tapnite obvestilo za celotno besedilo (v nemščini).</string>
     <string name="stanje_kasnjenje">+%d min</string>

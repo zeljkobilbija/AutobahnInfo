@@ -67,6 +67,7 @@
     <string name="stanje_obavestenja_opis">Accidentes, retenciones y cierres en la autopista en la que estás, comprobación cada %1$d minutos aprox.</string>
     <string name="stanje_iskljuceno">Las notificaciones están desactivadas. Actívalas para ver las noticias de tráfico.</string>
     <string name="stanje_dozvola">Las notificaciones están desactivadas para esta app.</string>
+    <string name="stanje_dozvola_poruka">Para recibir noticias sobre accidentes, retenciones y cierres, permite las notificaciones de esta aplicación en los ajustes del teléfono. Toca Ajustes y actívalas.</string>
     <string name="stanje_podesavanja">Ajustes</string>
     <string name="stanje_izvor">Datos de tráfico: Autobahn GmbH des Bundes (verkehr.autobahn.de). Toca un aviso para ver el texto completo (en alemán).</string>
     <string name="stanje_kasnjenje">+%d min</string>

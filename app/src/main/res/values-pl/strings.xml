@@ -67,6 +67,7 @@
     <string name="stanje_obavestenja_opis">Wypadki, korki i zamknięcia na autostradzie, na której jesteś, sprawdzanie mniej więcej co %1$d minut</string>
     <string name="stanje_iskljuceno">Powiadomienia są wyłączone. Włącz je, aby zobaczyć informacje drogowe.</string>
     <string name="stanje_dozvola">Powiadomienia są wyłączone dla tej aplikacji.</string>
+    <string name="stanje_dozvola_poruka">Aby otrzymywać informacje o wypadkach, korkach i zamknięciach, zezwól na powiadomienia tej aplikacji w ustawieniach telefonu. Dotknij Ustawienia i włącz powiadomienia.</string>
     <string name="stanje_podesavanja">Ustawienia</string>
     <string name="stanje_izvor">Dane o ruchu: Autobahn GmbH des Bundes (verkehr.autobahn.de). Dotknij komunikatu, aby zobaczyć pełny tekst (po niemiecku).</string>
     <string name="stanje_kasnjenje">+%d min</string>

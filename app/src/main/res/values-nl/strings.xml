@@ -67,6 +67,7 @@
     <string name="stanje_obavestenja_opis">Ongevallen, files en afsluitingen op de snelweg waar u rijdt, controle ongeveer elke %1$d minuten</string>
     <string name="stanje_iskljuceno">Meldingen staan uit. Zet ze aan om verkeersberichten te zien.</string>
     <string name="stanje_dozvola">Meldingen staan uit voor deze app.</string>
+    <string name="stanje_dozvola_poruka">Om berichten over ongevallen, files en afsluitingen te ontvangen, sta meldingen voor deze app toe in de telefooninstellingen. Tik op Instellingen en zet meldingen aan.</string>
     <string name="stanje_podesavanja">Instellingen</string>
     <string name="stanje_izvor">Verkeersgegevens: Autobahn GmbH des Bundes (verkehr.autobahn.de). Tik op een bericht voor de volledige tekst (in het Duits).</string>
     <string name="stanje_kasnjenje">+%d min</string>

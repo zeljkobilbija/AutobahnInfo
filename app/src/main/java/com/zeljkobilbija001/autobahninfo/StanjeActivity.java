@@ -130,16 +130,21 @@ public class StanjeActivity extends AppCompatActivity {
     private void odbijeno() {
         postaviPrekidac(false);
         prikaziListu();
-        Snackbar s = Snackbar.make(findViewById(R.id.koren), R.string.stanje_dozvola, Snackbar.LENGTH_LONG);
-        if (Build.VERSION.SDK_INT >= 26) {
-            s.setAction(R.string.stanje_podesavanja, v -> {
-                try {
-                    startActivity(new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-                            .putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName()));
-                } catch (Exception ignored) { }
-            });
-        }
-        s.show();
+        // jasan prozor umesto sitne poruke na dnu: bez dozvole obaveštenja ne mogu da stižu
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.stanje_dozvola)
+                .setMessage(R.string.stanje_dozvola_poruka)
+                .setPositiveButton(R.string.stanje_podesavanja, (d, w) -> {
+                    try {
+                        startActivity(Build.VERSION.SDK_INT >= 26
+                                ? new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                                        .putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName())
+                                : new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                        Uri.fromParts("package", getPackageName(), null)));
+                    } catch (Exception ignored) { }
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     private void ucitaj() {

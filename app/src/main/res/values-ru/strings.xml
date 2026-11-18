@@ -67,6 +67,7 @@
     <string name="stanje_obavestenja_opis">Аварии, пробки и перекрытия на автобане, по которому вы едете, проверка примерно каждые %1$d минут</string>
     <string name="stanje_iskljuceno">Уведомления выключены. Включите их, чтобы видеть дорожные новости.</string>
     <string name="stanje_dozvola">Уведомления для этого приложения отключены.</string>
+    <string name="stanje_dozvola_poruka">Чтобы получать новости об авариях, пробках и перекрытиях, разрешите уведомления для этого приложения в настройках телефона. Нажмите «Настройки» и включите уведомления.</string>
     <string name="stanje_podesavanja">Настройки</string>
     <string name="stanje_izvor">Данные о движении: Autobahn GmbH des Bundes (verkehr.autobahn.de). Нажмите на сообщение, чтобы увидеть полный текст (на немецком).</string>
     <string name="stanje_kasnjenje">+%d мин</string>

@@ -67,6 +67,7 @@
     <string name="stanje_obavestenja_opis">Accidents, bouchons et fermetures sur l\'autoroute où vous êtes, vérification environ toutes les %1$d minutes</string>
     <string name="stanje_iskljuceno">Les notifications sont désactivées. Activez-les pour voir les infos trafic.</string>
     <string name="stanje_dozvola">Les notifications sont désactivées pour cette application.</string>
+    <string name="stanje_dozvola_poruka">Pour recevoir les infos sur les accidents, bouchons et fermetures, autorisez les notifications de cette appli dans les réglages du téléphone. Touchez Réglages et activez-les.</string>
     <string name="stanje_podesavanja">Paramètres</string>
     <string name="stanje_izvor">Données trafic : Autobahn GmbH des Bundes (verkehr.autobahn.de). Touchez une info pour le texte complet (en allemand).</string>
     <string name="stanje_kasnjenje">+%d min</string>

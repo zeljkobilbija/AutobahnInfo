@@ -68,6 +68,7 @@
     <string name="stanje_obavestenja_opis">Accidents, queues and closures on the motorway you are on, checked about every %1$d minutes</string>
     <string name="stanje_iskljuceno">Notifications are off. Turn them on to see traffic news.</string>
     <string name="stanje_dozvola">Notifications are turned off for this app.</string>
+    <string name="stanje_dozvola_poruka">To receive news about accidents, queues and closures, allow notifications for this app in your phone settings. Tap Settings and turn notifications on.</string>
     <string name="stanje_podesavanja">Settings</string>
     <string name="stanje_izvor">Traffic data: Autobahn GmbH des Bundes (verkehr.autobahn.de). Tap a report for the full text (in German).</string>
     <string name="stanje_kasnjenje">+%d min</string>

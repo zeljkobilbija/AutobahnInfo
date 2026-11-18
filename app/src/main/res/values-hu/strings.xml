@@ -67,6 +67,7 @@
     <string name="stanje_obavestenja_opis">Balesetek, torlódások és lezárások azon az autópályán, ahol éppen van, ellenőrzés kb. %1$d percenként</string>
     <string name="stanje_iskljuceno">Az értesítések ki vannak kapcsolva. Kapcsolja be őket a forgalmi hírekhez.</string>
     <string name="stanje_dozvola">Az értesítések ki vannak kapcsolva ennél az alkalmazásnál.</string>
+    <string name="stanje_dozvola_poruka">Ha híreket szeretne kapni balesetekről, torlódásokról és lezárásokról, engedélyezze az alkalmazás értesítéseit a telefon beállításaiban. Koppintson a Beállítások gombra, és kapcsolja be őket.</string>
     <string name="stanje_podesavanja">Beállítások</string>
     <string name="stanje_izvor">Forgalmi adatok: Autobahn GmbH des Bundes (verkehr.autobahn.de). Koppintson egy hírre a teljes szövegért (németül).</string>
     <string name="stanje_kasnjenje">+%d perc</string>

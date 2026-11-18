@@ -67,6 +67,7 @@
     <string name="stanje_obavestenja_opis">Nehody, kolóny a uzávierky na diaľnici, na ktorej ste, kontrola približne každých %1$d minút</string>
     <string name="stanje_iskljuceno">Oznámenia sú vypnuté. Zapnite ich a uvidíte dopravné správy.</string>
     <string name="stanje_dozvola">Upozornenia sú pre túto aplikáciu vypnuté.</string>
+    <string name="stanje_dozvola_poruka">Ak chcete dostávať správy o nehodách, kolónach a uzávierkach, povoľte oznámenia pre túto aplikáciu v nastaveniach telefónu. Ťuknite na Nastavenia a oznámenia zapnite.</string>
     <string name="stanje_podesavanja">Nastavenia</string>
     <string name="stanje_izvor">Dopravné údaje: Autobahn GmbH des Bundes (verkehr.autobahn.de). Ťuknite na správu pre celý text (v nemčine).</string>
     <string name="stanje_kasnjenje">+%d min</string>

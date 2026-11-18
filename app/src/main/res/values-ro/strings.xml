@@ -67,6 +67,7 @@
     <string name="stanje_obavestenja_opis">Accidente, cozi și închideri pe autostrada pe care vă aflați, verificare aproximativ la fiecare %1$d minute</string>
     <string name="stanje_iskljuceno">Notificările sunt dezactivate. Activați-le pentru a vedea știrile din trafic.</string>
     <string name="stanje_dozvola">Notificările sunt dezactivate pentru această aplicație.</string>
+    <string name="stanje_dozvola_poruka">Pentru a primi știri despre accidente, cozi și închideri, permiteți notificările pentru această aplicație în setările telefonului. Atingeți Setări și activați notificările.</string>
     <string name="stanje_podesavanja">Setări</string>
     <string name="stanje_izvor">Date de trafic: Autobahn GmbH des Bundes (verkehr.autobahn.de). Atingeți o știre pentru textul complet (în germană).</string>
     <string name="stanje_kasnjenje">+%d min</string>
