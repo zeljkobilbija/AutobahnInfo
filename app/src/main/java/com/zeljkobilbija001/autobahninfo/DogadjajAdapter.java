@@ -36,10 +36,9 @@ public class DogadjajAdapter extends RecyclerView.Adapter<DogadjajAdapter.Red> {
     public void postavi(List<Dogadjaj> l, String najnoviji) {
         stavke.clear();
         stavke.addAll(l);
-        // istaknuta (narandžasta, pulsira) je poslednja stigla poruka; ako je nema u listi, prva (najnovija)
-        istaknut = null;
-        for (Dogadjaj d : l) if (d.id.equals(najnoviji)) istaknut = najnoviji;
-        if (istaknut == null && !l.isEmpty()) istaknut = l.get(0).id;
+        // istaknuta (narandžasta, pulsira) je uvek prva, tj. najnovija vest na vrhu, bilo koje vrste
+        // (ranije poslednja stigla u obaveštenju, pa je pulsirala vest ispod novijih nevažnih)
+        istaknut = l.isEmpty() ? null : l.get(0).id;
         notifyDataSetChanged();
     }
 
