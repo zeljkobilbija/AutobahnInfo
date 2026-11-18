@@ -138,6 +138,16 @@ public final class Obavestenja {
         NotificationManagerCompat nm = NotificationManagerCompat.from(c);
         for (Autoput a : Autoputevi.SVE) if (!praceni.contains(a.id)) nm.cancel(a.id.hashCode());
         for (String id : praceni) {
+            if (voznjaPokriva(id)) {
+                // autoput na kom se vozi: ne sve poruke iz oba smera, nego Vožnja odmah javi one ispred
+                synchronized (Obavestenja.class) {
+                    nm.cancel(id.hashCode());
+                    p(c).edit().remove(VIDJENO + id).remove(STIGLO + id).apply();
+                }
+                Dnevnik.upisi(c, "OBAVEŠTENJA " + id + ": javlja Vožnja (samo ispred, u smeru vožnje)");
+                VoznjaService.proveriSada();
+                continue;
+            }
             List<Dogadjaj> trenutno;
             try {
                 trenutno = StanjeNaPutu.preuzmi(id);
@@ -227,8 +237,18 @@ public final class Obavestenja {
         return r;
     }
 
+    /** Vožnja radi i vozač je na ovom autoputu: za njega javlja samo Vožnja (samo ispred, u smeru vožnje). */
+    private static boolean voznjaPokriva(String autoputId) {
+        return VoznjaService.radi && autoputId.equals(VoznjaService.sadAutoput);
+    }
+
     /** Poziva ProveraWorker: javlja nove važne poruke sa celog praćenog autoputa. */
     static void obradi(Context c, String autoputId, List<Dogadjaj> trenutno) {
+        if (voznjaPokriva(autoputId)) {
+            // inače bi stizale i poruke iz suprotnog smera (test na A8 18.11.2026: udes Pforzheim u suprotnom smeru)
+            Dnevnik.upisi(c, "PRAĆENJE " + autoputId + ": preskočeno, javlja Vožnja (samo u smeru vožnje)");
+            return;
+        }
         List<Dogadjaj> vazni = new ArrayList<>();
         for (Dogadjaj d : trenutno) if (d.zaObavestenje()) vazni.add(d);
         obradi(c, autoputId, trenutno, vazni, null);
