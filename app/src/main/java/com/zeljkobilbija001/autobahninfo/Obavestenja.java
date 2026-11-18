@@ -33,6 +33,7 @@ public final class Obavestenja {
     private static final String PREFS = "obavestenja";
     private static final String PRACENI = "praceni";
     private static final String VIDJENO = "vidjeno_";
+    private static final String STIGLO = "stiglo_";
     private static final String POSAO = "provera_stanja";
     private static final String KANAL = "stanje_na_putu";
     public static final int MINUTA = 15;
@@ -117,10 +118,29 @@ public final class Obavestenja {
         vidjeno.retainAll(postoje);
         List<Dogadjaj> novi = new java.util.ArrayList<>();
         for (Dogadjaj d : kandidati) if (vidjeno.add(d.id)) novi.add(d);
-        p(c).edit().putStringSet(VIDJENO + autoputId, vidjeno).apply();
+        // trenutak stizanja svake javljene poruke (id → ms), samo za poruke koje još postoje
+        java.util.Map<String, Long> stiglo = new java.util.HashMap<>();
+        for (String s : p(c).getStringSet(STIGLO + autoputId, new HashSet<>())) {
+            int t = s.lastIndexOf('\t');
+            if (t <= 0) continue;
+            try {
+                String id = s.substring(0, t);
+                if (postoje.contains(id)) stiglo.put(id, Long.parseLong(s.substring(t + 1)));
+            } catch (NumberFormatException ignored) { }
+        }
+        long sad = System.currentTimeMillis();
+        for (int i = 0; i < novi.size(); i++) stiglo.put(novi.get(i).id, sad - i); // u istoj proveri: po redu liste
+        Set<String> zapis = new HashSet<>();
+        for (java.util.Map.Entry<String, Long> e : stiglo.entrySet()) zapis.add(e.getKey() + "\t" + e.getValue());
+        p(c).edit().putStringSet(VIDJENO + autoputId, vidjeno).putStringSet(STIGLO + autoputId, zapis).apply();
         for (Dogadjaj d : novi) Dnevnik.upisi(c, "OBAVEŠTENJE " + autoputId + ": " + red(c, d, udaljenosti));
         if (!novi.isEmpty() && !smeDaObavesti(c)) Dnevnik.upisi(c, "   (obaveštenja nisu dozvoljena – nije prikazano)");
-        if (!novi.isEmpty()) prikazi(c, autoputId, novi, udaljenosti);
+        if (novi.isEmpty()) return;
+        // u obaveštenju sve javljene poruke koje još važe, poslednja stigla na vrhu (ne po važnosti)
+        List<Dogadjaj> prikaz = new java.util.ArrayList<>();
+        for (Dogadjaj d : kandidati) if (stiglo.containsKey(d.id)) prikaz.add(d);
+        java.util.Collections.sort(prikaz, (a, b) -> Long.compare(stiglo.get(b.id), stiglo.get(a.id)));
+        prikazi(c, autoputId, prikaz, udaljenosti);
     }
 
     @SuppressWarnings("MissingPermission")
