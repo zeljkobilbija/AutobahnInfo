@@ -90,6 +90,8 @@
     <string name="voznja_naslov">Η λειτουργία οδήγησης είναι ενεργή</string>
     <string name="voznja_trazim">Αναζητώ τον αυτοκινητόδρομο όπου βρίσκεστε…</string>
     <string name="voznja_trazim_smer">%s: εντοπίζω τη θέση σας στον αυτοκινητόδρομο…</string>
+    <string name="voznja_bez_lokacije">Η τοποθεσία είναι απενεργοποιημένη – ενεργοποιήστε τη στις ρυθμίσεις</string>
+    <string name="voznja_bez_interneta">Χωρίς internet – τα νέα κυκλοφορίας δεν φτάνουν</string>
     <string name="voznja_van">Δεν βρίσκεστε σε γερμανικό αυτοκινητόδρομο</string>
     <string name="voznja_na">Στον %s</string>
     <string name="voznja_na_smer">%1$s προς %2$s</string>

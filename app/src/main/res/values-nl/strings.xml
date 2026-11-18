@@ -90,6 +90,8 @@
     <string name="voznja_naslov">Rijmodus staat aan</string>
     <string name="voznja_trazim">Zoek de snelweg waarop u rijdt…</string>
     <string name="voznja_trazim_smer">%s: zoek uw positie op de snelweg…</string>
+    <string name="voznja_bez_lokacije">Locatie staat uit – zet deze aan in de telefooninstellingen</string>
+    <string name="voznja_bez_interneta">Geen internet – verkeersberichten komen niet binnen</string>
     <string name="voznja_van">Niet op een Duitse snelweg</string>
     <string name="voznja_na">Op de %s</string>
     <string name="voznja_na_smer">%1$s richting %2$s</string>

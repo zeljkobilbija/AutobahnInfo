@@ -90,6 +90,8 @@
     <string name="voznja_naslov">Način vožnje je uključen</string>
     <string name="voznja_trazim">Tražim na kojoj ste autocesti…</string>
     <string name="voznja_trazim_smer">%s: tražim vašu lokaciju na autocesti…</string>
+    <string name="voznja_bez_lokacije">Lokacija je isključena – uključite je u postavkama telefona</string>
+    <string name="voznja_bez_interneta">Nema interneta – vijesti o prometu ne stižu</string>
     <string name="voznja_van">Niste na njemačkoj autocesti</string>
     <string name="voznja_na">Na %s</string>
     <string name="voznja_na_smer">%1$s prema %2$s</string>

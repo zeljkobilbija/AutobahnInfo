@@ -90,6 +90,8 @@
     <string name="voznja_naslov">Modul condus este activ</string>
     <string name="voznja_trazim">Caut autostrada pe care vă aflați…</string>
     <string name="voznja_trazim_smer">%s: caut poziția dvs. pe autostradă…</string>
+    <string name="voznja_bez_lokacije">Locația este dezactivată – activați-o în setările telefonului</string>
+    <string name="voznja_bez_interneta">Fără internet – știrile din trafic nu sosesc</string>
     <string name="voznja_van">Nu sunteți pe o autostradă germană</string>
     <string name="voznja_na">Pe %s</string>
     <string name="voznja_na_smer">%1$s spre %2$s</string>

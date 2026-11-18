@@ -90,6 +90,8 @@
     <string name="voznja_naslov">Tryb jazdy jest włączony</string>
     <string name="voznja_trazim">Szukam autostrady, na której jesteś…</string>
     <string name="voznja_trazim_smer">%s: ustalam twoje położenie na autostradzie…</string>
+    <string name="voznja_bez_lokacije">Lokalizacja jest wyłączona – włącz ją w ustawieniach telefonu</string>
+    <string name="voznja_bez_interneta">Brak internetu – informacje drogowe nie docierają</string>
     <string name="voznja_van">Nie jesteś na niemieckiej autostradzie</string>
     <string name="voznja_na">Na %s</string>
     <string name="voznja_na_smer">%1$s w kierunku %2$s</string>

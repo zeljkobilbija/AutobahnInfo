@@ -90,6 +90,8 @@
     <string name="voznja_naslov">Sürüş modu açık</string>
     <string name="voznja_trazim">Bulunduğunuz otoyolu arıyorum…</string>
     <string name="voznja_trazim_smer">%s: otoyoldaki konumunuzu buluyorum…</string>
+    <string name="voznja_bez_lokacije">Konum kapalı – telefon ayarlarından açın</string>
+    <string name="voznja_bez_interneta">İnternet yok – trafik haberleri gelmiyor</string>
     <string name="voznja_van">Bir Alman otoyolunda değilsiniz</string>
     <string name="voznja_na">%s üzerinde</string>
     <string name="voznja_na_smer">%1$s, %2$s yönünde</string>

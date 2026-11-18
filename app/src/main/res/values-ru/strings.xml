@@ -90,6 +90,8 @@
     <string name="voznja_naslov">Режим поездки включён</string>
     <string name="voznja_trazim">Ищу автобан, по которому вы едете…</string>
     <string name="voznja_trazim_smer">%s: определяю ваше положение на автобане…</string>
+    <string name="voznja_bez_lokacije">Геолокация выключена – включите её в настройках телефона</string>
+    <string name="voznja_bez_interneta">Нет интернета – дорожные новости не приходят</string>
     <string name="voznja_van">Вы не на немецком автобане</string>
     <string name="voznja_na">На %s</string>
     <string name="voznja_na_smer">%1$s в сторону %2$s</string>

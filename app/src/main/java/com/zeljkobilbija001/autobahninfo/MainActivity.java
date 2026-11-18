@@ -144,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
         String tekst = radi && !opis.isEmpty() ? opis : getString(R.string.voznja_opis);
         if (Dnevnik.ukljucen(this)) tekst += "\nDNEVNIK › (dodir na karticu)";
         voznjaOpis.setText(tekst);
+        voznjaOpis.setTextColor(radi && VoznjaService.upozorenje ? Izgled.boja(this, R.color.ovde)
+                : Izgled.boja(this, R.color.plava_svetla));
         // kružić dok Vožnja traži autoput ili smer
         voznjaTrazi.setVisibility(radi && VoznjaService.trazi ? View.VISIBLE : View.GONE);
         String sad = VoznjaService.sadAutoput;

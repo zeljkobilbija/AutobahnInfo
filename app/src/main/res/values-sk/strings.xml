@@ -90,6 +90,8 @@
     <string name="voznja_naslov">Režim jazdy je zapnutý</string>
     <string name="voznja_trazim">Hľadám diaľnicu, na ktorej ste…</string>
     <string name="voznja_trazim_smer">%s: zisťujem vašu polohu na diaľnici…</string>
+    <string name="voznja_bez_lokacije">Poloha je vypnutá – zapnite ju v nastaveniach telefónu</string>
+    <string name="voznja_bez_interneta">Bez internetu – dopravné správy neprichádzajú</string>
     <string name="voznja_van">Nie ste na nemeckej diaľnici</string>
     <string name="voznja_na">Na %s</string>
     <string name="voznja_na_smer">%1$s smer %2$s</string>

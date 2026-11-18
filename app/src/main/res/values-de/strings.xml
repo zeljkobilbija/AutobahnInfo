@@ -90,6 +90,8 @@
     <string name="voznja_naslov">Fahrmodus ist aktiv</string>
     <string name="voznja_trazim">Suche die Autobahn, auf der Sie fahren…</string>
     <string name="voznja_trazim_smer">%s: ermittle Ihre Position auf der Autobahn…</string>
+    <string name="voznja_bez_lokacije">Standort ist aus – bitte in den Telefoneinstellungen einschalten</string>
+    <string name="voznja_bez_interneta">Kein Internet – Verkehrsmeldungen kommen nicht an</string>
     <string name="voznja_van">Nicht auf einer deutschen Autobahn</string>
     <string name="voznja_na">Auf der %s</string>
     <string name="voznja_na_smer">%1$s Richtung %2$s</string>

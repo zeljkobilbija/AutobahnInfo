@@ -90,6 +90,8 @@
     <string name="voznja_naslov">Modo condução ativado</string>
     <string name="voznja_trazim">A procurar a autoestrada em que está…</string>
     <string name="voznja_trazim_smer">%s: a procurar a sua posição na autoestrada…</string>
+    <string name="voznja_bez_lokacije">A localização está desativada – ative-a nas definições do telemóvel</string>
+    <string name="voznja_bez_interneta">Sem internet – as notícias de trânsito não chegam</string>
     <string name="voznja_van">Você não está numa autoestrada alemã</string>
     <string name="voznja_na">Na %s</string>
     <string name="voznja_na_smer">%1$s sentido %2$s</string>
