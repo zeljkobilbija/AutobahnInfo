@@ -165,6 +165,30 @@ public final class Obavestenja {
         }
     }
 
+    /**
+     * Aplikacija je skroz zatvorena (sklonjena iz liste otvorenih): uklanjaju se sva obaveštenja o stanju
+     * na putu i gasi se provera u pozadini. Prekidač ostaje kakav jeste; pri sledećem otvaranju
+     * ({@link #otvorena}) sve se vraća.
+     */
+    public static void ugasiSve(Context c) {
+        NotificationManagerCompat nm = NotificationManagerCompat.from(c);
+        for (Autoput a : Autoputevi.SVE) nm.cancel(a.id.hashCode());
+        WorkManager.getInstance(c.getApplicationContext()).cancelUniqueWork(POSAO);
+        Dnevnik.upisi(c, "APLIKACIJA ZATVORENA: obaveštenja uklonjena, provera ugašena");
+    }
+
+    /** Da li je aplikacija još među otvorenima (nije sklonjena iz liste nedavnih). */
+    public static boolean otvorena(Context c) {
+        android.app.ActivityManager am = c.getSystemService(android.app.ActivityManager.class);
+        return am == null || !am.getAppTasks().isEmpty();
+    }
+
+    /** Aplikacija je ponovo otvorena: provera u pozadini i aktuelne vesti, ako su obaveštenja uključena. */
+    public static void otvorena(Context c, boolean pokreni) {
+        zakazi(c);
+        if (pokreni && ukljucena(c)) promenjeno(c);
+    }
+
     /** Pokreće ili gasi povremenu proveru, zavisno od toga da li se išta prati. */
     public static void zakazi(Context c) {
         WorkManager wm = WorkManager.getInstance(c.getApplicationContext());

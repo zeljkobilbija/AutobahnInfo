@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.dugmePodeli).setOnClickListener(v -> podeliAplikaciju());
         // provera stanja na praćenim autoputevima (ako ih ima) ostaje zakazana
-        Obavestenja.zakazi(this);
+        Obavestenja.otvorena(this, savedInstanceState == null); // i posle potpunog zatvaranja: aktuelne vesti nazad
 
         voznjaDugme = findViewById(R.id.voznjaDugme);
         voznjaOpis = findViewById(R.id.voznjaOpis);

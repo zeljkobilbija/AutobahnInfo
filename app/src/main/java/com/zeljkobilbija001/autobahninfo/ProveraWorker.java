@@ -17,6 +17,11 @@ public class ProveraWorker extends Worker {
     @Override
     public Result doWork() {
         Context c = getApplicationContext();
+        if (!Obavestenja.otvorena(c)) {
+            // korisnik je aplikaciju skroz zatvorio: ništa više ne stiže dok je ponovo ne otvori
+            Obavestenja.ugasiSve(c);
+            return Result.success();
+        }
         for (String id : Obavestenja.praceni(c)) {
             if (isStopped()) break;
             try {
