@@ -52,6 +52,9 @@ public class VoznjaService extends Service {
     private static final double NA_AUTOPUTU_KM = 2.5, OSTAJE_KM = 3.5;
     private static final int ISPRED_KM = 100;
     private static final float MIN_BRZINA = 8f; // m/s (~30 km/h)
+    /** Sporije od MIN_BRZINA (kolona, stajanje): autoput se prepoznaje samo ovoliko blizu kolovoza (km). */
+    private static final double SPORO_KM = 0.03;
+    private int kandidatPotvrda;
     /** Do koliko km od kolovoza je vozač "na autoputu" (plus tačnost GPS-a). */
     private static final double NA_KOLOVOZU_KM = 0.06;
     /** Lokacije lošije od ovoga (m) se ne koriste. */
@@ -230,9 +233,16 @@ public class VoznjaService extends Service {
             t = Polozaj.nadji(this, lat, lon, autoput);
         } else {
             // nije (više) na trenutnom: novi autoput tek posle dve uzastopne lokacije, i samo u vožnji
-            if (g != null && g.udaljenost <= tol && v >= MIN_BRZINA) {
-                if (g.autoput.equals(kandidat)) t = Polozaj.nadji(this, lat, lon, g.autoput);
-                else kandidat = g.autoput;
+            // u koloni ili pri stajanju (Vožnja uključena dok vozač stoji): i bez brzine, ali samo
+            // sasvim blizu kolovoza (do 30 m) i tri lokacije zaredom, da parking pored puta ne zavara
+            boolean sporo = g != null && v < MIN_BRZINA && g.udaljenost <= SPORO_KM;
+            if (g != null && g.udaljenost <= tol && (v >= MIN_BRZINA || sporo)) {
+                if (!g.autoput.equals(kandidat)) {
+                    kandidat = g.autoput;
+                    kandidatPotvrda = 1;
+                } else if (++kandidatPotvrda >= (sporo ? 3 : 2)) {
+                    t = Polozaj.nadji(this, lat, lon, g.autoput);
+                }
             } else {
                 kandidat = null;
             }
