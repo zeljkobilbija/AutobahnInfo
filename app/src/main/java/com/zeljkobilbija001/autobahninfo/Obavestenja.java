@@ -97,7 +97,8 @@ public final class Obavestenja {
 
     /** Vožnja javlja autoput na kom je vozač (prekidač se ne menja). */
     public static void naAutoputu(Context c, String autoput) {
-        if (autoput.equals(p(c).getString(POSLEDNJI, null))) return;
+        // poziva se pri svakom prepoznavanju (i posle ponovnog uključivanja Vožnje na istom autoputu),
+        // da se obaveštenja tog autoputa svedu na ono ispred vozača
         p(c).edit().putString(POSLEDNJI, autoput).apply();
         if (ukljucena(c)) promenjeno(c);
     }
