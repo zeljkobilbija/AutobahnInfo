@@ -19,27 +19,44 @@ import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Obaveštenja o stanju na putu: koji autoputevi se prate, povremena provera u pozadini
- * (WorkManager, oko 20 minuta) i prikaz notifikacije za nove udese, kolone i zatvaranja.
+ * Obaveštenja o stanju na putu (zahtevi korisnika 18.11.2026):
+ * <ol>
+ * <li>Jedan prekidač za sve autoputeve; isključen = ne stiže ništa i u traci nema nijednog obaveštenja.</li>
+ * <li>Uključen = obaveštenja samo za praćene autoputeve: izabrani u aplikaciji i onaj na kom je vozač
+ *     (Vožnja), nikad iz cele zemlje.</li>
+ * <li>Promena autoputa (u Vožnji ili izborom u aplikaciji) ne menja prekidač.</li>
+ * <li>Isključivanje uklanja sva prikazana obaveštenja.</li>
+ * <li>Uključivanje (i svaka promena praćenih autoputeva) prikazuje aktuelne važne poruke praćenih
+ *     autoputeva; obaveštenja autoputeva koji se više ne prate se uklanjaju.</li>
+ * </ol>
+ * Posle toga provera u pozadini (WorkManager, 15 min) i Vožnja javljaju samo nove poruke.
  */
 public final class Obavestenja {
 
     private static final String PREFS = "obavestenja";
-    private static final String PRACENI = "praceni";
+    private static final String PRACENI = "praceni";             // stari spisak (pre 18.11.2026)
     private static final String VIDJENO = "vidjeno_";
     private static final String STIGLO = "stiglo_";
     private static final String UKLJUCENO = "ukljuceno";
-    private static final String POSLEDNJI = "poslednji_autoput";
-    private static final String PRVI_PUT = "prvi_put_";
+    private static final String IZABRANI = "izabrani_autoput";   // poslednji otvoren u aplikaciji
+    private static final String POSLEDNJI = "poslednji_autoput"; // poslednji na kom je vozač bio (Vožnja)
     private static final String POSAO = "provera_stanja";
     private static final String KANAL = "stanje_na_putu";
     public static final int MINUTA = 15;
+
+    private static final ExecutorService NIT = Executors.newSingleThreadExecutor();
 
     private Obavestenja() { }
 
@@ -47,104 +64,98 @@ public final class Obavestenja {
         return c.getApplicationContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
     }
 
-    /**
-     * Obaveštenja su jedan prekidač za sve autoputeve (odluka 18.11.2026). Stari spisak praćenih
-     * autoputeva (PRACENI) se pri prvom čitanju prevodi: neprazan = uključeno, prvi sa spiska = poslednji.
-     */
+    /** Prekidač, zajednički za sve autoputeve. Stari spisak praćenih se prevodi: neprazan = uključeno. */
     public static boolean ukljucena(Context c) {
         SharedPreferences sp = p(c);
         if (!sp.contains(UKLJUCENO)) {
             Set<String> stari = sp.getStringSet(PRACENI, new HashSet<>());
             SharedPreferences.Editor e = sp.edit().putBoolean(UKLJUCENO, !stari.isEmpty()).remove(PRACENI);
-            if (!stari.isEmpty() && !sp.contains(POSLEDNJI)) e.putString(POSLEDNJI, stari.iterator().next());
+            if (!stari.isEmpty() && !sp.contains(IZABRANI)) e.putString(IZABRANI, stari.iterator().next());
             e.apply();
             return !stari.isEmpty();
         }
         return sp.getBoolean(UKLJUCENO, false);
     }
 
-    /** Autoputevi za proveru u pozadini: samo onaj na kom je vozač poslednji put bio. */
+    /** Praćeni autoputevi: izabrani u aplikaciji i onaj na kom je vozač; prazno ako je prekidač isključen. */
     public static Set<String> praceni(Context c) {
         Set<String> s = new HashSet<>();
-        String a = p(c).getString(POSLEDNJI, null);
-        if (ukljucena(c) && a != null) s.add(a);
+        if (!ukljucena(c)) return s;
+        String izabrani = p(c).getString(IZABRANI, null);
+        String poslednji = p(c).getString(POSLEDNJI, null);
+        if (izabrani != null) s.add(izabrani);
+        if (poslednji != null) s.add(poslednji);
         return s;
     }
 
-    /**
-     * Vožnja javlja da je vozač na autoputu {@code autoput}. Provera u pozadini posle toga prati njega;
-     * pri promeni se njegove trenutne poruke prvi put samo beleže (bez obaveštenja za ceo autoput).
-     */
+    /** Korisnik je u aplikaciji otvorio autoput: on postaje izabrani (prekidač se ne menja). */
+    public static void izabran(Context c, String autoput) {
+        if (autoput.equals(p(c).getString(IZABRANI, null))) return;
+        p(c).edit().putString(IZABRANI, autoput).apply();
+        if (ukljucena(c)) promenjeno(c);
+    }
+
+    /** Vožnja javlja autoput na kom je vozač (prekidač se ne menja). */
     public static void naAutoputu(Context c, String autoput) {
         if (autoput.equals(p(c).getString(POSLEDNJI, null))) return;
-        p(c).edit().putString(POSLEDNJI, autoput).putBoolean(PRVI_PUT + autoput, true).apply();
+        p(c).edit().putString(POSLEDNJI, autoput).apply();
+        if (ukljucena(c)) promenjeno(c);
     }
 
-    /**
-     * Uključuje/isključuje obaveštenja za sve autoputeve. Pri uključivanju poruke otvorenog autoputa
-     * se beleže kao viđene (korisnik ih upravo gleda) i on postaje praćeni, ako vozač nije na drugom.
-     */
+    /** Prekidač na ekranu stanja na putu; otvoreni autoput je ujedno izabrani. */
     public static void postavi(Context c, String autoput, boolean ukljuci, List<Dogadjaj> trenutno) {
         ukljucena(c); // prevod starog spiska, ako postoji
-        SharedPreferences.Editor e = p(c).edit().putBoolean(UKLJUCENO, ukljuci);
+        p(c).edit().putBoolean(UKLJUCENO, ukljuci).putString(IZABRANI, autoput).apply();
         if (ukljuci) {
-            if (VoznjaService.sadAutoput == null) e.putString(POSLEDNJI, autoput);
-            if (trenutno != null) {
-                Set<String> v = new HashSet<>(p(c).getStringSet(VIDJENO + autoput, new HashSet<>()));
-                v.addAll(idZaObavestenje(trenutno));
-                e.putStringSet(VIDJENO + autoput, v);
-            }
-        }
-        e.apply();
-        if (!ukljuci) {
-            // već prikazana obaveštenja o stanju na putu se uklanjaju (stalno obaveštenje Vožnje ostaje)
-            NotificationManagerCompat nm = NotificationManagerCompat.from(c);
-            for (Autoput a : Autoputevi.SVE) nm.cancel(a.id.hashCode());
+            promenjeno(c);
         } else {
-            vratiUklonjena(c.getApplicationContext());
+            NotificationManagerCompat nm = NotificationManagerCompat.from(c);
+            for (Autoput a : Autoputevi.SVE) nm.cancel(a.id.hashCode()); // stalno obaveštenje Vožnje ostaje
+            zakazi(c);
         }
+    }
+
+    /** Praćeni autoputevi su se promenili ili je prekidač uključen: provera u pozadini i usklađivanje traka. */
+    private static void promenjeno(Context c) {
         zakazi(c);
+        Context app = c.getApplicationContext();
+        NIT.execute(() -> uskladi(app));
     }
 
     /**
-     * Pri ponovnom uključivanju vraća obaveštenja koja su bila prikazana (spisak „stiglo“ se čuva
-     * i dok je prekidač isključen), ali samo poruke koje na serveru još postoje.
+     * Uklanja obaveštenja autoputeva koji se ne prate i za praćene prikazuje sve aktuelne važne
+     * poruke (tiho, bez zvuka), poslednja stigla na vrhu. Sve one se beleže kao viđene.
      */
-    private static void vratiUklonjena(Context c) {
-        List<String> autoputevi = new java.util.ArrayList<>();
-        for (Autoput a : Autoputevi.SVE)
-            if (!p(c).getStringSet(STIGLO + a.id, new HashSet<>()).isEmpty()) autoputevi.add(a.id);
-        if (autoputevi.isEmpty()) return;
-        new Thread(() -> {
-            for (String id : autoputevi) {
-                try {
-                    List<Dogadjaj> trenutno = StanjeNaPutu.preuzmi(id);
-                    Set<String> postoje = new HashSet<>();
-                    for (Dogadjaj d : trenutno) postoje.add(d.id);
-                    synchronized (Obavestenja.class) {
-                        java.util.Map<String, Long> stiglo = new java.util.HashMap<>();
-                        for (String s : p(c).getStringSet(STIGLO + id, new HashSet<>())) {
-                            int t = s.lastIndexOf('\t');
-                            if (t <= 0) continue;
-                            try {
-                                String k = s.substring(0, t);
-                                if (postoje.contains(k)) stiglo.put(k, Long.parseLong(s.substring(t + 1)));
-                            } catch (NumberFormatException ignored) { }
-                        }
-                        Set<String> zapis = new HashSet<>();
-                        for (java.util.Map.Entry<String, Long> e : stiglo.entrySet()) zapis.add(e.getKey() + "\t" + e.getValue());
-                        p(c).edit().putStringSet(STIGLO + id, zapis).apply();
-                        List<Dogadjaj> prikaz = new java.util.ArrayList<>();
-                        for (Dogadjaj d : trenutno) if (stiglo.containsKey(d.id)) prikaz.add(d);
-                        java.util.Collections.sort(prikaz, (a, b) -> Long.compare(stiglo.get(b.id), stiglo.get(a.id)));
-                        Dnevnik.upisi(c, "OBAVEŠTENJA " + id + ": ponovo uključena, vraćeno " + prikaz.size());
-                        if (!prikaz.isEmpty() && ukljucena(c)) prikazi(c, id, prikaz, null);
-                    }
-                } catch (Exception e) {
-                    Dnevnik.upisi(c, "OBAVEŠTENJA " + id + ": vraćanje nije uspelo, " + e.getMessage());
-                }
+    private static void uskladi(Context c) {
+        Set<String> praceni = praceni(c);
+        NotificationManagerCompat nm = NotificationManagerCompat.from(c);
+        for (Autoput a : Autoputevi.SVE) if (!praceni.contains(a.id)) nm.cancel(a.id.hashCode());
+        for (String id : praceni) {
+            List<Dogadjaj> trenutno;
+            try {
+                trenutno = StanjeNaPutu.preuzmi(id);
+            } catch (Exception e) {
+                Dnevnik.upisi(c, "OBAVEŠTENJA " + id + ": aktuelne nisu stigle, " + e.getMessage());
+                continue;
             }
-        }).start();
+            synchronized (Obavestenja.class) {
+                if (!ukljucena(c) || !praceni(c).contains(id)) continue; // u međuvremenu promenjeno
+                List<Dogadjaj> vazni = new ArrayList<>();
+                for (Dogadjaj d : trenutno) if (d.zaObavestenje()) vazni.add(d);
+                Map<String, Long> stiglo = stiglo(c, id, trenutno);
+                long sad = System.currentTimeMillis();
+                int i = 0;
+                Set<String> vidjeno = new HashSet<>();
+                for (Dogadjaj d : vazni) {
+                    vidjeno.add(d.id);
+                    if (!stiglo.containsKey(d.id)) stiglo.put(d.id, sad - i++);
+                }
+                sacuvaj(c, id, vidjeno, stiglo);
+                Dnevnik.upisi(c, "OBAVEŠTENJA " + id + ": aktuelnih " + vazni.size());
+                if (vazni.isEmpty()) nm.cancel(id.hashCode());
+                else prikazi(c, id, poStizanju(vazni, stiglo), null, true);
+            }
+        }
     }
 
     /** Pokreće ili gasi povremenu proveru, zavisno od toga da li se išta prati. */
@@ -170,34 +181,48 @@ public final class Obavestenja {
     public static String poslednjeStiglo(Context c, String autoputId) {
         String id = null;
         long max = Long.MIN_VALUE;
-        for (String s : p(c).getStringSet(STIGLO + autoputId, new HashSet<>())) {
-            int t = s.lastIndexOf('\t');
-            if (t <= 0) continue;
-            try {
-                long ms = Long.parseLong(s.substring(t + 1));
-                if (ms > max) { max = ms; id = s.substring(0, t); }
-            } catch (NumberFormatException ignored) { }
+        for (Map.Entry<String, Long> e : stiglo(c, autoputId, null).entrySet()) {
+            if (e.getValue() > max) { max = e.getValue(); id = e.getKey(); }
         }
         return id;
     }
 
-    private static Set<String> idZaObavestenje(List<Dogadjaj> l) {
-        Set<String> s = new HashSet<>();
-        for (Dogadjaj d : l) if (d.zaObavestenje()) s.add(d.id);
-        return s;
+    /** Trenutak stizanja (id → ms) javljenih poruka; sa {@code trenutno} samo one koje još postoje. */
+    private static Map<String, Long> stiglo(Context c, String autoputId, List<Dogadjaj> trenutno) {
+        Set<String> postoje = null;
+        if (trenutno != null) {
+            postoje = new HashSet<>();
+            for (Dogadjaj d : trenutno) postoje.add(d.id);
+        }
+        Map<String, Long> m = new HashMap<>();
+        for (String s : p(c).getStringSet(STIGLO + autoputId, new HashSet<>())) {
+            int t = s.lastIndexOf('\t');
+            if (t <= 0) continue;
+            try {
+                String id = s.substring(0, t);
+                if (postoje == null || postoje.contains(id)) m.put(id, Long.parseLong(s.substring(t + 1)));
+            } catch (NumberFormatException ignored) { }
+        }
+        return m;
+    }
+
+    private static void sacuvaj(Context c, String autoputId, Set<String> vidjeno, Map<String, Long> stiglo) {
+        Set<String> zapis = new HashSet<>();
+        for (Map.Entry<String, Long> e : stiglo.entrySet()) zapis.add(e.getKey() + "\t" + e.getValue());
+        p(c).edit().putStringSet(VIDJENO + autoputId, vidjeno).putStringSet(STIGLO + autoputId, zapis).apply();
+    }
+
+    /** Poruke koje imaju trenutak stizanja, poslednja stigla prva. */
+    private static List<Dogadjaj> poStizanju(List<Dogadjaj> l, Map<String, Long> stiglo) {
+        List<Dogadjaj> r = new ArrayList<>();
+        for (Dogadjaj d : l) if (stiglo.containsKey(d.id)) r.add(d);
+        Collections.sort(r, (a, b) -> Long.compare(stiglo.get(b.id), stiglo.get(a.id)));
+        return r;
     }
 
     /** Poziva ProveraWorker: javlja nove važne poruke sa celog praćenog autoputa. */
     static void obradi(Context c, String autoputId, List<Dogadjaj> trenutno) {
-        if (p(c).getBoolean(PRVI_PUT + autoputId, false)) {
-            // autoput je upravo postao praćeni: postojeće poruke se samo beleže, javljaju se tek nove
-            Set<String> v = new HashSet<>(p(c).getStringSet(VIDJENO + autoputId, new HashSet<>()));
-            v.addAll(idZaObavestenje(trenutno));
-            p(c).edit().putStringSet(VIDJENO + autoputId, v).remove(PRVI_PUT + autoputId).apply();
-            Dnevnik.upisi(c, "PRAĆENJE " + autoputId + ": prvi put, postojeće poruke samo zabeležene");
-            return;
-        }
-        List<Dogadjaj> vazni = new java.util.ArrayList<>();
+        List<Dogadjaj> vazni = new ArrayList<>();
         for (Dogadjaj d : trenutno) if (d.zaObavestenje()) vazni.add(d);
         obradi(c, autoputId, trenutno, vazni, null);
     }
@@ -209,10 +234,10 @@ public final class Obavestenja {
      * @param udaljenosti km do poruke (režim vožnje) ili null
      */
     static synchronized void obradi(Context c, String autoputId, List<Dogadjaj> trenutno,
-                                    List<Dogadjaj> kandidati, java.util.Map<String, Integer> udaljenosti) {
-        // prekidač isključen: ne javlja se ništa, ni iz Vožnje (pri uključivanju se trenutne poruke beleže kao viđene)
-        if (!ukljucena(c)) {
-            Dnevnik.upisi(c, "OBAVEŠTENJA " + autoputId + ": isključena, ništa se ne javlja");
+                                    List<Dogadjaj> kandidati, Map<String, Integer> udaljenosti) {
+        if (!praceni(c).contains(autoputId)) {
+            Dnevnik.upisi(c, "OBAVEŠTENJA " + autoputId + ": " + (ukljucena(c) ? "ne prati se" : "isključena")
+                    + ", ništa se ne javlja");
             return;
         }
         Set<String> vidjeno = new HashSet<>();
@@ -221,37 +246,23 @@ public final class Obavestenja {
         Set<String> postoje = new HashSet<>();
         for (Dogadjaj d : trenutno) postoje.add(d.id);
         vidjeno.retainAll(postoje);
-        List<Dogadjaj> novi = new java.util.ArrayList<>();
+        List<Dogadjaj> novi = new ArrayList<>();
         for (Dogadjaj d : kandidati) if (vidjeno.add(d.id)) novi.add(d);
-        // trenutak stizanja svake javljene poruke (id → ms), samo za poruke koje još postoje
-        java.util.Map<String, Long> stiglo = new java.util.HashMap<>();
-        for (String s : p(c).getStringSet(STIGLO + autoputId, new HashSet<>())) {
-            int t = s.lastIndexOf('\t');
-            if (t <= 0) continue;
-            try {
-                String id = s.substring(0, t);
-                if (postoje.contains(id)) stiglo.put(id, Long.parseLong(s.substring(t + 1)));
-            } catch (NumberFormatException ignored) { }
-        }
+        Map<String, Long> stiglo = stiglo(c, autoputId, trenutno);
         long sad = System.currentTimeMillis();
         for (int i = 0; i < novi.size(); i++) stiglo.put(novi.get(i).id, sad - i); // u istoj proveri: po redu liste
-        Set<String> zapis = new HashSet<>();
-        for (java.util.Map.Entry<String, Long> e : stiglo.entrySet()) zapis.add(e.getKey() + "\t" + e.getValue());
-        p(c).edit().putStringSet(VIDJENO + autoputId, vidjeno).putStringSet(STIGLO + autoputId, zapis).apply();
+        sacuvaj(c, autoputId, vidjeno, stiglo);
         for (Dogadjaj d : novi) Dnevnik.upisi(c, "OBAVEŠTENJE " + autoputId + ": " + red(c, d, udaljenosti));
         if (!novi.isEmpty() && !smeDaObavesti(c)) Dnevnik.upisi(c, "   (obaveštenja nisu dozvoljena – nije prikazano)");
         if (novi.isEmpty()) return;
         // u obaveštenju sve javljene poruke koje još važe, poslednja stigla na vrhu (ne po važnosti)
-        List<Dogadjaj> prikaz = new java.util.ArrayList<>();
-        for (Dogadjaj d : kandidati) if (stiglo.containsKey(d.id)) prikaz.add(d);
-        java.util.Collections.sort(prikaz, (a, b) -> Long.compare(stiglo.get(b.id), stiglo.get(a.id)));
-        prikazi(c, autoputId, prikaz, udaljenosti);
+        prikazi(c, autoputId, poStizanju(kandidati, stiglo), udaljenosti, false);
     }
 
     @SuppressWarnings("MissingPermission")
     private static void prikazi(Context c, String autoputId, List<Dogadjaj> novi,
-                                java.util.Map<String, Integer> udaljenosti) {
-        if (!smeDaObavesti(c)) return;
+                                Map<String, Integer> udaljenosti, boolean tiho) {
+        if (!smeDaObavesti(c) || novi.isEmpty()) return;
         napraviKanal(c);
         Autoput a = Autoputevi.poId(autoputId);
         String oznaka = a != null ? a.oznaka() : autoputId;
@@ -275,13 +286,14 @@ public final class Obavestenja {
                 .setStyle(stil)
                 .setContentIntent(pi)
                 .setAutoCancel(true)
+                .setSilent(tiho)
                 .setCategory(NotificationCompat.CATEGORY_STATUS)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         NotificationManagerCompat.from(c).notify(autoputId.hashCode(), b.build());
     }
 
     /** "Unfall · za 12 km · Köln → Frankfurt · Idstein – Wiesbadener Kreuz · +11 min" */
-    private static String red(Context c, Dogadjaj d, java.util.Map<String, Integer> udaljenosti) {
+    private static String red(Context c, Dogadjaj d, Map<String, Integer> udaljenosti) {
         StringBuilder sb = new StringBuilder(c.getString(DogadjajAdapter.naziv(d.vrsta)));
         Integer km = udaljenosti != null ? udaljenosti.get(d.id) : null;
         if (km != null) sb.append(" · ").append(c.getString(R.string.voznja_za_km, Math.max(0, km)));

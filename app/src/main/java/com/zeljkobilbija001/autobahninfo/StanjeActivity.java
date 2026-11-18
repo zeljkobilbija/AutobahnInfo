@@ -64,6 +64,7 @@ public class StanjeActivity extends AppCompatActivity {
             finish();
             return;
         }
+        Obavestenja.izabran(this, autoput.id);
 
         View koren = findViewById(R.id.koren);
         View zaglavlje = findViewById(R.id.zaglavlje);

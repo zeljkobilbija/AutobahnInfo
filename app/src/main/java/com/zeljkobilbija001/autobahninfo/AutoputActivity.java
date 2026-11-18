@@ -119,6 +119,7 @@ public class AutoputActivity extends AppCompatActivity {
 
         Autoput a = Autoputevi.poId(getIntent().getStringExtra(EXTRA_ID));
         autoput = a;
+        if (a != null) Obavestenja.izabran(this, a.id); // obaveštenja prate i autoput izabran u aplikaciji
         podaci = Podaci.za(this, a);
         if (podaci == null || podaci.deonice.isEmpty()) {
             android.widget.Toast.makeText(this, R.string.greska_podaci, android.widget.Toast.LENGTH_SHORT).show();
