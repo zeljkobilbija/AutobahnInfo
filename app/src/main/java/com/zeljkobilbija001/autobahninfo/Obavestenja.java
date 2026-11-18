@@ -100,8 +100,51 @@ public final class Obavestenja {
             // već prikazana obaveštenja o stanju na putu se uklanjaju (stalno obaveštenje Vožnje ostaje)
             NotificationManagerCompat nm = NotificationManagerCompat.from(c);
             for (Autoput a : Autoputevi.SVE) nm.cancel(a.id.hashCode());
+        } else {
+            vratiUklonjena(c.getApplicationContext());
         }
         zakazi(c);
+    }
+
+    /**
+     * Pri ponovnom uključivanju vraća obaveštenja koja su bila prikazana (spisak „stiglo“ se čuva
+     * i dok je prekidač isključen), ali samo poruke koje na serveru još postoje.
+     */
+    private static void vratiUklonjena(Context c) {
+        List<String> autoputevi = new java.util.ArrayList<>();
+        for (Autoput a : Autoputevi.SVE)
+            if (!p(c).getStringSet(STIGLO + a.id, new HashSet<>()).isEmpty()) autoputevi.add(a.id);
+        if (autoputevi.isEmpty()) return;
+        new Thread(() -> {
+            for (String id : autoputevi) {
+                try {
+                    List<Dogadjaj> trenutno = StanjeNaPutu.preuzmi(id);
+                    Set<String> postoje = new HashSet<>();
+                    for (Dogadjaj d : trenutno) postoje.add(d.id);
+                    synchronized (Obavestenja.class) {
+                        java.util.Map<String, Long> stiglo = new java.util.HashMap<>();
+                        for (String s : p(c).getStringSet(STIGLO + id, new HashSet<>())) {
+                            int t = s.lastIndexOf('\t');
+                            if (t <= 0) continue;
+                            try {
+                                String k = s.substring(0, t);
+                                if (postoje.contains(k)) stiglo.put(k, Long.parseLong(s.substring(t + 1)));
+                            } catch (NumberFormatException ignored) { }
+                        }
+                        Set<String> zapis = new HashSet<>();
+                        for (java.util.Map.Entry<String, Long> e : stiglo.entrySet()) zapis.add(e.getKey() + "\t" + e.getValue());
+                        p(c).edit().putStringSet(STIGLO + id, zapis).apply();
+                        List<Dogadjaj> prikaz = new java.util.ArrayList<>();
+                        for (Dogadjaj d : trenutno) if (stiglo.containsKey(d.id)) prikaz.add(d);
+                        java.util.Collections.sort(prikaz, (a, b) -> Long.compare(stiglo.get(b.id), stiglo.get(a.id)));
+                        Dnevnik.upisi(c, "OBAVEŠTENJA " + id + ": ponovo uključena, vraćeno " + prikaz.size());
+                        if (!prikaz.isEmpty() && ukljucena(c)) prikazi(c, id, prikaz, null);
+                    }
+                } catch (Exception e) {
+                    Dnevnik.upisi(c, "OBAVEŠTENJA " + id + ": vraćanje nije uspelo, " + e.getMessage());
+                }
+            }
+        }).start();
     }
 
     /** Pokreće ili gasi povremenu proveru, zavisno od toga da li se išta prati. */
