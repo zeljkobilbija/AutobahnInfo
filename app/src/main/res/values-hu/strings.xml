@@ -88,7 +88,8 @@
     <string name="voznja_pokreni">Indítás</string>
     <string name="voznja_zaustavi">Leállítás</string>
     <string name="voznja_naslov">A vezetés mód be van kapcsolva</string>
-    <string name="voznja_trazim">Autópálya keresése…</string>
+    <string name="voznja_trazim">Keresem, melyik autópályán van…</string>
+    <string name="voznja_trazim_smer">%s: keresem a helyzetét az autópályán…</string>
     <string name="voznja_van">Nem német autópályán van</string>
     <string name="voznja_na">%s</string>
     <string name="voznja_na_smer">%1$s, %2$s felé</string>

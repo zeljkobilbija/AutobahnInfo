@@ -88,7 +88,8 @@
     <string name="voznja_pokreni">Spustit</string>
     <string name="voznja_zaustavi">Zastavit</string>
     <string name="voznja_naslov">Režim jízdy je zapnutý</string>
-    <string name="voznja_trazim">Hledám dálnici…</string>
+    <string name="voznja_trazim">Hledám dálnici, na které jste…</string>
+    <string name="voznja_trazim_smer">%s: zjišťuji vaši polohu na dálnici…</string>
     <string name="voznja_van">Nejste na německé dálnici</string>
     <string name="voznja_na">Na %s</string>
     <string name="voznja_na_smer">%1$s směr %2$s</string>

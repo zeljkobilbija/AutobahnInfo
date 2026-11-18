@@ -88,7 +88,8 @@
     <string name="voznja_pokreni">Starten</string>
     <string name="voznja_zaustavi">Stoppen</string>
     <string name="voznja_naslov">Rijmodus staat aan</string>
-    <string name="voznja_trazim">Snelweg zoeken…</string>
+    <string name="voznja_trazim">Zoek de snelweg waarop u rijdt…</string>
+    <string name="voznja_trazim_smer">%s: zoek uw positie op de snelweg…</string>
     <string name="voznja_van">Niet op een Duitse snelweg</string>
     <string name="voznja_na">Op de %s</string>
     <string name="voznja_na_smer">%1$s richting %2$s</string>

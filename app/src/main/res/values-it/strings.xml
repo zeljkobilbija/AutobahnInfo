@@ -88,7 +88,8 @@
     <string name="voznja_pokreni">Avvia</string>
     <string name="voznja_zaustavi">Ferma</string>
     <string name="voznja_naslov">Modalità guida attiva</string>
-    <string name="voznja_trazim">Ricerca dell’autostrada…</string>
+    <string name="voznja_trazim">Cerco l\'autostrada in cui ti trovi…</string>
+    <string name="voznja_trazim_smer">%s: cerco la tua posizione sull\'autostrada…</string>
     <string name="voznja_van">Non sei su un’autostrada tedesca</string>
     <string name="voznja_na">Sulla %s</string>
     <string name="voznja_na_smer">%1$s verso %2$s</string>

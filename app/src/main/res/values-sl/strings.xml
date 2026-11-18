@@ -88,7 +88,8 @@
     <string name="voznja_pokreni">Zaženi</string>
     <string name="voznja_zaustavi">Ustavi</string>
     <string name="voznja_naslov">Način vožnje je vklopljen</string>
-    <string name="voznja_trazim">Iščem avtocesto…</string>
+    <string name="voznja_trazim">Iščem avtocesto, na kateri ste…</string>
+    <string name="voznja_trazim_smer">%s: iščem vaš položaj na avtocesti…</string>
     <string name="voznja_van">Niste na nemški avtocesti</string>
     <string name="voznja_na">Na %s</string>
     <string name="voznja_na_smer">%1$s proti %2$s</string>

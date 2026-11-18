@@ -64,6 +64,8 @@ public class VoznjaService extends Service {
 
     /** Stanje za početni ekran. */
     public static volatile boolean radi;
+    /** Još se traži autoput ili smer (početni ekran tada vrti kružić). */
+    public static volatile boolean trazi;
     public static volatile String opisStanja = "";
     private static Runnable slusalac;
     /** Gde je vozač sada (za ekran autoputa); null autoput = nepoznato. */
@@ -172,6 +174,7 @@ public class VoznjaService extends Service {
         instanca = this;
         Dnevnik.upisi(this, "START režim vožnje");
         pocetak = poslednjiPutNaAutoputu = System.currentTimeMillis();
+        trazi = true;
         javiStanje(getString(R.string.voznja_trazim));
 
         lokacije = LocationServices.getFusedLocationProviderClient(this);
@@ -204,6 +207,7 @@ public class VoznjaService extends Service {
         if (lokacije != null) lokacije.removeLocationUpdates(povratni);
         nit.shutdownNow();
         radi = false;
+        trazi = false;
         instanca = null;
         sadAutoput = null;
         opisStanja = "";
@@ -343,12 +347,15 @@ public class VoznjaService extends Service {
     private void osveziObavestenje() {
         String tekst;
         if (autoput == null) {
+            trazi = kandidat != null;
             tekst = getString(kandidat != null ? R.string.voznja_trazim : R.string.voznja_van);
         } else {
             Autoput a = Autoputevi.poId(autoput);
             String oznaka = a != null ? a.oznaka() : autoput;
             String kuda = kuda();
-            tekst = kuda == null ? getString(R.string.voznja_na, oznaka)
+            // autoput je nađen, a smer još ne: "tražim vašu lokaciju na autoputu"
+            trazi = kuda == null;
+            tekst = kuda == null ? getString(R.string.voznja_trazim_smer, oznaka)
                     : getString(R.string.voznja_na_smer, oznaka, kuda);
         }
         NotificationManager nm = getSystemService(NotificationManager.class);

@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean otvaranjeUToku;
     private ImageButton dugmePrivatnosti;
     private MaterialButton voznjaDugme;
+    private View voznjaTrazi;
     private android.widget.TextView voznjaOpis;
     private AutoputAdapter adapterAutoputeva;
     /** Autoput čiji je štit narandžast (Vožnja: vozač je na njemu). */
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         Obavestenja.otvorena(this, savedInstanceState == null); // i posle potpunog zatvaranja: aktuelne vesti nazad
 
         voznjaDugme = findViewById(R.id.voznjaDugme);
+        voznjaTrazi = findViewById(R.id.voznjaTrazi);
         voznjaOpis = findViewById(R.id.voznjaOpis);
         // proba (samo debug verzija): dodir na karticu "Vožnja" otvara dnevnik
         if (Dnevnik.ukljucen(this)) {
@@ -142,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
         String tekst = radi && !opis.isEmpty() ? opis : getString(R.string.voznja_opis);
         if (Dnevnik.ukljucen(this)) tekst += "\nDNEVNIK › (dodir na karticu)";
         voznjaOpis.setText(tekst);
+        // kružić dok Vožnja traži autoput ili smer
+        voznjaTrazi.setVisibility(radi && VoznjaService.trazi ? View.VISIBLE : View.GONE);
         String sad = VoznjaService.sadAutoput;
         if (!java.util.Objects.equals(sad, obojeniAutoput)) {
             obojeniAutoput = sad;

@@ -89,7 +89,8 @@
     <string name="voznja_pokreni">Start</string>
     <string name="voznja_zaustavi">Stop</string>
     <string name="voznja_naslov">Driving mode is on</string>
-    <string name="voznja_trazim">Looking for your motorway…</string>
+    <string name="voznja_trazim">Looking for the motorway you are on…</string>
+    <string name="voznja_trazim_smer">%s: finding your position on the motorway…</string>
     <string name="voznja_van">Not on a German motorway</string>
     <string name="voznja_na">On the %s</string>
     <string name="voznja_na_smer">%1$s towards %2$s</string>
