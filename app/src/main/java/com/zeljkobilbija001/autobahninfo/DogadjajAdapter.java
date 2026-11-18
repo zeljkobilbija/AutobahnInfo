@@ -55,13 +55,15 @@ public class DogadjajAdapter extends RecyclerView.Adapter<DogadjajAdapter.Red> {
     /** {pozadina, tekst} oznake vrste. */
     private static int[] boje(int vrsta) {
         switch (vrsta) {
-            case Dogadjaj.ZATVORENO:
-            case Dogadjaj.UDES: return new int[]{0xFFC62828, 0xFFFFFFFF};
-            case Dogadjaj.OPASNOST:
-            case Dogadjaj.KOLONA: return new int[]{0xFFE65100, 0xFFFFFFFF};
-            case Dogadjaj.TRAKA:
-            case Dogadjaj.SPORO: return new int[]{0xFFF9C11B, 0xFF2A1F00};
-            default: return new int[]{0xFF6B7588, 0xFFFFFFFF};
+            // svaka vrsta svoja boja (lista je poređana po vremenu, pa boja pokazuje važnost)
+            case Dogadjaj.ZATVORENO: return new int[]{0xFF7F0000, 0xFFFFFFFF};  // tamnocrvena
+            case Dogadjaj.UDES: return new int[]{0xFFD32F2F, 0xFFFFFFFF};       // crvena
+            case Dogadjaj.OPASNOST: return new int[]{0xFFE65100, 0xFFFFFFFF};   // narandžasta
+            case Dogadjaj.KOLONA: return new int[]{0xFFFFA000, 0xFF2A1F00};     // zlatna
+            case Dogadjaj.TRAKA: return new int[]{0xFFFFEB3B, 0xFF2A1F00};      // žuta
+            case Dogadjaj.SPORO: return new int[]{0xFF6A1B9A, 0xFFFFFFFF};      // ljubičasta
+            case Dogadjaj.PRILAZ: return new int[]{0xFF1565C0, 0xFFFFFFFF};     // plava
+            default: return new int[]{0xFF6B7588, 0xFFFFFFFF};                 // siva
         }
     }
 
