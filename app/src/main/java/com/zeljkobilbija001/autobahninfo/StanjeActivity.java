@@ -155,9 +155,6 @@ public class StanjeActivity extends AppCompatActivity {
                 else Toast.makeText(this, R.string.stanje_greska, Toast.LENGTH_SHORT).show();
                 return;
             }
-            // na ekranu najnovija poruka ide na vrh (bez vremena na kraj); vrstu pokazuje boja
-            l.sort((a, b) -> a.pocetak != b.pocetak ? Long.compare(b.pocetak, a.pocetak)
-                    : Integer.compare(a.vrsta, b.vrsta));
             poslednje = l;
             podnaslov.setText(getString(R.string.stanje_osvezeno,
                     DateFormat.getTimeFormat(this).format(new Date())));

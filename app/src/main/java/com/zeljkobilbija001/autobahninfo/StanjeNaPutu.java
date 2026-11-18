@@ -44,13 +44,16 @@ public final class StanjeNaPutu {
         });
     }
 
-    /** Preuzimanje na tekućoj niti (za proveru u pozadini); važnije poruke idu prve. */
+    /**
+     * Preuzimanje na tekućoj niti (i za proveru u pozadini). Najnovija poruka ide prva bez obzira
+     * na važnost (važnost pokazuje boja), poruke bez vremena na kraj; isto vreme: važnija prva.
+     */
     public static List<Dogadjaj> preuzmi(String autoput) throws Exception {
         List<Dogadjaj> l = new ArrayList<>();
         l.addAll(Dogadjaj.izJsona(get(API + autoput + "/services/warning"), "warning"));
         l.addAll(Dogadjaj.izJsona(get(API + autoput + "/services/closure"), "closure"));
-        Collections.sort(l, (a, b) -> a.vrsta != b.vrsta ? Integer.compare(a.vrsta, b.vrsta)
-                : Long.compare(b.pocetak, a.pocetak));
+        Collections.sort(l, (a, b) -> a.pocetak != b.pocetak ? Long.compare(b.pocetak, a.pocetak)
+                : Integer.compare(a.vrsta, b.vrsta));
         return l;
     }
 
