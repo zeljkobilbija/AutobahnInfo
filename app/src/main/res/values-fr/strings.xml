@@ -96,6 +96,9 @@
     <string name="voznja_na">Sur l’%s</string>
     <string name="voznja_na_smer">%1$s direction %2$s</string>
     <string name="voznja_dozvola">Le mode conduite a besoin de votre position précise.</string>
+    <string name="voznja_ne_moze_naslov">Impossible de lancer le mode conduite</string>
+    <string name="voznja_bez_dozvole_poruka">Le mode conduite a besoin de votre position exacte. Ouvrez Réglages → Autorisations → Position, choisissez « Autoriser seulement pendant l\'utilisation de l\'appli » et activez « Utiliser la position exacte ».</string>
+    <string name="voznja_gps_iskljucen_poruka">La localisation est désactivée sur le téléphone. Activez-la pour que le mode conduite trouve l\'autoroute où vous êtes.</string>
     <string name="voznja_za_km">dans %d km</string>
     <!-- Moja pozicija na autoputu -->
     <string name="lokacija_dugme">Ma position</string>

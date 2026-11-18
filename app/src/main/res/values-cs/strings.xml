@@ -96,6 +96,9 @@
     <string name="voznja_na">Na %s</string>
     <string name="voznja_na_smer">%1$s směr %2$s</string>
     <string name="voznja_dozvola">Režim jízdy potřebuje přesnou polohu.</string>
+    <string name="voznja_ne_moze_naslov">Režim jízdy nelze spustit</string>
+    <string name="voznja_bez_dozvole_poruka">Režim jízdy potřebuje vaši přesnou polohu. Otevřete Nastavení → Oprávnění → Poloha, zvolte „Povolit jen při používání aplikace“ a zapněte „Používat přesnou polohu“.</string>
+    <string name="voznja_gps_iskljucen_poruka">Poloha je v telefonu vypnutá. Zapněte ji, aby režim jízdy našel dálnici, na které jste.</string>
     <string name="voznja_za_km">za %d km</string>
     <!-- Moja pozicija na autoputu -->
     <string name="lokacija_dugme">Moje poloha</string>

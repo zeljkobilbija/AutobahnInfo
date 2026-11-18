@@ -121,8 +121,7 @@ public class MainActivity extends AppCompatActivity {
             traziti.add(Manifest.permission.POST_NOTIFICATIONS);
         }
         if (traziti.isEmpty()) {
-            VoznjaService.pokreni(this);
-            osveziVoznju();
+            pokreniAkoLokacija();
         } else {
             dozvoleVoznje.launch(traziti.toArray(new String[0]));
         }
@@ -130,11 +129,39 @@ public class MainActivity extends AppCompatActivity {
 
     private void posleDozvola(Map<String, Boolean> rezultat) {
         if (ima(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            VoznjaService.pokreni(this);
-            osveziVoznju();
+            pokreniAkoLokacija();
         } else {
-            Snackbar.make(findViewById(R.id.main), R.string.voznja_dozvola, Snackbar.LENGTH_LONG).show();
+            // jasan prozor umesto sitne poruke na dnu: bez dozvole Vožnja ne može da radi
+            prozorLokacije(R.string.voznja_bez_dozvole_poruka,
+                    new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                            android.net.Uri.fromParts("package", getPackageName(), null)));
         }
+    }
+
+    /** Dozvola postoji; Vožnja se pokreće samo ako je lokacija na telefonu uključena. */
+    private void pokreniAkoLokacija() {
+        android.location.LocationManager lm = getSystemService(android.location.LocationManager.class);
+        if (lm != null && !androidx.core.location.LocationManagerCompat.isLocationEnabled(lm)) {
+            prozorLokacije(R.string.voznja_gps_iskljucen_poruka,
+                    new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            return;
+        }
+        VoznjaService.pokreni(this);
+        osveziVoznju();
+    }
+
+    /** Prozor "Vožnja ne može da se pokrene" sa dugmetom koje otvara podešavanja. */
+    private void prozorLokacije(int poruka, Intent podesavanja) {
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.voznja_ne_moze_naslov)
+                .setMessage(poruka)
+                .setPositiveButton(R.string.stanje_podesavanja, (d, w) -> {
+                    try {
+                        startActivity(podesavanja);
+                    } catch (Exception ignored) { }
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     private void osveziVoznju() {

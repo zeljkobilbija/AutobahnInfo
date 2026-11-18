@@ -96,6 +96,9 @@
     <string name="voznja_na">%s</string>
     <string name="voznja_na_smer">%1$s, %2$s felé</string>
     <string name="voznja_dozvola">A vezetés módhoz pontos helyadat szükséges.</string>
+    <string name="voznja_ne_moze_naslov">A vezetési mód nem indítható</string>
+    <string name="voznja_bez_dozvole_poruka">A vezetési módnak szüksége van a pontos helyére. Nyissa meg a Beállítások → Engedélyek → Hely menüt, válassza a „Csak az alkalmazás használata közben” lehetőséget, és kapcsolja be a „Pontos hely használata” opciót.</string>
+    <string name="voznja_gps_iskljucen_poruka">A helymeghatározás ki van kapcsolva a telefonon. Kapcsolja be, hogy a vezetési mód megtalálja az autópályát.</string>
     <string name="voznja_za_km">%d km múlva</string>
     <!-- Moja pozicija na autoputu -->
     <string name="lokacija_dugme">Saját pozíció</string>

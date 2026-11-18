@@ -96,6 +96,9 @@
     <string name="voznja_na">%s üzerinde</string>
     <string name="voznja_na_smer">%1$s, %2$s yönünde</string>
     <string name="voznja_dozvola">Sürüş modu için kesin konum gerekir.</string>
+    <string name="voznja_ne_moze_naslov">Sürüş modu başlatılamıyor</string>
+    <string name="voznja_bez_dozvole_poruka">Sürüş modu kesin konumunuza ihtiyaç duyar. Ayarlar → İzinler → Konum\'u açın, „Yalnızca uygulama kullanılırken izin ver“ seçeneğini seçin ve „Kesin konumu kullan“ı açın.</string>
+    <string name="voznja_gps_iskljucen_poruka">Telefonunuzda konum kapalı. Sürüş modunun bulunduğunuz otoyolu bulabilmesi için açın.</string>
     <string name="voznja_za_km">%d km sonra</string>
     <!-- Moja pozicija na autoputu -->
     <string name="lokacija_dugme">Konumum</string>

@@ -96,6 +96,9 @@
     <string name="voznja_na">Na %s</string>
     <string name="voznja_na_smer">%1$s w kierunku %2$s</string>
     <string name="voznja_dozvola">Tryb jazdy wymaga dokładnej lokalizacji.</string>
+    <string name="voznja_ne_moze_naslov">Nie można uruchomić trybu jazdy</string>
+    <string name="voznja_bez_dozvole_poruka">Tryb jazdy potrzebuje dokładnej lokalizacji. Otwórz Ustawienia → Uprawnienia → Lokalizacja, wybierz „Zezwalaj tylko podczas używania aplikacji” i włącz „Używaj dokładnej lokalizacji”.</string>
+    <string name="voznja_gps_iskljucen_poruka">Lokalizacja w telefonie jest wyłączona. Włącz ją, aby tryb jazdy mógł znaleźć autostradę, na której jesteś.</string>
     <string name="voznja_za_km">za %d km</string>
     <!-- Moja pozicija na autoputu -->
     <string name="lokacija_dugme">Moja pozycja</string>

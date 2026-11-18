@@ -96,6 +96,9 @@
     <string name="voznja_na">Na %s</string>
     <string name="voznja_na_smer">%1$s sentido %2$s</string>
     <string name="voznja_dozvola">O modo condução precisa da sua localização exata.</string>
+    <string name="voznja_ne_moze_naslov">Não é possível iniciar o modo de condução</string>
+    <string name="voznja_bez_dozvole_poruka">O modo de condução precisa da sua localização exata. Abra Definições → Autorizações → Localização, escolha «Permitir apenas durante a utilização da app» e ative «Utilizar localização exata».</string>
+    <string name="voznja_gps_iskljucen_poruka">A localização está desativada no telemóvel. Ative-a para que o modo de condução encontre a autoestrada em que está.</string>
     <string name="voznja_za_km">a %d km</string>
     <!-- Moja pozicija na autoputu -->
     <string name="lokacija_dugme">Minha posição</string>

@@ -96,6 +96,9 @@
     <string name="voznja_na">Sulla %s</string>
     <string name="voznja_na_smer">%1$s verso %2$s</string>
     <string name="voznja_dozvola">La modalità guida richiede la posizione precisa.</string>
+    <string name="voznja_ne_moze_naslov">La modalità guida non può partire</string>
+    <string name="voznja_bez_dozvole_poruka">La modalità guida ha bisogno della tua posizione precisa. Apri Impostazioni → Autorizzazioni → Posizione, scegli «Consenti solo mentre l\'app è in uso» e attiva «Usa posizione precisa».</string>
+    <string name="voznja_gps_iskljucen_poruka">La posizione è disattivata sul telefono. Attivala perché la modalità guida possa trovare l\'autostrada in cui ti trovi.</string>
     <string name="voznja_za_km">tra %d km</string>
     <!-- Moja pozicija na autoputu -->
     <string name="lokacija_dugme">La mia posizione</string>

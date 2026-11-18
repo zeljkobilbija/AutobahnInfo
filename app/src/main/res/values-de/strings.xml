@@ -96,6 +96,9 @@
     <string name="voznja_na">Auf der %s</string>
     <string name="voznja_na_smer">%1$s Richtung %2$s</string>
     <string name="voznja_dozvola">Der Fahrmodus benötigt Ihren genauen Standort.</string>
+    <string name="voznja_ne_moze_naslov">Fahrmodus kann nicht starten</string>
+    <string name="voznja_bez_dozvole_poruka">Der Fahrmodus braucht Ihren genauen Standort. Öffnen Sie Einstellungen → Berechtigungen → Standort, wählen Sie „Nur während der Nutzung der App zulassen“ und schalten Sie „Genauen Standort verwenden“ ein.</string>
+    <string name="voznja_gps_iskljucen_poruka">Der Standort ist auf Ihrem Telefon ausgeschaltet. Schalten Sie ihn ein, damit der Fahrmodus die Autobahn finden kann.</string>
     <string name="voznja_za_km">in %d km</string>
     <!-- Moja pozicija na autoputu -->
     <string name="lokacija_dugme">Meine Position</string>

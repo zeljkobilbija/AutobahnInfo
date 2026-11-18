@@ -97,6 +97,9 @@
     <string name="voznja_na">On the %s</string>
     <string name="voznja_na_smer">%1$s towards %2$s</string>
     <string name="voznja_dozvola">Driving mode needs access to your precise location.</string>
+    <string name="voznja_ne_moze_naslov">Driving mode cannot start</string>
+    <string name="voznja_bez_dozvole_poruka">Driving mode needs your precise location. Open Settings → Permissions → Location, choose “Allow only while using the app” and turn on “Use precise location”.</string>
+    <string name="voznja_gps_iskljucen_poruka">Location is turned off on your phone. Turn it on so that driving mode can find the motorway you are on.</string>
     <string name="voznja_za_km">in %d km</string>
     <!-- Moja pozicija na autoputu -->
     <string name="lokacija_dugme">My position</string>

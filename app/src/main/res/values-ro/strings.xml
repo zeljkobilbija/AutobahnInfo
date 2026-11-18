@@ -96,6 +96,9 @@
     <string name="voznja_na">Pe %s</string>
     <string name="voznja_na_smer">%1$s spre %2$s</string>
     <string name="voznja_dozvola">Modul condus are nevoie de locația exactă.</string>
+    <string name="voznja_ne_moze_naslov">Modul de condus nu poate porni</string>
+    <string name="voznja_bez_dozvole_poruka">Modul de condus are nevoie de locația dvs. exactă. Deschideți Setări → Permisiuni → Locație, alegeți „Permite doar în timpul utilizării aplicației” și activați „Folosește locația exactă”.</string>
+    <string name="voznja_gps_iskljucen_poruka">Locația este dezactivată pe telefon. Activați-o pentru ca modul de condus să găsească autostrada pe care vă aflați.</string>
     <string name="voznja_za_km">în %d km</string>
     <!-- Moja pozicija na autoputu -->
     <string name="lokacija_dugme">Poziția mea</string>

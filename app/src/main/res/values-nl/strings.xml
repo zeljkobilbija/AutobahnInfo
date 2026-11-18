@@ -96,6 +96,9 @@
     <string name="voznja_na">Op de %s</string>
     <string name="voznja_na_smer">%1$s richting %2$s</string>
     <string name="voznja_dozvola">Rijmodus heeft je precieze locatie nodig.</string>
+    <string name="voznja_ne_moze_naslov">Rijmodus kan niet starten</string>
+    <string name="voznja_bez_dozvole_poruka">De rijmodus heeft uw precieze locatie nodig. Open Instellingen → Rechten → Locatie, kies „Alleen toestaan tijdens gebruik van de app” en zet „Precieze locatie gebruiken” aan.</string>
+    <string name="voznja_gps_iskljucen_poruka">Locatie staat uit op uw telefoon. Zet deze aan zodat de rijmodus de snelweg kan vinden waarop u rijdt.</string>
     <string name="voznja_za_km">over %d km</string>
     <!-- Moja pozicija na autoputu -->
     <string name="lokacija_dugme">Mijn positie</string>

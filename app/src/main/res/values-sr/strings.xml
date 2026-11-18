@@ -96,6 +96,9 @@
     <string name="voznja_na">Na %s</string>
     <string name="voznja_na_smer">%1$s ka %2$s</string>
     <string name="voznja_dozvola">Za režim vožnje potrebna je precizna lokacija.</string>
+    <string name="voznja_ne_moze_naslov">Vožnja ne može da se pokrene</string>
+    <string name="voznja_bez_dozvole_poruka">Za režim Vožnja potrebna je vaša precizna lokacija. Otvorite Podešavanja → Dozvole → Lokacija, izaberite „Dozvoli samo tokom korišćenja aplikacije“ i uključite „Koristi preciznu lokaciju“.</string>
+    <string name="voznja_gps_iskljucen_poruka">Lokacija je na telefonu isključena. Uključite je da bi Vožnja mogla da nađe autoput na kom ste.</string>
     <string name="voznja_za_km">za %d km</string>
     <!-- Moja pozicija na autoputu -->
     <string name="lokacija_dugme">Moja pozicija</string>
