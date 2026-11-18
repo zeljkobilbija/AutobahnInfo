@@ -89,6 +89,21 @@ public final class Obavestenja {
         return NotificationManagerCompat.from(c).areNotificationsEnabled();
     }
 
+    /** Id poruke koja je poslednja stigla u obaveštenju za ovaj autoput, ili null. */
+    public static String poslednjeStiglo(Context c, String autoputId) {
+        String id = null;
+        long max = Long.MIN_VALUE;
+        for (String s : p(c).getStringSet(STIGLO + autoputId, new HashSet<>())) {
+            int t = s.lastIndexOf('\t');
+            if (t <= 0) continue;
+            try {
+                long ms = Long.parseLong(s.substring(t + 1));
+                if (ms > max) { max = ms; id = s.substring(0, t); }
+            } catch (NumberFormatException ignored) { }
+        }
+        return id;
+    }
+
     private static Set<String> idZaObavestenje(List<Dogadjaj> l) {
         Set<String> s = new HashSet<>();
         for (Dogadjaj d : l) if (d.zaObavestenje()) s.add(d.id);

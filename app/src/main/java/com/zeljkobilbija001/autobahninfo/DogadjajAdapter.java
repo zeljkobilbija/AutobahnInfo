@@ -26,15 +26,20 @@ public class DogadjajAdapter extends RecyclerView.Adapter<DogadjajAdapter.Red> {
     private final List<Dogadjaj> stavke = new ArrayList<>();
     private final Set<String> otvoreni = new HashSet<>();
     private final NaMapi naMapi;
+    private String istaknut;
 
     public DogadjajAdapter(NaMapi naMapi) {
         this.naMapi = naMapi;
     }
 
     @SuppressWarnings("NotifyDataSetChanged")
-    public void postavi(List<Dogadjaj> l) {
+    public void postavi(List<Dogadjaj> l, String najnoviji) {
         stavke.clear();
         stavke.addAll(l);
+        // istaknuta (narandžasta, pulsira) je poslednja stigla poruka; ako je nema u listi, prva (najnovija)
+        istaknut = null;
+        for (Dogadjaj d : l) if (d.id.equals(najnoviji)) istaknut = najnoviji;
+        if (istaknut == null && !l.isEmpty()) istaknut = l.get(0).id;
         notifyDataSetChanged();
     }
 
@@ -78,6 +83,22 @@ public class DogadjajAdapter extends RecyclerView.Adapter<DogadjajAdapter.Red> {
         Dogadjaj d = stavke.get(position);
         Context c = h.itemView.getContext();
 
+        if (h.puls != null) { h.puls.cancel(); h.puls = null; }
+        if (d.id.equals(istaknut)) {
+            // narandžasta pozadina koja pulsira (svetlija ↔ jača) desetak puta, pa ostaje svetlonarandžasta
+            int slaba = Izgled.boja(c, R.color.ovde_pozadina);
+            int jaka = (Izgled.boja(c, R.color.ovde) & 0x00FFFFFF) | 0x80000000;
+            android.animation.ValueAnimator a = android.animation.ValueAnimator.ofArgb(slaba, jaka);
+            a.setDuration(700);
+            a.setRepeatMode(android.animation.ValueAnimator.REVERSE);
+            a.setRepeatCount(15);
+            a.addUpdateListener(x -> h.itemView.setBackgroundColor((int) x.getAnimatedValue()));
+            h.puls = a;
+            a.start();
+        } else {
+            h.itemView.setBackground(h.pozadina);
+        }
+
         int[] b = boje(d.vrsta);
         h.vrsta.setText(naziv(d.vrsta));
         h.vrsta.setTextColor(b[1]);
@@ -120,9 +141,12 @@ public class DogadjajAdapter extends RecyclerView.Adapter<DogadjajAdapter.Red> {
 
     static class Red extends RecyclerView.ViewHolder {
         final TextView vrsta, kasnjenje, deonica, smer, vreme, opis, karta;
+        final android.graphics.drawable.Drawable pozadina;
+        android.animation.ValueAnimator puls;
 
         Red(View v) {
             super(v);
+            pozadina = v.getBackground();
             vrsta = v.findViewById(R.id.vrsta);
             kasnjenje = v.findViewById(R.id.kasnjenje);
             deonica = v.findViewById(R.id.deonica);

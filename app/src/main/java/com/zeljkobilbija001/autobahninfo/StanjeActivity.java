@@ -158,14 +158,14 @@ public class StanjeActivity extends AppCompatActivity {
             poslednje = l;
             podnaslov.setText(getString(R.string.stanje_osvezeno,
                     DateFormat.getTimeFormat(this).format(new Date())));
-            adapter.postavi(l);
+            adapter.postavi(l, Obavestenja.poslednjeStiglo(this, autoput.id));
             if (l.isEmpty()) prikaziPoruku(getString(R.string.stanje_nema, autoput.oznaka()));
             else poruka.setVisibility(View.GONE);
         });
     }
 
     private void prikaziPoruku(String t) {
-        adapter.postavi(java.util.Collections.emptyList());
+        adapter.postavi(java.util.Collections.emptyList(), null);
         poruka.setText(t);
         poruka.setVisibility(View.VISIBLE);
     }
