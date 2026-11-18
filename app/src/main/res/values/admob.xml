@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--
-      Pravi AdMob ID-jevi (AdMob konzola → AutobahnInfo).
-      Za testiranje bez rizika po nalog mogu se privremeno vratiti Google-ovi probni ID-jevi:
-        admob_app_id    → ca-app-pub-3940256099942544~3347511713
-        admob_banner_id → ca-app-pub-3940256099942544/9214589741
+      Pravi AdMob ID-jevi (AdMob konzola → „Autobahn Info – Rest Areas“, aplikacija povezana sa Google Play-om).
+      Stara, nepovezana AdMob aplikacija „AutobahnInfo“ (~5497918348, baner /6434549317) se više ne koristi.
+      Debug izdanje ima Google-ove probne ID-jeve u src/debug/res/values/admob.xml.
     -->
-    <string name="admob_app_id" translatable="false">ca-app-pub-7920431183682527~5497918348</string>
-    <string name="admob_banner_id" translatable="false">ca-app-pub-7920431183682527/6434549317</string>
-    <!-- interstitial pri otvaranju autoputa: UPISATI pravi ID iz AdMob konzole (prazno = oglas se ne prikazuje) -->
-    <string name="admob_interstitial_id" translatable="false"></string>
+    <string name="admob_app_id" translatable="false">ca-app-pub-7920431183682527~1868421255</string>
+    <string name="admob_banner_id" translatable="false">ca-app-pub-7920431183682527/8667683186</string>
+    <!-- interstitial pri otvaranju autoputa -->
+    <string name="admob_interstitial_id" translatable="false">ca-app-pub-7920431183682527/5006418587</string>
 </resources>
