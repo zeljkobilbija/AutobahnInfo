@@ -96,6 +96,11 @@ public final class Obavestenja {
             }
         }
         e.apply();
+        if (!ukljuci) {
+            // već prikazana obaveštenja o stanju na putu se uklanjaju (stalno obaveštenje Vožnje ostaje)
+            NotificationManagerCompat nm = NotificationManagerCompat.from(c);
+            for (Autoput a : Autoputevi.SVE) nm.cancel(a.id.hashCode());
+        }
         zakazi(c);
     }
 
@@ -162,6 +167,11 @@ public final class Obavestenja {
      */
     static synchronized void obradi(Context c, String autoputId, List<Dogadjaj> trenutno,
                                     List<Dogadjaj> kandidati, java.util.Map<String, Integer> udaljenosti) {
+        // prekidač isključen: ne javlja se ništa, ni iz Vožnje (pri uključivanju se trenutne poruke beleže kao viđene)
+        if (!ukljucena(c)) {
+            Dnevnik.upisi(c, "OBAVEŠTENJA " + autoputId + ": isključena, ništa se ne javlja");
+            return;
+        }
         Set<String> vidjeno = new HashSet<>();
         // stare sačuvane oznake (pre stabilnih) svode se na stabilne, da se ništa ne javi ponovo
         for (String s : p(c).getStringSet(VIDJENO + autoputId, new HashSet<>())) vidjeno.add(Dogadjaj.stabilanId(s));
