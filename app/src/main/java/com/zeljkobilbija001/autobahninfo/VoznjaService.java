@@ -252,6 +252,7 @@ public class VoznjaService extends Service {
             if (!t.autoput.equals(autoput) || t.grupa != grupa) {
                 autoput = t.autoput;
                 grupa = t.grupa;
+                Obavestenja.naAutoputu(this, autoput); // provera u pozadini prati autoput gde je vozač
                 smer = '?';
                 kmZaSmer = t.kmUkupno;
             } else if (Double.isNaN(kmZaSmer)) {

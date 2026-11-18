@@ -64,7 +64,7 @@
     <string name="stanje_greska">Verkehrsmeldungen sind gerade nicht verfügbar.</string>
     <string name="stanje_nema">Zurzeit keine Verkehrsmeldungen für die %s.</string>
     <string name="stanje_obavestenja">Benachrichtigungen</string>
-    <string name="stanje_obavestenja_opis">Unfälle, Staus und Sperrungen auf der %1$s, Prüfung etwa alle %2$d Minuten</string>
+    <string name="stanje_obavestenja_opis">Unfälle, Staus und Sperrungen auf der Autobahn, auf der Sie fahren, Prüfung etwa alle %1$d Minuten</string>
     <string name="stanje_dozvola">Benachrichtigungen sind für diese App ausgeschaltet.</string>
     <string name="stanje_podesavanja">Einstellungen</string>
     <string name="stanje_izvor">Verkehrsdaten: Autobahn GmbH des Bundes (verkehr.autobahn.de). Meldung antippen für den vollständigen Text.</string>

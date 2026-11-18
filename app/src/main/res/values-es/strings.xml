@@ -64,7 +64,7 @@
     <string name="stanje_greska">Los avisos de tráfico no están disponibles ahora.</string>
     <string name="stanje_nema">No hay avisos de tráfico para la %s en este momento.</string>
     <string name="stanje_obavestenja">Notificaciones</string>
-    <string name="stanje_obavestenja_opis">Accidentes, retenciones y cortes en la %1$s, comprobado cada %2$d minutos aprox.</string>
+    <string name="stanje_obavestenja_opis">Accidentes, retenciones y cierres en la autopista en la que estás, comprobación cada %1$d minutos aprox.</string>
     <string name="stanje_dozvola">Las notificaciones están desactivadas para esta app.</string>
     <string name="stanje_podesavanja">Ajustes</string>
     <string name="stanje_izvor">Datos de tráfico: Autobahn GmbH des Bundes (verkehr.autobahn.de). Toca un aviso para ver el texto completo (en alemán).</string>

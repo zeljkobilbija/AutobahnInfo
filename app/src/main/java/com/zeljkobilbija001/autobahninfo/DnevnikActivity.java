@@ -127,7 +127,7 @@ public class DnevnikActivity extends AppCompatActivity {
         StringBuilder s = new StringBuilder();
         s.append("Režim vožnje: ").append(VoznjaService.radi ? "UKLJUČEN" : "isključen").append('\n');
         if (VoznjaService.radi) s.append(VoznjaService.opisStanja).append('\n').append(VoznjaService.uzivo).append('\n');
-        s.append("Praćeni autoputevi: ").append(Obavestenja.praceni(this))
+        s.append("Obaveštenja: ").append(Obavestenja.ukljucena(this) ? "uključena" : "isključena").append(" · praćeni autoput: ").append(Obavestenja.praceni(this))
                 .append(" · obaveštenja dozvoljena: ").append(Obavestenja.smeDaObavesti(this) ? "da" : "NE");
         stanje.setText(s);
 

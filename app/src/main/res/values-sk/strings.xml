@@ -64,7 +64,7 @@
     <string name="stanje_greska">Dopravné informácie momentálne nie sú dostupné.</string>
     <string name="stanje_nema">Pre %s teraz nie sú žiadne dopravné informácie.</string>
     <string name="stanje_obavestenja">Upozornenia</string>
-    <string name="stanje_obavestenja_opis">Nehody, kolóny a uzávierky na %1$s, kontrola približne každých %2$d minút</string>
+    <string name="stanje_obavestenja_opis">Nehody, kolóny a uzávierky na diaľnici, na ktorej ste, kontrola približne každých %1$d minút</string>
     <string name="stanje_dozvola">Upozornenia sú pre túto aplikáciu vypnuté.</string>
     <string name="stanje_podesavanja">Nastavenia</string>
     <string name="stanje_izvor">Dopravné údaje: Autobahn GmbH des Bundes (verkehr.autobahn.de). Ťuknite na správu pre celý text (v nemčine).</string>

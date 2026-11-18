@@ -64,7 +64,7 @@
     <string name="stanje_greska">Prometne informacije trenutno nisu dostupne.</string>
     <string name="stanje_nema">Trenutno nema prometnih informacija za %s.</string>
     <string name="stanje_obavestenja">Obavijesti</string>
-    <string name="stanje_obavestenja_opis">Nesreće, kolone i zatvaranja na %1$s, provjera otprilike svakih %2$d minuta</string>
+    <string name="stanje_obavestenja_opis">Nesreće, kolone i zatvaranja na autocesti na kojoj ste, provjera otprilike svakih %1$d minuta</string>
     <string name="stanje_dozvola">Obavijesti su isključene za ovu aplikaciju.</string>
     <string name="stanje_podesavanja">Postavke</string>
     <string name="stanje_izvor">Prometni podaci: Autobahn GmbH des Bundes (verkehr.autobahn.de). Dodirnite vijest za cijeli tekst (na njemačkom).</string>

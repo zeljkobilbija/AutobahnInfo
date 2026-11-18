@@ -64,7 +64,7 @@
     <string name="stanje_greska">Les infos trafic ne sont pas disponibles pour le moment.</string>
     <string name="stanje_nema">Aucune info trafic pour l’%s en ce moment.</string>
     <string name="stanje_obavestenja">Notifications</string>
-    <string name="stanje_obavestenja_opis">Accidents, bouchons et fermetures sur l’%1$s, vérifiés environ toutes les %2$d minutes</string>
+    <string name="stanje_obavestenja_opis">Accidents, bouchons et fermetures sur l\'autoroute où vous êtes, vérification environ toutes les %1$d minutes</string>
     <string name="stanje_dozvola">Les notifications sont désactivées pour cette application.</string>
     <string name="stanje_podesavanja">Paramètres</string>
     <string name="stanje_izvor">Données trafic : Autobahn GmbH des Bundes (verkehr.autobahn.de). Touchez une info pour le texte complet (en allemand).</string>

@@ -64,7 +64,7 @@
     <string name="stanje_greska">Saobraćajne vesti trenutno nisu dostupne.</string>
     <string name="stanje_nema">Trenutno nema saobraćajnih vesti za %s.</string>
     <string name="stanje_obavestenja">Obaveštenja</string>
-    <string name="stanje_obavestenja_opis">Udesi, kolone i zatvaranja na %1$s, provera otprilike na svakih %2$d minuta</string>
+    <string name="stanje_obavestenja_opis">Udesi, kolone i zatvaranja na autoputu na kom ste, provera otprilike na svakih %1$d minuta</string>
     <string name="stanje_dozvola">Obaveštenja su isključena za ovu aplikaciju.</string>
     <string name="stanje_podesavanja">Podešavanja</string>
     <string name="stanje_izvor">Podaci o saobraćaju: Autobahn GmbH des Bundes (verkehr.autobahn.de). Dodirnite vest za ceo tekst (na nemačkom).</string>

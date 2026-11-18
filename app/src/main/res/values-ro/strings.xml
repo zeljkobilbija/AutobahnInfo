@@ -64,7 +64,7 @@
     <string name="stanje_greska">Știrile de trafic nu sunt disponibile acum.</string>
     <string name="stanje_nema">Nu există știri de trafic pentru %s în acest moment.</string>
     <string name="stanje_obavestenja">Notificări</string>
-    <string name="stanje_obavestenja_opis">Accidente, cozi și închideri pe %1$s, verificate cam la fiecare %2$d minute</string>
+    <string name="stanje_obavestenja_opis">Accidente, cozi și închideri pe autostrada pe care vă aflați, verificare aproximativ la fiecare %1$d minute</string>
     <string name="stanje_dozvola">Notificările sunt dezactivate pentru această aplicație.</string>
     <string name="stanje_podesavanja">Setări</string>
     <string name="stanje_izvor">Date de trafic: Autobahn GmbH des Bundes (verkehr.autobahn.de). Atingeți o știre pentru textul complet (în germană).</string>

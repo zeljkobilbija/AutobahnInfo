@@ -65,7 +65,7 @@
     <string name="stanje_greska">Traffic reports are not available right now.</string>
     <string name="stanje_nema">No traffic reports for %s right now.</string>
     <string name="stanje_obavestenja">Traffic alerts</string>
-    <string name="stanje_obavestenja_opis">Accidents, queues and closures on %1$s, checked about every %2$d minutes</string>
+    <string name="stanje_obavestenja_opis">Accidents, queues and closures on the motorway you are on, checked about every %1$d minutes</string>
     <string name="stanje_dozvola">Notifications are turned off for this app.</string>
     <string name="stanje_podesavanja">Settings</string>
     <string name="stanje_izvor">Traffic data: Autobahn GmbH des Bundes (verkehr.autobahn.de). Tap a report for the full text (in German).</string>

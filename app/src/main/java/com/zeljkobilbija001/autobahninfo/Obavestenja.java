@@ -34,6 +34,9 @@ public final class Obavestenja {
     private static final String PRACENI = "praceni";
     private static final String VIDJENO = "vidjeno_";
     private static final String STIGLO = "stiglo_";
+    private static final String UKLJUCENO = "ukljuceno";
+    private static final String POSLEDNJI = "poslednji_autoput";
+    private static final String PRVI_PUT = "prvi_put_";
     private static final String POSAO = "provera_stanja";
     private static final String KANAL = "stanje_na_putu";
     public static final int MINUTA = 15;
@@ -44,27 +47,53 @@ public final class Obavestenja {
         return c.getApplicationContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
     }
 
-    public static Set<String> praceni(Context c) {
-        return new HashSet<>(p(c).getStringSet(PRACENI, new HashSet<>()));
+    /**
+     * Obaveštenja su jedan prekidač za sve autoputeve (odluka 18.11.2026). Stari spisak praćenih
+     * autoputeva (PRACENI) se pri prvom čitanju prevodi: neprazan = uključeno, prvi sa spiska = poslednji.
+     */
+    public static boolean ukljucena(Context c) {
+        SharedPreferences sp = p(c);
+        if (!sp.contains(UKLJUCENO)) {
+            Set<String> stari = sp.getStringSet(PRACENI, new HashSet<>());
+            SharedPreferences.Editor e = sp.edit().putBoolean(UKLJUCENO, !stari.isEmpty()).remove(PRACENI);
+            if (!stari.isEmpty() && !sp.contains(POSLEDNJI)) e.putString(POSLEDNJI, stari.iterator().next());
+            e.apply();
+            return !stari.isEmpty();
+        }
+        return sp.getBoolean(UKLJUCENO, false);
     }
 
-    public static boolean prati(Context c, String autoput) {
-        return praceni(c).contains(autoput);
+    /** Autoputevi za proveru u pozadini: samo onaj na kom je vozač poslednji put bio. */
+    public static Set<String> praceni(Context c) {
+        Set<String> s = new HashSet<>();
+        String a = p(c).getString(POSLEDNJI, null);
+        if (ukljucena(c) && a != null) s.add(a);
+        return s;
     }
 
     /**
-     * Uključuje/isključuje praćenje. Pri uključivanju trenutne poruke se beleže kao viđene
-     * (korisnik ih upravo gleda), pa obaveštenja stižu samo za nove.
+     * Vožnja javlja da je vozač na autoputu {@code autoput}. Provera u pozadini posle toga prati njega;
+     * pri promeni se njegove trenutne poruke prvi put samo beleže (bez obaveštenja za ceo autoput).
+     */
+    public static void naAutoputu(Context c, String autoput) {
+        if (autoput.equals(p(c).getString(POSLEDNJI, null))) return;
+        p(c).edit().putString(POSLEDNJI, autoput).putBoolean(PRVI_PUT + autoput, true).apply();
+    }
+
+    /**
+     * Uključuje/isključuje obaveštenja za sve autoputeve. Pri uključivanju poruke otvorenog autoputa
+     * se beleže kao viđene (korisnik ih upravo gleda) i on postaje praćeni, ako vozač nije na drugom.
      */
     public static void postavi(Context c, String autoput, boolean ukljuci, List<Dogadjaj> trenutno) {
-        Set<String> s = praceni(c);
-        if (ukljuci) s.add(autoput);
-        else s.remove(autoput);
-        SharedPreferences.Editor e = p(c).edit().putStringSet(PRACENI, s);
-        if (ukljuci && trenutno != null) {
-            Set<String> v = new HashSet<>(p(c).getStringSet(VIDJENO + autoput, new HashSet<>()));
-            v.addAll(idZaObavestenje(trenutno));
-            e.putStringSet(VIDJENO + autoput, v);
+        ukljucena(c); // prevod starog spiska, ako postoji
+        SharedPreferences.Editor e = p(c).edit().putBoolean(UKLJUCENO, ukljuci);
+        if (ukljuci) {
+            if (VoznjaService.sadAutoput == null) e.putString(POSLEDNJI, autoput);
+            if (trenutno != null) {
+                Set<String> v = new HashSet<>(p(c).getStringSet(VIDJENO + autoput, new HashSet<>()));
+                v.addAll(idZaObavestenje(trenutno));
+                e.putStringSet(VIDJENO + autoput, v);
+            }
         }
         e.apply();
         zakazi(c);
@@ -112,6 +141,14 @@ public final class Obavestenja {
 
     /** Poziva ProveraWorker: javlja nove važne poruke sa celog praćenog autoputa. */
     static void obradi(Context c, String autoputId, List<Dogadjaj> trenutno) {
+        if (p(c).getBoolean(PRVI_PUT + autoputId, false)) {
+            // autoput je upravo postao praćeni: postojeće poruke se samo beleže, javljaju se tek nove
+            Set<String> v = new HashSet<>(p(c).getStringSet(VIDJENO + autoputId, new HashSet<>()));
+            v.addAll(idZaObavestenje(trenutno));
+            p(c).edit().putStringSet(VIDJENO + autoputId, v).remove(PRVI_PUT + autoputId).apply();
+            Dnevnik.upisi(c, "PRAĆENJE " + autoputId + ": prvi put, postojeće poruke samo zabeležene");
+            return;
+        }
         List<Dogadjaj> vazni = new java.util.ArrayList<>();
         for (Dogadjaj d : trenutno) if (d.zaObavestenje()) vazni.add(d);
         obradi(c, autoputId, trenutno, vazni, null);

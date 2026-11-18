@@ -78,7 +78,7 @@ public class StanjeActivity extends AppCompatActivity {
 
         ((TextView) findViewById(R.id.stit)).setText(autoput.oznaka());
         ((TextView) findViewById(R.id.obavestenjaOpis)).setText(
-                getString(R.string.stanje_obavestenja_opis, autoput.oznaka(), Obavestenja.MINUTA));
+                getString(R.string.stanje_obavestenja_opis, Obavestenja.MINUTA));
         podnaslov = findViewById(R.id.podnaslov);
         poruka = findViewById(R.id.poruka);
         osvezi = findViewById(R.id.osvezi);
@@ -108,8 +108,8 @@ public class StanjeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // prekidač je uključen samo ako se autoput prati i obaveštenja su dozvoljena
-        postaviPrekidac(Obavestenja.prati(this, autoput.id) && Obavestenja.smeDaObavesti(this));
+        // prekidač je zajednički za sve autoputeve: uključen ako su obaveštenja uključena i obaveštenja su dozvoljena
+        postaviPrekidac(Obavestenja.ukljucena(this) && Obavestenja.smeDaObavesti(this));
     }
 
     private void postaviPrekidac(boolean on) {

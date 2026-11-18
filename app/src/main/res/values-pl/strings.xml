@@ -64,7 +64,7 @@
     <string name="stanje_greska">Komunikaty drogowe są teraz niedostępne.</string>
     <string name="stanje_nema">Brak komunikatów drogowych dla %s.</string>
     <string name="stanje_obavestenja">Powiadomienia</string>
-    <string name="stanje_obavestenja_opis">Wypadki, korki i zamknięcia na %1$s, sprawdzane mniej więcej co %2$d minut</string>
+    <string name="stanje_obavestenja_opis">Wypadki, korki i zamknięcia na autostradzie, na której jesteś, sprawdzanie mniej więcej co %1$d minut</string>
     <string name="stanje_dozvola">Powiadomienia są wyłączone dla tej aplikacji.</string>
     <string name="stanje_podesavanja">Ustawienia</string>
     <string name="stanje_izvor">Dane o ruchu: Autobahn GmbH des Bundes (verkehr.autobahn.de). Dotknij komunikatu, aby zobaczyć pełny tekst (po niemiecku).</string>

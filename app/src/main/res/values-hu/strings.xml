@@ -64,7 +64,7 @@
     <string name="stanje_greska">A forgalmi hírek most nem érhetők el.</string>
     <string name="stanje_nema">Jelenleg nincs forgalmi hír a(z) %s autópályáról.</string>
     <string name="stanje_obavestenja">Értesítések</string>
-    <string name="stanje_obavestenja_opis">Balesetek, torlódások és lezárások a(z) %1$s autópályán, ellenőrzés kb. %2$d percenként</string>
+    <string name="stanje_obavestenja_opis">Balesetek, torlódások és lezárások azon az autópályán, ahol éppen van, ellenőrzés kb. %1$d percenként</string>
     <string name="stanje_dozvola">Az értesítések ki vannak kapcsolva ennél az alkalmazásnál.</string>
     <string name="stanje_podesavanja">Beállítások</string>
     <string name="stanje_izvor">Forgalmi adatok: Autobahn GmbH des Bundes (verkehr.autobahn.de). Koppintson egy hírre a teljes szövegért (németül).</string>
