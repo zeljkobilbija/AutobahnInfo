@@ -54,6 +54,8 @@ public class VoznjaService extends Service {
     private static final float MIN_BRZINA = 8f; // m/s (~30 km/h)
     /** Sporije od MIN_BRZINA (kolona, stajanje): autoput se prepoznaje samo ovoliko blizu kolovoza (km). */
     private static final double SPORO_KM = 0.03;
+    /** Smer vožnje se zaključuje (i okretanje prepoznaje) posle ovoliko pređenih km po autoputu (ranije 0,5). */
+    private static final double SMER_KM = 0.2;
     private int kandidatPotvrda;
     /** Do koliko km od kolovoza je vozač "na autoputu" (plus tačnost GPS-a). */
     private static final double NA_KOLOVOZU_KM = 0.06;
@@ -267,7 +269,7 @@ public class VoznjaService extends Service {
                 kmZaSmer = t.kmUkupno;
             } else if (Double.isNaN(kmZaSmer)) {
                 kmZaSmer = t.kmUkupno;
-            } else if (Math.abs(t.kmUkupno - kmZaSmer) >= 0.5) {
+            } else if (Math.abs(t.kmUkupno - kmZaSmer) >= SMER_KM) {
                 smer = t.kmUkupno > kmZaSmer ? '+' : '-';
                 kmZaSmer = t.kmUkupno;
             }
