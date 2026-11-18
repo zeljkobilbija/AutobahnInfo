@@ -65,6 +65,7 @@
     <string name="stanje_nema">Şu anda %s için trafik bilgisi yok.</string>
     <string name="stanje_obavestenja">Bildirimler</string>
     <string name="stanje_obavestenja_opis">Bulunduğunuz otoyoldaki kazalar, kuyruklar ve kapanmalar, yaklaşık her %1$d dakikada kontrol</string>
+    <string name="stanje_iskljuceno">Bildirimler kapalı. Trafik haberlerini görmek için açın.</string>
     <string name="stanje_dozvola">Bu uygulama için bildirimler kapalı.</string>
     <string name="stanje_podesavanja">Ayarlar</string>
     <string name="stanje_izvor">Trafik verileri: Autobahn GmbH des Bundes (verkehr.autobahn.de). Tam metin için bir bildirime dokunun (Almanca).</string>

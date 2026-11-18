@@ -111,6 +111,7 @@ public class StanjeActivity extends AppCompatActivity {
         super.onResume();
         // prekidač je zajednički za sve autoputeve: uključen ako su obaveštenja uključena i obaveštenja su dozvoljena
         postaviPrekidac(Obavestenja.ukljucena(this) && Obavestenja.smeDaObavesti(this));
+        if (!ucitavanje) prikaziListu();
     }
 
     private void postaviPrekidac(boolean on) {
@@ -122,11 +123,13 @@ public class StanjeActivity extends AppCompatActivity {
     private void ukljuci(boolean on) {
         Obavestenja.postavi(this, autoput.id, on, poslednje);
         postaviPrekidac(on);
+        prikaziListu();
     }
 
     /** Dozvola odbijena: prekidač nazad i poruka sa prečicom do sistemskih podešavanja. */
     private void odbijeno() {
         postaviPrekidac(false);
+        prikaziListu();
         Snackbar s = Snackbar.make(findViewById(R.id.koren), R.string.stanje_dozvola, Snackbar.LENGTH_LONG);
         if (Build.VERSION.SDK_INT >= 26) {
             s.setAction(R.string.stanje_podesavanja, v -> {
@@ -159,10 +162,23 @@ public class StanjeActivity extends AppCompatActivity {
             poslednje = l;
             podnaslov.setText(getString(R.string.stanje_osvezeno,
                     DateFormat.getTimeFormat(this).format(new Date())));
-            adapter.postavi(l, Obavestenja.poslednjeStiglo(this, autoput.id));
-            if (l.isEmpty()) prikaziPoruku(getString(R.string.stanje_nema, autoput.oznaka()));
-            else poruka.setVisibility(View.GONE);
+            prikaziListu();
         });
+    }
+
+    /** Lista vesti samo kad su obaveštenja uključena; isključena = prazan ekran sa kratkom porukom. */
+    private void prikaziListu() {
+        if (!prekidac.isChecked()) {
+            prikaziPoruku(getString(R.string.stanje_iskljuceno));
+            return;
+        }
+        if (poslednje == null) {
+            if (!ucitavanje) ucitaj();
+            return;
+        }
+        adapter.postavi(poslednje, Obavestenja.poslednjeStiglo(this, autoput.id));
+        if (poslednje.isEmpty()) prikaziPoruku(getString(R.string.stanje_nema, autoput.oznaka()));
+        else poruka.setVisibility(View.GONE);
     }
 
     private void prikaziPoruku(String t) {

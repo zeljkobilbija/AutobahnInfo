@@ -65,6 +65,7 @@
     <string name="stanje_nema">Nenhum aviso de trânsito para a %s no momento.</string>
     <string name="stanje_obavestenja">Notificações</string>
     <string name="stanje_obavestenja_opis">Acidentes, filas e interdições na autoestrada em que está, verificação a cada %1$d minutos aprox.</string>
+    <string name="stanje_iskljuceno">As notificações estão desativadas. Ative-as para ver as notícias de trânsito.</string>
     <string name="stanje_dozvola">As notificações estão desativadas para este app.</string>
     <string name="stanje_podesavanja">Configurações</string>
     <string name="stanje_izvor">Dados de trânsito: Autobahn GmbH des Bundes (verkehr.autobahn.de). Toque num aviso para ver o texto completo (em alemão).</string>

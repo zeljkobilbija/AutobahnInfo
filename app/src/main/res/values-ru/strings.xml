@@ -65,6 +65,7 @@
     <string name="stanje_nema">Сейчас нет дорожных сообщений для %s.</string>
     <string name="stanje_obavestenja">Уведомления</string>
     <string name="stanje_obavestenja_opis">Аварии, пробки и перекрытия на автобане, по которому вы едете, проверка примерно каждые %1$d минут</string>
+    <string name="stanje_iskljuceno">Уведомления выключены. Включите их, чтобы видеть дорожные новости.</string>
     <string name="stanje_dozvola">Уведомления для этого приложения отключены.</string>
     <string name="stanje_podesavanja">Настройки</string>
     <string name="stanje_izvor">Данные о движении: Autobahn GmbH des Bundes (verkehr.autobahn.de). Нажмите на сообщение, чтобы увидеть полный текст (на немецком).</string>

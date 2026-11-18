@@ -65,6 +65,7 @@
     <string name="stanje_nema">Nessuna notizia sul traffico per la %s al momento.</string>
     <string name="stanje_obavestenja">Notifiche</string>
     <string name="stanje_obavestenja_opis">Incidenti, code e chiusure sull\'autostrada in cui ti trovi, controllo circa ogni %1$d minuti</string>
+    <string name="stanje_iskljuceno">Le notifiche sono disattivate. Attivale per vedere le notizie sul traffico.</string>
     <string name="stanje_dozvola">Le notifiche sono disattivate per questa app.</string>
     <string name="stanje_podesavanja">Impostazioni</string>
     <string name="stanje_izvor">Dati sul traffico: Autobahn GmbH des Bundes (verkehr.autobahn.de). Tocca una notizia per il testo completo (in tedesco).</string>

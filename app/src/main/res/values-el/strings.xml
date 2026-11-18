@@ -65,6 +65,7 @@
     <string name="stanje_nema">Δεν υπάρχουν κυκλοφοριακές ειδήσεις για τον %s αυτή τη στιγμή.</string>
     <string name="stanje_obavestenja">Ειδοποιήσεις</string>
     <string name="stanje_obavestenja_opis">Ατυχήματα, ουρές και κλεισίματα στον αυτοκινητόδρομο όπου βρίσκεστε, έλεγχος περίπου κάθε %1$d λεπτά</string>
+    <string name="stanje_iskljuceno">Οι ειδοποιήσεις είναι απενεργοποιημένες. Ενεργοποιήστε τες για να δείτε τα νέα κυκλοφορίας.</string>
     <string name="stanje_dozvola">Οι ειδοποιήσεις είναι απενεργοποιημένες για αυτή την εφαρμογή.</string>
     <string name="stanje_podesavanja">Ρυθμίσεις</string>
     <string name="stanje_izvor">Δεδομένα κυκλοφορίας: Autobahn GmbH des Bundes (verkehr.autobahn.de). Πατήστε μια είδηση για όλο το κείμενο (στα γερμανικά).</string>

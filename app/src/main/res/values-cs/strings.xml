@@ -65,6 +65,7 @@
     <string name="stanje_nema">Pro %s nyní nejsou žádné dopravní informace.</string>
     <string name="stanje_obavestenja">Upozornění</string>
     <string name="stanje_obavestenja_opis">Nehody, kolony a uzavírky na dálnici, na které jste, kontrola zhruba každých %1$d minut</string>
+    <string name="stanje_iskljuceno">Oznámení jsou vypnutá. Zapněte je a uvidíte dopravní zprávy.</string>
     <string name="stanje_dozvola">Upozornění jsou pro tuto aplikaci vypnutá.</string>
     <string name="stanje_podesavanja">Nastavení</string>
     <string name="stanje_izvor">Dopravní data: Autobahn GmbH des Bundes (verkehr.autobahn.de). Klepněte na zprávu pro celý text (v němčině).</string>
