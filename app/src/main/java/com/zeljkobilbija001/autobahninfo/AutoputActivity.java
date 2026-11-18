@@ -89,8 +89,11 @@ public class AutoputActivity extends AppCompatActivity {
                 char sadSmer = VoznjaService.sadSmer;
                 if (sadSmer != '?' && sadSmer != mojSmer) {
                     // smer vožnje je tek saznat (ili se vozač okrenuo): lista prikazuje parkinge i pumpe
-                    // samo sa njegove strane kolovoza; redosled (dugme smera) ostaje kako ga je vozač izabrao
+                    // samo sa njegove strane kolovoza, a dugme smera i redosled se postave na stvarni smer
+                    // (ranije je dugme ostajalo kako je bilo pri otvaranju i pokazivalo suprotan smer);
+                    // ako vozač posle sam okrene dugme, to važi do sledeće stvarne promene smera
                     mojSmer = sadSmer;
+                    smer = sadSmer;
                     mojaDeonica = VoznjaService.sadDeonica;
                     deonica = mojaDeonica;
                     osvezi(false);
