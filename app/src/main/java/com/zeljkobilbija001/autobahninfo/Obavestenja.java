@@ -26,7 +26,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -56,7 +55,8 @@ public final class Obavestenja {
     private static final String KANAL = "stanje_na_putu";
     public static final int MINUTA = 15;
 
-    private static final ExecutorService NIT = Executors.newSingleThreadExecutor();
+    private static final java.util.concurrent.ScheduledExecutorService NIT =
+            Executors.newSingleThreadScheduledExecutor();
 
     private Obavestenja() { }
 
@@ -119,8 +119,15 @@ public final class Obavestenja {
     private static void promenjeno(Context c) {
         zakazi(c);
         Context app = c.getApplicationContext();
-        NIT.execute(() -> uskladi(app));
+        // promenu često javi više mesta zaredom (Vožnja, ekran autoputa koji se sam prebaci, izbor):
+        // usklađuje se jednom, 3 s posle poslednje
+        synchronized (NIT) {
+            if (cekanje != null) cekanje.cancel(false);
+            cekanje = NIT.schedule(() -> uskladi(app), 3, TimeUnit.SECONDS);
+        }
     }
+
+    private static java.util.concurrent.ScheduledFuture<?> cekanje;
 
     /**
      * Uklanja obaveštenja autoputeva koji se ne prate i za praćene prikazuje sve aktuelne važne
