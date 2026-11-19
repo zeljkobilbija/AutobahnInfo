@@ -112,4 +112,5 @@
     <string name="bez_reklama">Κατάργηση διαφημίσεων</string>
     <string name="kupovina_hvala">Ευχαριστούμε! Οι διαφημίσεις καταργήθηκαν.</string>
     <string name="kupovina_nedostupna">Η αγορά δεν είναι διαθέσιμη αυτή τη στιγμή. Δοκιμάστε ξανά αργότερα.</string>
+    <string name="lokacija_pravac">κατεύθυνση %s</string>
 </resources>

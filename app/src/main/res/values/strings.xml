@@ -113,4 +113,5 @@
     <string name="bez_reklama">Remove ads</string>
     <string name="kupovina_hvala">Thank you! Ads are removed.</string>
     <string name="kupovina_nedostupna">Purchase is not available right now. Please try again later.</string>
+    <string name="lokacija_pravac">direction %s</string>
 </resources>

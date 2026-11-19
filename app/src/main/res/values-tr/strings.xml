@@ -112,4 +112,5 @@
     <string name="bez_reklama">Reklamları kaldır</string>
     <string name="kupovina_hvala">Teşekkürler! Reklamlar kaldırıldı.</string>
     <string name="kupovina_nedostupna">Satın alma şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyin.</string>
+    <string name="lokacija_pravac">%s yönü</string>
 </resources>

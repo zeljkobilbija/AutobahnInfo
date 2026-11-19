@@ -112,4 +112,5 @@
     <string name="bez_reklama">Advertenties verwijderen</string>
     <string name="kupovina_hvala">Bedankt! De advertenties zijn verwijderd.</string>
     <string name="kupovina_nedostupna">Aankoop is nu niet beschikbaar. Probeer het later opnieuw.</string>
+    <string name="lokacija_pravac">richting %s</string>
 </resources>

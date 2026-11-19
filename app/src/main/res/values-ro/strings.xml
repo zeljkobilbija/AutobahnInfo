@@ -112,4 +112,5 @@
     <string name="bez_reklama">Elimină reclamele</string>
     <string name="kupovina_hvala">Mulțumim! Reclamele au fost eliminate.</string>
     <string name="kupovina_nedostupna">Achiziția nu este disponibilă acum. Încercați din nou mai târziu.</string>
+    <string name="lokacija_pravac">direcția %s</string>
 </resources>

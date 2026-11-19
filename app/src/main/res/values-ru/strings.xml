@@ -112,4 +112,5 @@
     <string name="bez_reklama">Убрать рекламу</string>
     <string name="kupovina_hvala">Спасибо! Реклама удалена.</string>
     <string name="kupovina_nedostupna">Покупка сейчас недоступна. Попробуйте позже.</string>
+    <string name="lokacija_pravac">направление %s</string>
 </resources>

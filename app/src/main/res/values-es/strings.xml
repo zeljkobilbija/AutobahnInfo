@@ -112,4 +112,5 @@
     <string name="bez_reklama">Quitar anuncios</string>
     <string name="kupovina_hvala">¡Gracias! Se han quitado los anuncios.</string>
     <string name="kupovina_nedostupna">La compra no está disponible ahora. Inténtalo de nuevo más tarde.</string>
+    <string name="lokacija_pravac">dirección %s</string>
 </resources>

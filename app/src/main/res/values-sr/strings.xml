@@ -112,4 +112,5 @@
     <string name="bez_reklama">Ukloni reklame</string>
     <string name="kupovina_hvala">Hvala! Reklame su uklonjene.</string>
     <string name="kupovina_nedostupna">Kupovina trenutno nije dostupna. Pokušajte ponovo kasnije.</string>
+    <string name="lokacija_pravac">pravac %s</string>
 </resources>
