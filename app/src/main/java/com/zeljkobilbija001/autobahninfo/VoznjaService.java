@@ -168,6 +168,7 @@ public class VoznjaService extends Service {
     private double udaljenostOdTrenutnog = Double.NaN;
     private int vanKolovoza;
     private long pocetak, poslednjiPutNaAutoputu, poslednjaProvera;
+    private String poslednjaProveraAutoput;
 
     private final Runnable periodicno = new Runnable() {
         @Override
@@ -363,7 +364,8 @@ public class VoznjaService extends Service {
         osveziObavestenje();
         // novi autoput ili upravo saznat smer: odmah provera
         boolean promena = autoput != null && smer != '?' && (!autoput.equals(stari) || stariSmer != smer);
-        if (promena && sad - poslednjaProvera > 60_000L) proveri();
+        // novi autoput: uvek (i ako je stari upravo proveren na petlji); isti autoput, novi smer: najviše jednom u minuti
+        if (promena && (!autoput.equals(poslednjaProveraAutoput) || sad - poslednjaProvera > 60_000L)) proveri();
     }
 
     /** Brzina u m/s: iz GPS-a, a ako je nema, iz razdaljine od prethodne lokacije. */
@@ -435,6 +437,7 @@ public class VoznjaService extends Service {
     private void proveri() {
         if (autoput == null || smer == '?') return;
         poslednjaProvera = System.currentTimeMillis();
+        poslednjaProveraAutoput = autoput;
         String id = autoput;
         List<Dogadjaj> svi;
         try {
