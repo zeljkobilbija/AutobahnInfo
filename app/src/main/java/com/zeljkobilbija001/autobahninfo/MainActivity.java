@@ -164,6 +164,9 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    /** Da li je Vožnja već jednom sama otvorila ekran autoputa (od poslednjeg uključenja). */
+    private static boolean voznjaOtvorila;
+
     private void osveziVoznju() {
         boolean radi = VoznjaService.radi;
         voznjaDugme.setText(radi ? R.string.voznja_zaustavi : R.string.voznja_pokreni);
@@ -176,6 +179,13 @@ public class MainActivity extends AppCompatActivity {
         // kružić dok Vožnja traži autoput ili smer
         voznjaTrazi.setVisibility(radi && VoznjaService.trazi ? View.VISIBLE : View.GONE);
         String sad = VoznjaService.sadAutoput;
+        // Vožnja je našla autoput i mesto na njemu: jednom po uključenju sama otvara taj autoput
+        // (ekran autoputa ide do reda "Vi ste ovde"); povratak na početni ekran posle toga ne vraća nazad
+        if (!radi) voznjaOtvorila = false;
+        else if (sad != null && !voznjaOtvorila && !isFinishing()) {
+            voznjaOtvorila = true;
+            startActivity(AutoputActivity.namera(this, sad));
+        }
         if (!java.util.Objects.equals(sad, obojeniAutoput)) {
             obojeniAutoput = sad;
             adapterAutoputeva.notifyDataSetChanged();
