@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageButton;
@@ -77,6 +78,21 @@ public class MainActivity extends AppCompatActivity {
         if (Dnevnik.ukljucen(this)) {
             findViewById(R.id.voznja).setOnClickListener(v ->
                     startActivity(new Intent(this, DnevnikActivity.class)));
+        }
+        // 🔊/🔇: glasovne poruke u Vožnji (podrazumevano uključene)
+        android.widget.TextView glas = this.findViewById(R.id.voznjaGlas);
+        if (glas != null) {
+            glas.setText(Glas.ukljucen(this) ? "🔊" : "🔇");
+            glas.setOnClickListener(v -> {
+                boolean da = !Glas.ukljucen(this);
+                Glas.postavi(this, da);
+                glas.setText(da ? "🔊" : "🔇");
+            });
+            // dugi pritisak: izbor šta glas javlja
+            glas.setOnLongClickListener(v -> {
+                Glas.izbor(v.getContext());
+                return true;
+            });
         }
         voznjaDugme.setOnClickListener(v -> {
             if (VoznjaService.radi) VoznjaService.zaustavi(this);

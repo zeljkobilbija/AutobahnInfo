@@ -113,4 +113,19 @@
     <string name="kupovina_hvala">Grazie! La pubblicità è stata rimossa.</string>
     <string name="kupovina_nedostupna">L\'acquisto non è disponibile al momento. Riprova più tardi.</string>
     <string name="lokacija_pravac">direzione %s</string>
+    <!-- Glasovne poruke u Vožnji -->
+    <string name="glas_start">Modalità guida avviata. Tra poco saprai su quale autostrada ti trovi.</string>
+    <string name="glas_stop">Modalità guida fermata.</string>
+    <string name="glas_polozaj">Sei sulla %1$s, %3$s %2$s, direzione %4$s.</string>
+    <string name="glas_odmoriste">Tra %1$d %2$s, area di servizio: %3$s.</string>
+    <string name="glas_gorivo">Carburante: %s.</string>
+    <string name="glas_saobracaj">Attenzione traffico: tra %1$d %2$s, %3$s.</string>
+    <string name="glas_km_jed">chilometri</string>
+    <string name="glas_mi_jed">miglia</string>
+    <string name="glas_km_naziv">chilometro</string>
+    <string name="glas_mi_naziv">miglio</string>
+    <string name="glas_dugme">Messaggi vocali</string>
+    <string name="glas_izbor_polozaj">Autostrada, chilometro e direzione</string>
+    <string name="glas_izbor_odmorista">Aree di servizio e distributori davanti</string>
+    <string name="glas_izbor_saobracaj">Avvisi sul traffico</string>
 </resources>

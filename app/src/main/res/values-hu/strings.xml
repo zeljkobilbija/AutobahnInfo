@@ -113,4 +113,19 @@
     <string name="kupovina_hvala">Köszönjük! A hirdetések eltűntek.</string>
     <string name="kupovina_nedostupna">A vásárlás most nem érhető el. Próbálja újra később.</string>
     <string name="lokacija_pravac">%s irányába</string>
+    <!-- Glasovne poruke u Vožnji -->
+    <string name="glas_start">Vezetés mód elindítva. Hamarosan hallja, melyik autópályán van.</string>
+    <string name="glas_stop">Vezetés mód leállítva.</string>
+    <string name="glas_polozaj">Ön a(z) %1$s autópályán van, %3$s: %2$s, irány: %4$s.</string>
+    <string name="glas_odmoriste">%1$d %2$s múlva pihenőhely: %3$s.</string>
+    <string name="glas_gorivo">Üzemanyag: %s.</string>
+    <string name="glas_saobracaj">Forgalmi figyelmeztetés: %1$d %2$s múlva %3$s.</string>
+    <string name="glas_km_jed">kilométer</string>
+    <string name="glas_mi_jed">mérföld</string>
+    <string name="glas_km_naziv">kilométer</string>
+    <string name="glas_mi_naziv">mérföld</string>
+    <string name="glas_dugme">Hangüzenetek</string>
+    <string name="glas_izbor_polozaj">Autópálya, kilométer és irány</string>
+    <string name="glas_izbor_odmorista">Pihenőhelyek és benzinkutak előttünk</string>
+    <string name="glas_izbor_saobracaj">Forgalmi figyelmeztetések</string>
 </resources>

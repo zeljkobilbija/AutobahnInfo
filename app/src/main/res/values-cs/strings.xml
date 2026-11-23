@@ -113,4 +113,19 @@
     <string name="kupovina_hvala">Děkujeme! Reklamy jsou odstraněny.</string>
     <string name="kupovina_nedostupna">Nákup teď není dostupný. Zkuste to prosím později.</string>
     <string name="lokacija_pravac">směr %s</string>
+    <!-- Glasovne poruke u Vožnji -->
+    <string name="glas_start">Režim jízdy spuštěn. Brzy uslyšíte, na které dálnici jste.</string>
+    <string name="glas_stop">Režim jízdy zastaven.</string>
+    <string name="glas_polozaj">Jste na dálnici %1$s, %3$s %2$s, směr %4$s.</string>
+    <string name="glas_odmoriste">Za %1$d %2$s, odpočívka: %3$s.</string>
+    <string name="glas_gorivo">Palivo: %s.</string>
+    <string name="glas_saobracaj">Dopravní varování: za %1$d %2$s, %3$s.</string>
+    <string name="glas_km_jed">kilometrů</string>
+    <string name="glas_mi_jed">mil</string>
+    <string name="glas_km_naziv">kilometr</string>
+    <string name="glas_mi_naziv">míle</string>
+    <string name="glas_dugme">Hlasové zprávy</string>
+    <string name="glas_izbor_polozaj">Dálnice, kilometr a směr</string>
+    <string name="glas_izbor_odmorista">Odpočívky a čerpací stanice před vámi</string>
+    <string name="glas_izbor_saobracaj">Dopravní varování</string>
 </resources>

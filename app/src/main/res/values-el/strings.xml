@@ -113,4 +113,19 @@
     <string name="kupovina_hvala">Ευχαριστούμε! Οι διαφημίσεις καταργήθηκαν.</string>
     <string name="kupovina_nedostupna">Η αγορά δεν είναι διαθέσιμη αυτή τη στιγμή. Δοκιμάστε ξανά αργότερα.</string>
     <string name="lokacija_pravac">κατεύθυνση %s</string>
+    <!-- Glasovne poruke u Vožnji -->
+    <string name="glas_start">Η λειτουργία οδήγησης ξεκίνησε. Σύντομα θα ακούσετε σε ποιον αυτοκινητόδρομο βρίσκεστε.</string>
+    <string name="glas_stop">Η λειτουργία οδήγησης σταμάτησε.</string>
+    <string name="glas_polozaj">Βρίσκεστε στον αυτοκινητόδρομο %1$s, %3$s %2$s, κατεύθυνση %4$s.</string>
+    <string name="glas_odmoriste">Σε %1$d %2$s, σταθμός εξυπηρέτησης: %3$s.</string>
+    <string name="glas_gorivo">Καύσιμα: %s.</string>
+    <string name="glas_saobracaj">Προειδοποίηση κυκλοφορίας: σε %1$d %2$s, %3$s.</string>
+    <string name="glas_km_jed">χιλιόμετρα</string>
+    <string name="glas_mi_jed">μίλια</string>
+    <string name="glas_km_naziv">χιλιόμετρο</string>
+    <string name="glas_mi_naziv">μίλι</string>
+    <string name="glas_dugme">Φωνητικά μηνύματα</string>
+    <string name="glas_izbor_polozaj">Αυτοκινητόδρομος, χιλιόμετρο και κατεύθυνση</string>
+    <string name="glas_izbor_odmorista">Σταθμοί εξυπηρέτησης και καύσιμα μπροστά</string>
+    <string name="glas_izbor_saobracaj">Προειδοποιήσεις κυκλοφορίας</string>
 </resources>

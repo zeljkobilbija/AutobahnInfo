@@ -113,4 +113,19 @@
     <string name="kupovina_hvala">Спасибо! Реклама удалена.</string>
     <string name="kupovina_nedostupna">Покупка сейчас недоступна. Попробуйте позже.</string>
     <string name="lokacija_pravac">направление %s</string>
+    <!-- Glasovne poruke u Vožnji -->
+    <string name="glas_start">Режим вождения запущен. Скоро вы услышите, на какой автомагистрали находитесь.</string>
+    <string name="glas_stop">Режим вождения остановлен.</string>
+    <string name="glas_polozaj">Вы на автомагистрали %1$s, %3$s %2$s, направление %4$s.</string>
+    <string name="glas_odmoriste">Через %1$d %2$s, зона отдыха: %3$s.</string>
+    <string name="glas_gorivo">Топливо: %s.</string>
+    <string name="glas_saobracaj">Внимание: через %1$d %2$s, %3$s.</string>
+    <string name="glas_km_jed">километров</string>
+    <string name="glas_mi_jed">миль</string>
+    <string name="glas_km_naziv">километр</string>
+    <string name="glas_mi_naziv">миля</string>
+    <string name="glas_dugme">Голосовые сообщения</string>
+    <string name="glas_izbor_polozaj">Автомагистраль, километр и направление</string>
+    <string name="glas_izbor_odmorista">Зоны отдыха и АЗС впереди</string>
+    <string name="glas_izbor_saobracaj">Предупреждения о движении</string>
 </resources>
