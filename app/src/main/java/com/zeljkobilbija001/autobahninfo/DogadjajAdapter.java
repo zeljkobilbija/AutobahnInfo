@@ -56,6 +56,11 @@ public class DogadjajAdapter extends RecyclerView.Adapter<DogadjajAdapter.Red> {
         }
     }
 
+    /** Boja vrste (pozadina oznake); ista i na desnoj liniji ekrana autoputa. */
+    public static int boja(int vrsta) {
+        return boje(vrsta)[0];
+    }
+
     /** {pozadina, tekst} oznake vrste. */
     private static int[] boje(int vrsta) {
         switch (vrsta) {
