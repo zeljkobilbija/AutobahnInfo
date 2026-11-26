@@ -18,8 +18,25 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // Potpis za Google Play: ključ i lozinka iz C:Usersporod.gradlegradle.properties (van projekta, ne ide na GitHub).
+    // Bez upisane lozinke release ostaje nepotpisan, kao ranije.
+    val potpisKljuc = providers.gradleProperty("POTPIS_AUTOBAHNINFO").orNull
+    val potpisLozinka = providers.gradleProperty("POTPIS_LOZINKA").orNull
+    val potpis = potpisKljuc != null && !potpisLozinka.isNullOrEmpty() && file(potpisKljuc).exists()
+    signingConfigs {
+        if (potpis) {
+            create("release") {
+                storeFile = file(potpisKljuc!!)
+                storePassword = potpisLozinka
+                keyAlias = providers.gradleProperty("POTPIS_AUTOBAHNINFO_ALIAS").orNull ?: "key0"
+                keyPassword = potpisLozinka
+            }
+        }
+    }
+
     buildTypes {
         release {
+            if (potpis) signingConfig = signingConfigs.getByName("release")
             // R8 isključen: skraćivanje androidx.** izbacuje WorkDatabase_Impl (WorkManager iz AdMob-a,
             // Room ga traži po imenu) → pad pri pokretanju release verzije (otkriveno u InterstateInfo 16.11.2026)
             optimization {
