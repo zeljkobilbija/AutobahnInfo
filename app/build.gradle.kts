@@ -12,8 +12,8 @@ android {
         applicationId = "com.zeljkobilbija001.autobahninfo"
         minSdk = 24
         targetSdk = 37
-        versionCode = 5
-        versionName = "1.2"
+        versionCode = 6
+        versionName = "1.2.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -37,12 +37,11 @@ android {
     buildTypes {
         release {
             if (potpis) signingConfig = signingConfigs.getByName("release")
-            // R8 isključen: skraćivanje androidx.** izbacuje WorkDatabase_Impl (WorkManager iz AdMob-a,
-            // Room ga traži po imenu) → pad pri pokretanju release verzije (otkriveno u InterstateInfo 16.11.2026)
-            optimization {
-                enable = false
-            }
-            proguardFiles("proguard-rules.pro")
+            // R8 (skraćivanje i maskiranje) – Google traži maskiranje (rok feb. 2027); mapping ide u .aab.
+            // Pravila u proguard-rules.pro čuvaju WorkDatabase_Impl (WorkManager iz AdMob-a; Room ga traži po imenu,
+            // bez pravila je release padao pri pokretanju – InterstateInfo 16.11.2026).
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
